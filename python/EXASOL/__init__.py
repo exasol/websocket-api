@@ -148,7 +148,9 @@ class cursor(object):
             if size == 'optimal':
                 rest = self._resdata['numRows']
             else: rest = rsize
-            data = self._resdata['data']; ret = None
+            if rest == 0: data = []
+            else: data = self._resdata['data']
+            ret = None
             while True:
                 if rest == 0 or self._realpos >= self.rowcount:
                     break
@@ -250,11 +252,12 @@ class cursor(object):
         self._resdata = None
 
 class connect(object):
-    def __init__(self, url, username, password, autocommit = False, queryTimeout = 60):
+    def __init__(self, url, username, password, autocommit = False, queryTimeout = 60, useCompression = True):
         self._timers = {}
         self._connect(url)
-        self._login(username, password, autocommit, queryTimeout)
         self._attributes = None
+        self._compression = useCompression
+        self._login(username, password, autocommit, queryTimeout)
 
     def close(self):
         self._req(command = 'disconnect')
@@ -286,10 +289,8 @@ class connect(object):
 
     def attributes(self, attrs = None):
         if attrs is not None or self._attributes is None:
-            if attrs is None:
-                attrs = {}
-            else: attrs = attrs.__dict__
-            self._req(command = 'setAttributes', attributes = attrs)
+            if attrs is not None:
+                self._req(command = 'setAttributes', attributes = attrs.__dict__)
             self._attributes = attributes(self._req(command = 'getAttributes'))
         return self._attributes
 
@@ -302,13 +303,15 @@ class connect(object):
     def _req(self, **req):
         try:
             with timer(self, 'dump'): send_data = dumps(req, separators=(',',':'))
-            with timer(self, 'send'): self.__ws.send(send_data)
-            with timer(self, 'recv'): recv_data = self.__ws.recv()
+            #sys.stderr.write(">>> %s\n" % send_data)
+            with timer(self, 'send'): self._ws_send(send_data)
+            with timer(self, 'recv'): recv_data = self._ws_recv()
+            #sys.stderr.write("<<< %s\n" % recv_data)
             with timer(self, 'load'): rep = loads(recv_data)
         except Exception as err:
             rep = {'status': 'unknown', 'exceptionText': repr(err)}
         if DEBUG_OUTPUT:
-            pp((req, rep))
+            pp((req, rep), stream = sys.stderr)
         if rep['status'] == 'ok':
             if 'exception' in rep:
                 raise DatabaseError('[%s] %s' % (rep['exception']['sqlCode'], rep['exception']['text']))
@@ -322,13 +325,15 @@ class connect(object):
     def _connect(self, url):
         with timer(self, 'conn'):
             self.__ws = create_connection(url)
-            ret = self._req(command = 'login', protocolVersion = 14)
+            self._ws_send = self.__ws.send
+            self._ws_recv = self.__ws.recv
+            ret = self._req(command = 'login', protocolVersion = 1)
             if CRYPTO_LIB == 'rsa':
                 if sys.version_info.major >= 3:
                     pk = rsa.PublicKey.load_pkcs1(bytes(ret['publicKeyPem'], 'utf-8'))
                     self._encrypt = lambda t: base64.b64encode(rsa.encrypt(t.encode('utf-8'), pk)).decode('utf-8')
                 else:
-                    pk = rsa.PublicKey.load_pkcs1(ret['publicKey'])
+                    pk = rsa.PublicKey.load_pkcs1(ret['publicKeyPem'])
                     self._encrypt = lambda t: base64.b64encode(rsa.encrypt(t.encode('utf-8'), pk))
             elif CRYPTO_LIB == 'Crypto':
                 pk = PKCS1_v1_5.new(RSA.importKey(ret['publicKey']))
@@ -342,11 +347,17 @@ class connect(object):
                             clientName = CLIENT_NAME,
                             driverName = DRIVER_NAME,
                             clientOs = '%s %s %s' % (platform.system(), platform.release(), platform.version()),
+                            useCompression = self._compression,
                             clienOsUsername = getpass.getuser(),
                             clientVersion = CLIENT_VERSION,
-                            clientRuntime = 'Python %s' % platform.python_version(),
-                            attributes = [ {'autocommit': autocommit},
-                                           {'queryTimeout': queryTimeout} ])
+                            clientRuntime = 'Python %s' % platform.python_version())
+            if self._compression:
+                self._ws_send = lambda x: self.__ws.send_binary(zlib.compress(x.encode('utf-8')))
+                self._ws_recv = lambda: zlib.decompress(self.__ws.recv())
+            attr = self.attributes()
+            attr.autocommit = autocommit
+            attr.queryTimeout = queryTimeout
+            self.attributes(attr)
         self._connection = ret
 
 __all__ = ('Error', 'Warning', 'InterfaceError', 'DatabaseError', 'InternalError', 'OperationalError',

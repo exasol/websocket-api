@@ -345,8 +345,8 @@ class connect(object):
                             clienOsUsername = getpass.getuser(),
                             clientVersion = CLIENT_VERSION,
                             clientRuntime = 'Python %s' % platform.python_version(),
-                            attributes = [ {'autocommit': autocommit},
-                                           {'queryTimeout': queryTimeout} ])
+                            attributes = {'autocommit': autocommit,
+                                          'queryTimeout': queryTimeout})
         self._connection = ret
 
 __all__ = ('Error', 'Warning', 'InterfaceError', 'DatabaseError', 'InternalError', 'OperationalError',

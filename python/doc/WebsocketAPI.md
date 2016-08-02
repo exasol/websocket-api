@@ -76,15 +76,19 @@ The login process is composed of four steps:
 requested protocol version.
 
 Request fields:
+```
   * command (string) => command name: "login"
   * protocolVersion (number) => requested WebSocket protocol version,
     (e.g., 1)
+```
 
 Request JSON format
+```
  {
      "command": "login",
      "protocolVersion": <number>
  }
+```
 
 
 2. The server sends the client a public key which is used to encode the
@@ -111,6 +115,7 @@ Response fields:
          otherwise "00000"
 
 Response JSON format
+```
  {
      "status": <"ok" | "error">,
      // if status is "ok"
@@ -125,6 +130,7 @@ Response JSON format
              "sqlCode": <string>
      }
  }
+```
 
 
 3. The client sends the username, encrypted password, and optionally
@@ -155,6 +161,7 @@ Request fields:
     connection (see below)
 
 Request JSON format
+```
  {
      "username": <string>,
      "password": <string>,
@@ -171,6 +178,7 @@ Request JSON format
              // as defined separately
      }
  }
+```
 
 
 4. The server uses username and password (see 3.) to authenticate the
@@ -205,6 +213,7 @@ Response fields:
          otherwise "00000"
 
 Response JSON format
+```
  {
      "status": <"ok" | "error">,
      // if status is "ok"
@@ -227,6 +236,7 @@ Response JSON format
              "sqlCode": <string>
      }
  }
+```
 
 ### SubLogin: Establish a subconnection to EXASolution
 
@@ -246,10 +256,12 @@ Request fields:
     (e.g., 1)
 
 Request JSON format
+```
  {
      "command": "subLogin",
      "protocolVersion": <number>
  }
+```
 
 
 2. The server sends the client a public key which is used to encode the
@@ -276,6 +288,7 @@ Response fields:
          otherwise "00000"
 
 Response JSON format
+```
  {
      "status": <"ok" | "error">,
      // if status is "ok"
@@ -290,6 +303,7 @@ Response JSON format
              "sqlCode": <string>
      }
  }
+```
 
 
 3. The client sends the username, encrypted password, and token.
@@ -304,12 +318,13 @@ Request fields:
     EnterParallel)
 
 Request JSON format
+```
  {
      "username": <string>,
      "password": <string>,
      "token": <number>
  }
-
+```
 
 4. The server uses username, password, and token (see 3.) to
 authenticate the user. If successful, the server sends the client an
@@ -344,6 +359,7 @@ Response fields:
          otherwise "00000"
 
 Response JSON format
+```
  {
      "status": <"ok" | "error">,
      // if status is "ok"
@@ -366,6 +382,7 @@ Response JSON format
              "sqlCode": <string>
      }
  }
+```
 
 ## Commands
 
@@ -381,12 +398,14 @@ Request fields:
     connection (see below)
 
 Request JSON format
+```
  {
      "command": "disconnect",
      "attributes": {
              // as defined separately
      }
  }
+```
 
 Response fields:
   * status (string) => command status: "ok" or "error"
@@ -399,6 +418,7 @@ Response fields:
          otherwise "00000"
 
 Reponse JSON format
+```
  {
      "status": <"ok" | "error">,
      "attributes": {
@@ -410,6 +430,7 @@ Reponse JSON format
              "sqlCode": <string>
      }
  }
+```
 
 ### GetAttributes: Gets the requested session attribute values
 
@@ -421,12 +442,14 @@ Request fields:
     connection (see below)
 
 JSON format
+```
  {
      "command": "getAttributes",
      "attributes": {
              // as defined separately
      },
  }
+```
 
 Response fields:
   * status (string) => command status: "ok" or "error"
@@ -440,6 +463,7 @@ Response fields:
          otherwise "00000"
 
 Reponse JSON format
+```
  {
      "status": <"ok" | "error">,
      "attributes": {
@@ -451,6 +475,7 @@ Reponse JSON format
              "sqlCode": <string>
      }
  }
+```
 
 ### SetAttributes: Sets the given session attribute values
 
@@ -462,12 +487,14 @@ Request fields:
     connection (see below)
 
 Request JSON format
+```
  {
      "command": "setAttributes",
      "attributes": {
              // as defined separately
      }
  }
+```
 
 Response fields:
   * status (string) => command status: "ok" or "error"
@@ -481,6 +508,7 @@ Response fields:
          otherwise "00000"
 
 Response JSON format
+```
  {
      "status": <"ok" | "error">,
      "attributes": {
@@ -492,6 +520,7 @@ Response JSON format
              "sqlCode": <string>
      }
  }
+```
 
 ### CreatePreparedStatement: Creates a prepared statement
 
@@ -504,6 +533,7 @@ Request fields:
   * sqlText (string) => SQL statement
 
 Request JSON format
+```
  {
      "command": "createPreparedStatement",
      "attributes": {
@@ -511,6 +541,7 @@ Request JSON format
      },
      "sqlText": <string>
  }
+```
 
 Response fields:
   * status (string) => command status: "ok" or "error"
@@ -572,6 +603,7 @@ Response fields:
          otherwise "00000"
 
 Response JSON format
+```
  {
      "status": <"ok" | "error">,
      "attributes": {
@@ -626,6 +658,7 @@ Response JSON format
              "sqlCode": <string>
      }
  }
+```
 
 ### ExecutePreparedStatement: Executes a prepared statement
 
@@ -658,6 +691,7 @@ Request fields:
     statement in column-major order
 
 Request JSON format
+```
  {
     "command": "executePreparedStatement",
     "attributes": {
@@ -681,6 +715,7 @@ Request JSON format
     } ],
     "data": [ [ <string | number | true | false | null> ] ]
  }
+```
 
 Response fields:
   * status (string) => command status: "ok" or "error"
@@ -724,6 +759,7 @@ Response fields:
          otherwise "00000"
 
 Response JSON format
+```
  {
      "status": <"ok" | "error">,
      "attributes": {
@@ -764,6 +800,7 @@ Response JSON format
          "sqlCode": <string>
      }
  }
+```
 
 ### ClosePreparedStatement: Closes a prepared statement
 
@@ -777,6 +814,7 @@ Request fields:
   * statementHandle (number) => prepared statement handle
 
 Request JSON format
+```
  {
      "command": "closePreparedStatement",
      "attributes": {
@@ -784,6 +822,7 @@ Request JSON format
      },
      "statementHandle": <number>
  }
+```
 
 Response fields:
   * status (string) => command status: "ok" or "error"
@@ -796,6 +835,7 @@ Response fields:
          otherwise "00000"
 
 Response JSON format
+```
  {
      "status": <"ok" | "error">,
      "attributes": {
@@ -807,6 +847,7 @@ Response JSON format
              "sqlCode": <string>
      }
  }
+```
 
 ### Execute: Executes an SQL statement
 
@@ -819,6 +860,7 @@ Request fields:
   * sqlText (string) => SQL statement to execute
 
 Request JSON format
+```
  {
      "command": "execute",
      "attributes": {
@@ -826,6 +868,7 @@ Request JSON format
      },
      "sqlText": <string>
  }
+```
 
 Response fields:
   * status (string) => command status: "ok" or "error"
@@ -869,6 +912,7 @@ Response fields:
          otherwise "00000"
 
 Response JSON format
+```
  {
      "status": <"ok" | "error">,
      "attributes": {
@@ -907,6 +951,7 @@ Response JSON format
              "sqlCode": <string>
      }
  }
+```
 
 ### Fetch: Retrieves data
 
@@ -922,6 +967,7 @@ Request fields:
   * numBytes (number) => number of bytes to retrieve
 
 Request JSON format
+```
  {
      "command": "fetch",
      "attributes": {
@@ -931,6 +977,7 @@ Request JSON format
      "startPosition": <number>,
      "numBytes": <number>
  }
+```
 
 Response fields:
   * status (string) => command status: "ok" or "error"
@@ -945,6 +992,7 @@ Response fields:
          otherwise "00000"
 
 Response JSON format
+```
  {
      "status": <"ok" | "error">,
      // in case of "ok"
@@ -958,6 +1006,7 @@ Response JSON format
              "sqlCode": <string>
      }
  }
+```
 
 ### CloseResultSet: Closes a result set
 
@@ -970,6 +1019,7 @@ Request fields:
   * resultSetHandles (number[]) => array of result set handles
 
 Request JSON format
+```
  {
      "command": "closeResultSet",
      "attributes": {
@@ -977,6 +1027,7 @@ Request JSON format
      },
      "resultSetHandles": [ <number> ]
  }
+```
 
 Response fields:
   * status (string) => command status: "ok" or "error"
@@ -987,6 +1038,7 @@ Response fields:
          otherwise "00000"
 
 Response JSON format
+```
  {
      "status": <"ok" | "error">,
      // in case of "error"
@@ -995,6 +1047,7 @@ Response JSON format
              "sqlCode": <string> // Five-character exception code if known, otherwise "00000"
      }
  }
+```
 
 ### GetHosts: Gets the hosts in a cluster
 
@@ -1007,12 +1060,14 @@ Request fields:
     connection (see below)
 
 Request JSON format
+```
  {
      "command": "getHosts",
      "attributes": {
              // as defined separately
      }
  }
+```
 
 Response fields:
   * status (string) => command status: "ok" or "error"
@@ -1026,6 +1081,7 @@ Response fields:
          otherwise "00000"
 
 Response JSON format
+```
  {
      "status": <"ok" | "error">,
      // in case of "ok"
@@ -1041,6 +1097,7 @@ Response JSON format
              "sqlCode": <string>
      }
  }
+```
 
 ### ExecuteBatch: Executes multiple SQL statements as a batch
 
@@ -1053,6 +1110,7 @@ Request fields:
   * sqlTexts (string[]) => array of SQL statement to execute
 
 Request JSON format
+```
  {
      "command": "executeBatch",
      "attributes": {
@@ -1062,6 +1120,7 @@ Request JSON format
              <string>
      ]
  }
+```
 
 Response fields:
   * status (string) => command status: "ok" or "error"
@@ -1105,6 +1164,7 @@ Response fields:
          otherwise "00000"
 
 Response JSON format
+```
  {
      "status": <"ok" | "error">,
      "attributes": {
@@ -1143,6 +1203,7 @@ Response JSON format
          "sqlCode": <string>
      }
  }
+```
 
 ### EnterParallel: Opens subconnections for parallel execution
 
@@ -1159,6 +1220,7 @@ Request fields:
     open. If 0, all open subconnections are closed.
 
 Request JSON format
+```
  {
      "command": "enterParallel",
      "attributes": {
@@ -1166,6 +1228,7 @@ Request JSON format
      },
      "numRequestedConnections": <number>
  }
+```
 
 Response fields:
   * status (string) => command status: "ok" or "error"
@@ -1183,6 +1246,7 @@ Response fields:
          otherwise "00000"
 
 Response JSON format
+```
  {
      "status": <"ok" | "error">,
      // in case of "ok"
@@ -1199,6 +1263,7 @@ Response JSON format
              "sqlCode": <string>
      }
  }
+```
 
 ### GetResultSetHeader: Gets a result set header
 
@@ -1212,15 +1277,17 @@ Request fields:
   * resultSetHandles (number[]) => array of open result set handles
 
 Request JSON format
+```
  {
      "command": "getResultSetHeader",
      "attributes": {
              // as defined separately
      },
      "resultSetHandles": [
-     <number>
- ]
+         <number>
+     ]
  }
+```
 
 Response fields:
   * status (string) => command status: "ok" or "error"
@@ -1260,6 +1327,7 @@ Response fields:
          otherwise "00000"
 
 Response JSON format
+```
  {
      "status": <"ok" | "error">,
      "attributes": {
@@ -1294,6 +1362,7 @@ Response JSON format
          "sqlCode": <string>
      }
  }
+```
 
 ### GetOffset: Gets the row offset of a result set
 
@@ -1308,6 +1377,7 @@ Request fields:
   * resultSetHandle (number) => open result set handle
 
 Request JSON format
+```
  {
      "command": "getOffset",
      "attributes": {
@@ -1315,6 +1385,7 @@ Request JSON format
      },
      "resultSetHandle": <number>
  }
+```
 
 Response fields:
   * status (string) => command status: "ok" or "error"
@@ -1327,6 +1398,7 @@ Response fields:
          otherwise "00000"
 
 Response JSON format
+```
  {
      "status": <"ok" | "error">,
      // in case of "ok"
@@ -1339,6 +1411,7 @@ Response JSON format
              "sqlCode": <string>
      }
  }
+```
 
 ### AbortQuery: Aborts a running query
 
@@ -1348,9 +1421,11 @@ Request fields:
   * command (string) => command name: "abortQuery"
 
 Request JSON format
+```
  {
      "command": "abortQuery"
  }
+```
 
 ### GetStatus: Gets the status of a query
 
@@ -1362,9 +1437,11 @@ Request fields:
   * command (string) => command name: "getStatus"
 
 Request JSON format
+```
  {
      "command": "getStatus"
  }
+```
 
 Response fields:
   * status (string) => command status: "ok" or "error"
@@ -1377,6 +1454,7 @@ Response fields:
          otherwise "00000"
 
 Response JSON format
+```
  {
      "status": <"ok" | "error">,
      // in case of "ok"
@@ -1389,6 +1467,7 @@ Response JSON format
              "sqlCode": <string>
      }
  }
+```
 
 ## Attributes
 
@@ -1431,10 +1510,12 @@ UTC timestamps to local timestamps when the time value occurs during a
 time shift because of daylight saving time (TIME_ZONE_BEHAVIOR).
 
 Attribute JSON format
+```
  {
      "name": <string>,
      "value": <string | number | true | false>
  }
+```
 
 ## Data Types
 
@@ -1443,6 +1524,7 @@ Attribute JSON format
 The following data types and properties can be used to specify column
 types in the executePreparedStatement request.
 
+```
                 Type              Required Properties Optional Properties
    BOOLEAN
    CHAR                           size
@@ -1455,10 +1537,13 @@ types in the executePreparedStatement request.
    TIMESTAMP                                          withLocalTimeZone
    TIMESTAMP WITH LOCAL TIME ZONE                     withLocalTimeZone
    VARCHAR                        size
+```
 
 
 The following data types and properties are used to specify column
 types in responses from EXASolution.
+
+```
                 Type                     Properties
    BOOLEAN
    CHAR                           size, characterSet
@@ -1471,6 +1556,7 @@ types in responses from EXASolution.
    TIMESTAMP                      size, withLocalTimeZone
    TIMESTAMP WITH LOCAL TIME ZONE size, withLocalTimeZone
    VARCHAR                        size, characterSet
+```
 
 ## Compression
 

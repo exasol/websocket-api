@@ -1,17 +1,18 @@
-# EXASOL DB - Native Drivers
+# EXASOL DB native drivers
 
 This repository is used to develop, maintain and publish native open
 source EXASOL DB drivers.
 
-## Python DB API v2.0 Compatible Driver
+## Python DB API v2.0 compatible driver
 
 In directory `python` is a implementation of PEP 249
-(https://www.python.org/dev/peps/pep-0249/) - Python Database API
-Specification v2.0 for the EXASOL DB 6.
+(https://www.python.org/dev/peps/pep-0249/) "Python Database API
+Specification v2.0" for the EXASOL DB 6.
 
 This drivers uses the Websocket API based communication protocol to
 the EXASOL DB with JSON as serialization format. It is usable as a
-drop-in replacement for PyODBC and similar ODBC based packages.
+drop-in replacement for PyODBC and similar ODBC based packages and do
+not require and driver manager.
 
 ### Installation
 

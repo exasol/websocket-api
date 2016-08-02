@@ -362,6 +362,12 @@ class connect(object):
         """Reset performance timers"""
         self._timers = {}
 
+    def __enter__(self):
+        return self
+
+    def __exit__(self, type, value, traceback):
+        self.close()
+
     def _req(self, **req):
         try:
             with timer(self, 'dump'): send_data = dumps(req, separators=(',',':'))

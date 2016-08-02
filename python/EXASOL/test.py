@@ -11,38 +11,57 @@ DB_URL = os.environ.get('DB_URL', "ws://localhost:8563")
 class EXASOLTest(unittest.TestCase):
     @classmethod
     def setUpClass(self):
-        self.ws = EXASOL.connect(DB_URL, 'sys', 'exasol')
+        self.ws = EXASOL.connect(DB_URL, 'sys', 'exasol', autocommit = True, useCompression = True)
         with self.ws.cursor() as c:
-            c.execute('OPEN SCHEMA test')
+            try: c.execute('OPEN SCHEMA test')
+            except: c.execute('CREATE SCHEMA test')
 
     @classmethod
     def tearDownClass(self):
         self.ws.close()
         self.ws = None
 
-class EXASOLBasicTest(EXASOLTest):
-    def test_000_open_schema(self):
+class EXASOLSpecialTests(EXASOLTest):
+    def test_000_reconnect(self):
         with self.ws.cursor() as c:
             c.columnar_mode = True
+            c.execute('''CREATE OR REPLACE PYTHON SCALAR SCRIPT sleep(seconds INT) RETURNS INT AS
+import time
+def run(c):
+    start = time.time()
+    time.sleep(c.seconds)
+    return int(time.time() - start)    
+''')
+            c.execute('SELECT sleep(60)')
+            print c.fetchall()
+
+class EXASOLDataTypeTests(EXASOLTest):
+    def test_000_int(self):
+
+
+class EXASOLEngineDBTest(EXASOLTest):
+    def test_000_open_schema(self):
+        with self.ws.cursor() as c:
+            self.ws.columnar_mode = True
             self.assertEqual(c.execute('OPEN SCHEMA test'), 0)
             self.assertEqual(c.execute('SELECT * FROM cat'), 66)
             self.assertTrue(u'ENGINETABLE' in c.fetchall()[0])
 
     def test_001_fetchall_small(self):
         with self.ws.cursor() as c:
-            c.columnar_mode = True
+            self.ws.columnar_mode = True
             self.assertEqual(c.execute('SELECT * FROM ENGINETABLE WHERE INT_INDEX > 0 AND INT_INDEX < 10 ORDER BY INT_INDEX'), 9)
             self.assertEqual(c.fetchall()[0], [1, 2, 3, 4, 5, 6, 7, 8, 9])
 
     def test_002_fetchall_small_parameters(self):
         with self.ws.cursor() as c:
-            c.columnar_mode = True
+            self.ws.columnar_mode = True
             self.assertEqual(c.execute('SELECT * FROM ENGINETABLE WHERE INT_INDEX > ? AND INT_INDEX < ? ORDER BY INT_INDEX', 0, 10), 9)
             self.assertEqual(c.fetchall()[0], [1, 2, 3, 4, 5, 6, 7, 8, 9])
 
     def test_003_fetchall_big(self):
         with self.ws.cursor() as c:
-            c.columnar_mode = True
+            self.ws.columnar_mode = True
             self.assertEqual(c.execute('SELECT * FROM ENGINETABLE WHERE INT_INDEX > 0 AND INT_INDEX < 4000 ORDER BY INT_INDEX'), 3999)
             intindex = c.fetchall()[0]
             self.assertEqual(intindex[:9], [1, 2, 3, 4, 5, 6, 7, 8, 9])
@@ -50,7 +69,7 @@ class EXASOLBasicTest(EXASOLTest):
 
     def test_004_fetchall_big_parameters(self):
         with self.ws.cursor() as c:
-            c.columnar_mode = True
+            self.ws.columnar_mode = True
             self.assertEqual(c.execute('SELECT * FROM ENGINETABLE WHERE INT_INDEX > ? AND INT_INDEX < ? ORDER BY INT_INDEX', 0, 4000), 3999)
             intindex = c.fetchall()[0]
             self.assertEqual(intindex[:9], [1, 2, 3, 4, 5, 6, 7, 8, 9])
@@ -58,19 +77,19 @@ class EXASOLBasicTest(EXASOLTest):
 
     def test_005_fetchmany_small(self):
         with self.ws.cursor() as c:
-            c.columnar_mode = True
+            self.ws.columnar_mode = True
             self.assertEqual(c.execute('SELECT * FROM ENGINETABLE WHERE INT_INDEX > 0 AND INT_INDEX < 10 ORDER BY INT_INDEX'), 9)
             self.assertEqual(c.fetchmany(size = 5)[0], [1, 2, 3, 4, 5])
 
     def test_006_fetchmany_small_parameters(self):
         with self.ws.cursor() as c:
-            c.columnar_mode = True
+            self.ws.columnar_mode = True
             self.assertEqual(c.execute('SELECT * FROM ENGINETABLE WHERE INT_INDEX > ? AND INT_INDEX < ? ORDER BY INT_INDEX', 0, 10), 9)
             self.assertEqual(c.fetchmany(size = 5)[0], [1, 2, 3, 4, 5])
 
     def test_007_fetchmany_big(self):
         with self.ws.cursor() as c:
-            c.columnar_mode = True
+            self.ws.columnar_mode = True
             self.assertEqual(c.execute('SELECT * FROM ENGINETABLE WHERE INT_INDEX > 0 AND INT_INDEX < 4000 ORDER BY INT_INDEX'), 3999)
             intindex = c.fetchmany(size = 2997)[0]
             self.assertEqual(intindex[:9], [1, 2, 3, 4, 5, 6, 7, 8, 9])
@@ -78,7 +97,7 @@ class EXASOLBasicTest(EXASOLTest):
 
     def test_008_fetchmany_big_parameters(self):
         with self.ws.cursor() as c:
-            c.columnar_mode = True
+            self.ws.columnar_mode = True
             self.assertEqual(c.execute('SELECT * FROM ENGINETABLE WHERE INT_INDEX > ? AND INT_INDEX < ? ORDER BY INT_INDEX', 0, 4000), 3999)
             intindex = c.fetchmany(size = 2997)[0]
             self.assertEqual(intindex[:9], [1, 2, 3, 4, 5, 6, 7, 8, 9])
@@ -86,7 +105,7 @@ class EXASOLBasicTest(EXASOLTest):
 
     def test_009_fetchall_small_rows(self):
         with self.ws.cursor() as c:
-            c.columnar_mode = False
+            self.ws.columnar_mode = False
             self.assertEqual(c.execute('SELECT * FROM ENGINETABLE WHERE INT_INDEX > 0 AND INT_INDEX < 10 ORDER BY INT_INDEX'), 9)
             data = c.fetchall()
             self.assertEqual(data[0], (1, u'42856.814', u'-26939.136', -5741, 14966, 8, -241360270, 4.827728e-28, 123.456, u'O', None, u'TEST                          ', u'z5uaaoai;HrakuxYr2;Zi.sp', u'LqZbuT0uC4vQ._6cG5uLpZdTZW;dfZ', u'1943-05-23', u'1982-11-01'))
@@ -94,7 +113,7 @@ class EXASOLBasicTest(EXASOLTest):
 
     def test_010_fetchall_small_parametersl_rows(self):
         with self.ws.cursor() as c:
-            c.columnar_mode = False
+            self.ws.columnar_mode = False
             self.assertEqual(c.execute('SELECT * FROM ENGINETABLE WHERE INT_INDEX > ? AND INT_INDEX < ? ORDER BY INT_INDEX', 0, 10), 9)
             data = c.fetchall()
             self.assertEqual(data[0], (1, u'42856.814', u'-26939.136', -5741, 14966, 8, -241360270, 4.827728e-28, 123.456, u'O', None, u'TEST                          ', u'z5uaaoai;HrakuxYr2;Zi.sp', u'LqZbuT0uC4vQ._6cG5uLpZdTZW;dfZ', u'1943-05-23', u'1982-11-01'))
@@ -102,7 +121,7 @@ class EXASOLBasicTest(EXASOLTest):
 
     def test_011_fetchall_bigl_rows(self):
         with self.ws.cursor() as c:
-            c.columnar_mode = False
+            self.ws.columnar_mode = False
             self.assertEqual(c.execute('SELECT * FROM ENGINETABLE WHERE INT_INDEX > 0 AND INT_INDEX < 4000 ORDER BY INT_INDEX'), 3999)
             intindex = c.fetchall()
             self.assertEqual(intindex[0][:9], (1, u'42856.814', u'-26939.136', -5741, 14966, 8, -241360270, 4.827728e-28, 123.456))
@@ -112,7 +131,7 @@ class EXASOLBasicTest(EXASOLTest):
 
     def test_012_fetchall_big_parametersl_rows(self):
         with self.ws.cursor() as c:
-            c.columnar_mode = False
+            self.ws.columnar_mode = False
             self.assertEqual(c.execute('SELECT * FROM ENGINETABLE WHERE INT_INDEX > ? AND INT_INDEX < ? ORDER BY INT_INDEX', 0, 4000), 3999)
             intindex = c.fetchall()
             self.assertEqual(intindex[0][:9], (1, u'42856.814', u'-26939.136', -5741, 14966, 8, -241360270, 4.827728e-28, 123.456))
@@ -122,7 +141,7 @@ class EXASOLBasicTest(EXASOLTest):
 
     def test_013_fetchmany_smalll_rows(self):
         with self.ws.cursor() as c:
-            c.columnar_mode = False
+            self.ws.columnar_mode = False
             self.assertEqual(c.execute('SELECT * FROM ENGINETABLE WHERE INT_INDEX > 0 AND INT_INDEX < 10 ORDER BY INT_INDEX'), 9)
             data = c.fetchmany(size = 5)
             self.assertEqual(len(data), 5)
@@ -131,7 +150,7 @@ class EXASOLBasicTest(EXASOLTest):
 
     def test_014_fetchmany_small_parametersl_rows(self):
         with self.ws.cursor() as c:
-            c.columnar_mode = False
+            self.ws.columnar_mode = False
             self.assertEqual(c.execute('SELECT * FROM ENGINETABLE WHERE INT_INDEX > ? AND INT_INDEX < ? ORDER BY INT_INDEX', 0, 10), 9)
             data = c.fetchmany(size = 5)
             self.assertEqual(len(data), 5)
@@ -140,7 +159,7 @@ class EXASOLBasicTest(EXASOLTest):
 
     def test_015_fetchmany_bigl_rows(self):
         with self.ws.cursor() as c:
-            c.columnar_mode = False
+            self.ws.columnar_mode = False
             self.assertEqual(c.execute('SELECT * FROM ENGINETABLE WHERE INT_INDEX > 0 AND INT_INDEX < 4000 ORDER BY INT_INDEX'), 3999)
             intindex = c.fetchmany(size = 2997)
             self.assertEqual(intindex[0][:9], (1, u'42856.814', u'-26939.136', -5741, 14966, 8, -241360270, 4.827728e-28, 123.456))
@@ -150,7 +169,7 @@ class EXASOLBasicTest(EXASOLTest):
 
     def test_016_fetchmany_big_parametersl_rows(self):
         with self.ws.cursor() as c:
-            c.columnar_mode = False
+            self.ws.columnar_mode = False
             self.assertEqual(c.execute('SELECT * FROM ENGINETABLE WHERE INT_INDEX > ? AND INT_INDEX < ? ORDER BY INT_INDEX', 0, 4000), 3999)
             intindex = c.fetchmany(size = 2997)
             self.assertEqual(intindex[0][:9], (1, u'42856.814', u'-26939.136', -5741, 14966, 8, -241360270, 4.827728e-28, 123.456))
@@ -163,6 +182,7 @@ class EXASOLODBCTest(EXASOLTest):
     @classmethod
     def setUpClass(self):
         self.ws = EXASOL.connect(DB_URL, 'sys', 'exasol')
+        self.ws.columnar_mode = False
         with self.ws.cursor() as c:
             c.execute('OPEN SCHEMA test')
 
@@ -209,8 +229,8 @@ class EXASOLODBCTest(EXASOLTest):
     @unittest.skip("disabled")
     def test_001_fetchall_perf_vs_odbc(self):
         try:
-            c0 = self.ws.cursor(); c0.columnar_mode = True
-            c1 = self.ws.cursor(); c1.columnar_mode = False
+            c0 = self.ws.cursor(); self.ws.columnar_mode = True
+            c1 = self.ws.cursor(); self.ws.columnar_mode = False
             c2 = self.od.cursor()
             
             #query = 'SELECT FLOAT1, FLOAT2, CHAR1, CHAR2, VARCHAR01, VARCHAR02 FROM ENGINETABLEBIG1 WHERE INT_INDEX < 30000 ORDER BY INT_INDEX'
@@ -248,7 +268,7 @@ class EXASOLODBCTest(EXASOLTest):
 
     def test_002_fetchall_perf(self):
         try:
-            c1 = self.ws.cursor(); c1.columnar_mode = True
+            c1 = self.ws.cursor(); self.ws.columnar_mode = True
             query = 'SELECT * FROM ENGINETABLEBIG1 WHERE INT_INDEX < 200000 ORDER BY INT_INDEX'
 
             with EXASOL.timer(self.ws, 'exws'): c1.execute(query)
@@ -267,7 +287,7 @@ class EXASOLODBCTest(EXASOLTest):
 
     def test_003_fetch_perf(self):
         try:
-            c1 = self.ws.cursor(); c1.columnar_mode = True
+            c1 = self.ws.cursor(); self.ws.columnar_mode = True
             query = 'SELECT * FROM ENGINETABLEBIG1'
 
             with EXASOL.timer(self.ws, 'exws'): c1.execute(query)

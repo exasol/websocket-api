@@ -76,11 +76,9 @@ The login process is composed of four steps:
 requested protocol version.
 
 Request fields:
-```
   * command (string) => command name: "login"
   * protocolVersion (number) => requested WebSocket protocol version,
     (e.g., 1)
-```
 
 Request JSON format
 ```

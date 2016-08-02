@@ -1,4 +1,7 @@
-# EXASOL DB 6 - Native Drivers
+# EXASOL DB - Native Drivers
+
+This repository is used to develop, maintain and publish native open
+source EXASOL DB drivers.
 
 ## Python DB API v2.0 Compatible Driver
 
@@ -7,11 +10,12 @@ In directory `python` is a implementation of PEP 249
 Specification v2.0 for the EXASOL DB 6.
 
 This drivers uses the Websocket API based communication protocol to
-the EXASOL DB with JSON as serialization format.
+the EXASOL DB with JSON as serialization format. It is usable as a
+drop-in replacement for PyODBC and similar ODBC based packages.
 
 ### Installation
 
-To install it with `pip` enter following command:
+To install this driver with `pip` enter following command:
 ```shell
 $> pip install 'git+http://github.com/EXASOL/websocket-api.git#egg=exasol-ws-api&subdirectory=python'
 ```
@@ -26,7 +30,7 @@ with EXASOL.connect('ws://10.10.1.1:8563') as connection:
      with connection.cursor() as cursor:
           cursor.execute('SELECT * FROM someschema.sometable')
           for row in cursor:
-              print row
+              print(row)
 ```
 
 

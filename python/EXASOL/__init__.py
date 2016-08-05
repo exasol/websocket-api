@@ -10,7 +10,7 @@ thredsafety = 1
 apilevel = '2.0'
 
 CLIENT_NAME = 'Python EXASOL DBI'
-CLIENT_VERSION = '0.1'
+CLIENT_VERSION = '6.0.0'
 DRIVER_NAME = 'Python DBI 2.0'
 DEBUG_OUTPUT = False
 CRYPTO_LIB = 'rsa'
@@ -290,7 +290,7 @@ class connect(object):
     columnar_mode = False # in columnar mode executemany expects list of columns as parameters
                           # and fetchmany returns list of columns instead list of rows
 
-    def __init__(self, url, username, password, autocommit = False, queryTimeout = 60, useCompression = True):
+    def __init__(self, url, username, password, autocommit = False, queryTimeout = 60, useCompression = False):
         """Create the connection
 
         Parameters:
@@ -309,6 +309,7 @@ class connect(object):
         self._queryTimeout = queryTimeout
         self._attributes = None
         self._compression = useCompression
+        self._inconnect = False
         self._connect()
         self._login()
 
@@ -377,8 +378,9 @@ class connect(object):
             #sys.stderr.write("<<< %s\n" % recv_data)
             with timer(self, 'load'): rep = loads(recv_data)
         except Exception as err:
-            self._connect()
-            self._login()
+            if not self._inconnect:
+                self._connect()
+                self._login()
             rep = {'status': 'unknown', 'exceptionText': repr(err)}
         if DEBUG_OUTPUT:
             pp((req, rep), stream = sys.stderr)
@@ -394,9 +396,8 @@ class connect(object):
 
     def _connect(self):
         with timer(self, 'conn'):
-            compression = self._compression
             try:
-                self._compression = False
+                self._inconnect = True
                 self.__ws = create_connection(self._url)
                 self._ws_send = self.__ws.send
                 self._ws_recv = self.__ws.recv
@@ -413,7 +414,7 @@ class connect(object):
                     self._encrypt = lambda t: pk.encrypt(t.encode('utf-8'))
                 else: raise RuntimeError('Crypto library %s not supported' % repr(CRYPTO_LIB))
             finally:
-                self._compression = compression
+                self._inconnect = False
 
     def _login(self):
         with timer(self, 'auth'):

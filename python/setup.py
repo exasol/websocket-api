@@ -9,13 +9,13 @@ except ImportError:
     from distutils.core import setup
 
 setup(
-    name='EXASOL WS API',
-    long_description="EXASOL Python DB API 2",
-    version="0.0.1",
-    license="N/A",
+    name='EXASOL DB API',
+    version="6.0.0",
+    license="MIT",
     maintainer="Oleksandr Kozachuk",
-    maintainer_email="oleksandr.kozachuk@exasol.com",
-    description="EXASOL Python DB API 2.",
+    maintainer_email="support@exasol.com",
+    description="EXASOL Python DB API v2.0 compatible native driver",
+    long_description="EXASOL Python DB API v2.0 compatible native driver based ond Websockets API for communication and JSON for serialization.",
     url='https://github.com/EXASOL/websocket-api',
     packages=[
         'EXASOL',

@@ -19,18 +19,6 @@ returning JavaScript that is executed in the browser, the user can
 easily execute queries directly within the browser.
 
 
-## EXASOL server
-
-The connection server identifies the initial GET request by the client.
-This request contains information about the used protocol version.
-Depending on this information the matching login and protocol class is
-chosen.
-
-After the handshake the process is identical to a connection using the
-standard drivers like JDBC or ODBC: The connection server listens to
-incoming messages and forwards the requests to the database. 
-
-
 ## Clients support
 
 On the one hand, a native Python driver using this WebSocket API is 
@@ -50,6 +38,16 @@ execute queries directly within the browser.
 
 WebSocket Protocol v1 requires an EXASOL client/server protocol of
 at least v14. It follows the standards IETF as RFC 6455.
+
+The connection server identifies the initial GET request by the client.
+This request contains information about the used protocol version.
+Depending on this information the matching login and protocol class is
+chosen.
+
+After the handshake the process is identical to a connection using the
+standard drivers like JDBC or ODBC: The connection server listens to
+incoming messages and forwards the requests to the database. 
+
 
 ### Login: Establish a connection to EXASOL
 

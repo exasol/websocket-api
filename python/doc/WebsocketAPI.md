@@ -35,7 +35,7 @@ incoming messages and forwards the requests to the database.
 
 On the one hand, a native Python driver using this WebSocket API is 
 implemented. By that you don't need any pyodbc bridge anymore, but 
-can connect your Python directly with EXASOL. pyodbc is not ideal due
+can connect your Python directly with EXASOL. PyODBC is not ideal due
 to the need for an ODBC driver manager and certain restrictions in 
 data type conversions.
 

@@ -10,7 +10,7 @@ The main advantages are flexibility regarding the programming languages
 you want to integrate EXASOL into, and a more native access compared to 
 the standardized ways of communicating to a database, such as JDBC, 
 ODBC or ADO.NET which are mostly old and static standards and which 
-mostly need driver managers which create additional complexity. 
+create additional complexity due to the necessary driver managers. 
 
 In addition to that, the support for Web Services provides various 
 services like returning static files (e.g. documentation of the

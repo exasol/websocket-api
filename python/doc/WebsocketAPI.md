@@ -1,79 +1,67 @@
-# Short Introduction
+# EXASOL JSON over WebSockets API - Introduction
+
+## Why an WebSockets API?
 
 The JSON over WebSockets client-server protocol allows customers to
-implement their own drivers for all kinds of platforms. The WebSocket
-connection can be either encrypted or unencrypted. Encryption will be
-added in EXASolution 6.1.
+implement their own drivers for all kinds of platforms using a 
+connection-based web protocol. 
 
-In addition to that, the support of Web Services provides different
-useful services like returning static files (e.g., documentation of the
+The main advantages are flexibility regarding the programming languages
+you want to integrate EXASOL into, and a more native access compared to 
+the standardized ways of communicating to a database, such as JDBC, 
+ODBC or ADO.NET which are mostly old and static standards and which 
+mostly need driver managers which create additional complexity. 
+
+In addition to that, the support for Web Services provides various 
+services like returning static files (e.g. documentation of the
 commands including the JSON structure used for communication). By
 returning JavaScript that is executed in the browser, the user can
 easily execute queries directly within the browser.
 
-In a future version Web Services could also be used to download the
-latest drivers.
 
-# Proposition for EXASolution
-
-The WebSocket protocol that will be implemented was standardized by the
-IETF as RFC 6455.
-
-## Connection server
+## EXASOL server
 
 The connection server identifies the initial GET request by the client.
 This request contains information about the used protocol version.
 Depending on this information the matching login and protocol class is
-chosen. The established connection can be either encrypted or
-unencrypted.
+chosen.
 
 After the handshake the process is identical to a connection using the
-standard drivers like JDBC or ODBC: The connection server checks for
-incoming messages. In case of metadata requests the connection server
-will handle this request without the usage of a sql process (see
-[38]Login Improvements). All other requests will be forwarded to a sql
-process.
+standard drivers like JDBC or ODBC: The connection server listens to
+incoming messages and forwards the requests to the database. 
 
-The connection server will also check for requests of static files like
-the description of the JSON API or the JavaScript file for query
-execution within a browser.
 
-## Sql processes
+## Clients support
 
-The reading and writing of the messages is performed by new login and
-protocol classes that are used instead of the classes for standard
-drivers. All changes for the sql processes are located in these
-classes.
-
-## Client side
-
-A native Python driver using this WebSocket client-server protocol will
-be implemented.
+On the one hand, a native Python driver using this WebSocket API is 
+implemented. By that you don't need any pyodbc bridge anymore, but 
+can connect your Python directly with EXASOL. pyodbc is not ideal due
+to the need for an ODBC driver manager and certain restrictions in 
+data type conversions.
 
 Furthermore, a JavaScript file can be requested from the connection
 server. By executing this in the browser, the user will be able to
 execute queries directly within the browser.
 
-# Server JSON API
+
+# EXASOL JSON over WebSockets API details
 
 ## WebSocket Protocol v1
 
-WebSocket Protocol v1 requires an EXASolution client/server protocol of
-at least v14.
+WebSocket Protocol v1 requires an EXASOL client/server protocol of
+at least v14. It follows the standards IETF as RFC 6455.
 
-## Login process
+### Login: Establish a connection to EXASOL
 
-### Login: Establish a connection to EXASolution
-
-This command begins the login process, which establishes a connection
-between the client and EXASolution. As long as the connection is open,
-the user can interact with EXASolution using the commands specified
+This command invokes the login process which establishes a connection
+between the client and EXASOL. As long as the connection is open,
+the user can interact with EXASOL using the commands specified
 below.
 
 The login process is composed of four steps:
 
-1. The client sends the server the Login command including the
-requested protocol version.
+1. The client sends the login command including the requested protocol 
+version.
 
 Request fields:
   * command (string) => command name: "login"
@@ -88,12 +76,11 @@ Request JSON format
  }
 ```
 
-
-2. The server sends the client a public key which is used to encode the
+2. The server returns a public key which is used to encode the
 user's password. The public key can be obtained in one of two ways:
- 1. importing the key using the publicKeyPem field
- 2. constructing the key using the publicKeyModulus and
-    publicKeyExponent fields.
+ a. importing the key using the publicKeyPem field
+ b. constructing the key using the publicKeyModulus and
+    publicKeyExponent fields
 
 Response fields:
   * status (string) => command status: "ok" or "error"
@@ -135,7 +122,7 @@ Response JSON format
 other client information.
 
 Request fields:
-  * username (string) => EXASolution user name to use for the login
+  * username (string) => EXASOL user name to use for the login
     process
   * password (string) => user's password, which is encrypted using
     publicKey (see 2.) and PKCS #1 v1.5 padding, encoded in Base64
@@ -180,10 +167,10 @@ Request JSON format
 
 
 4. The server uses username and password (see 3.) to authenticate the
-user. If successful, the server sends the client an "ok" response and a
+user. If successful, the server replies with an "ok" response and a
 connection is established. If authentication of the user fails, the
-server sends the client an "error" response indicating that the login
-process failed and a connection is not established.
+server sends an "error" response to the client indicating that the login
+process failed and a connection couldn't be established.
 
 Response fields:
   * status (string) => command status: "ok" or "error"
@@ -191,9 +178,9 @@ Response fields:
        + sessionId (number) => current session ID
        + protocolVersion (number) => protocol version of the connection
          (e.g., 14)
-       + releaseVersion (string) => EXASolution version (e.g. "6.0.0")
+       + releaseVersion (string) => EXASOL version (e.g. "6.0.0")
        + databaseName (string) => database name (e.g., "productionDB1")
-       + productName (string) => EXASolution product name:
+       + productName (string) => EXASOL product name:
          "EXASolution"
        + maxDataMessageSize (number) => maximum size of a data message
          in bytes
@@ -236,17 +223,17 @@ Response JSON format
  }
 ```
 
-### SubLogin: Establish a subconnection to EXASolution
+### SubLogin: Establish a subconnection to EXASOL
 
-This command begins the login process, which establishes a
-subconnection between the client and EXASolution. Using subconnections,
-the user can interact with EXASolution in parallel using the commands
+This command invokes the login process, which establishes a
+subconnection between the client and EXASOL. Using subconnections,
+the user can interact with EXASOL in parallel using the commands
 specified below.
 
 The login process is composed of four steps:
 
-1. The client sends the server the Login command including the
-requested protocol version.
+1. The client sends the login command including the requested protocol
+version.
 
 Request fields:
   * command (string) => command name: "login"
@@ -262,10 +249,10 @@ Request JSON format
 ```
 
 
-2. The server sends the client a public key which is used to encode the
+2. The server returns a public key which is used to encode the
 user's password. The public key can be obtained in one of two ways:
- 1. importing the key using the publicKeyPem field
- 2. constructing the key using the publicKeyModulus and
+ a. importing the key using the publicKeyPem field
+ b. constructing the key using the publicKeyModulus and
     publicKeyExponent fields.
 
 Response fields:
@@ -307,7 +294,7 @@ Response JSON format
 3. The client sends the username, encrypted password, and token.
 
 Request fields:
-  * username (string) => EXASolution user name to use for the login
+  * username (string) => EXASOL user name to use for the login
     process
   * password (string) => user's password, which is encrypted using
     publicKey (see 2.) and PKCS #1 v1.5 padding, encoded in Base64
@@ -325,11 +312,11 @@ Request JSON format
 ```
 
 4. The server uses username, password, and token (see 3.) to
-authenticate the user. If successful, the server sends the client an
+authenticate the user. If successful, the server replies with an
 "ok" response and a subconnection is established. If authentication of
-the user fails, the server sends the client an "error" response
-indicating that the login process failed and a subconnection is not
-established.
+the user fails, the server sends an "error" response to the client
+indicating that the login process failed and a subconnection couldn't
+be established.
 
 Response fields:
   * status (string) => command status: "ok" or "error"
@@ -337,9 +324,9 @@ Response fields:
        + sessionId (number) => current session ID
        + protocolVersion (number) => protocol version of the connection
          (e.g., 14)
-       + releaseVersion (string) => EXASolution version (e.g. "6.0.0")
+       + releaseVersion (string) => EXASOL version (e.g. "6.0.0")
        + databaseName (string) => database name (e.g., "productionDB1")
-       + productName (string) => EXASolution product name:
+       + productName (string) => EXASOL product name:
          "EXASolution"
        + maxDataMessageSize (number) => maximum size of a data message
          in bytes
@@ -384,11 +371,11 @@ Response JSON format
 
 ## Commands
 
-### Disconnect: Close a connection to EXASolution
+### Disconnect: Close a connection to EXASOL
 
-This command closes the connection between the client and EXASolution.
-After the connection is closed, it may no longer be used for further
-interaction with EXASolution.
+This command closes the connection between the client and EXASOL.
+After the connection is closed, it cannot be used for further
+interaction with EXASOL anymore.
 
 Request fields:
   * command (string) => command name: "disconnect"
@@ -660,7 +647,7 @@ Response JSON format
 
 ### ExecutePreparedStatement: Executes a prepared statement
 
-This command executes a prepared statement, which has already been
+This command executes a prepared statement which has already been
 created.
 
 Request fields:
@@ -802,7 +789,7 @@ Response JSON format
 
 ### ClosePreparedStatement: Closes a prepared statement
 
-This command closes a prepared statement, which has already been
+This command closes a prepared statement which has already been
 created.
 
 Request fields:
@@ -1050,7 +1037,7 @@ Response JSON format
 ### GetHosts: Gets the hosts in a cluster
 
 This command gets the number hosts and the IP address of each host in
-an EXASolution cluster.
+an EXASOL cluster.
 
 Request fields:
   * command (string) => command name: "getHosts"
@@ -1539,7 +1526,7 @@ types in the executePreparedStatement request.
 
 
 The following data types and properties are used to specify column
-types in responses from EXASolution.
+types in responses from EXASOL.
 
 ```
                 Type                     Properties
@@ -1563,7 +1550,8 @@ order to enable compression, the client must set the useCompression
 field in the login command to true. If compression is enabled during
 login, all messages sent and received after login completion must be
 binary data frames, in which the payload data (i.e., command
-request/response) is zlib compressed.
+request/response) is zlib-compressed.
+
 
 ## Heartbeat/Feedback Messages
 
@@ -1573,22 +1561,7 @@ during query execution. These messages are sent using Pong WebSocket
 control frames (see RFC 6455), and thus a response is not expected.
 
 The client may send Ping WebSocket control frames (see RFC 6455) to
-EXASolution, for example, as client-initiated keepalives. EXASolution
+EXASOL, for example, as client-initiated keepalives. EXASOL
 will respond to a Ping frame with a Pong response.
 
-EXASolution will not send Ping frames to the client.
-
-## Server Web Interface
-
-A simple Web interface will also be provided, which will allow
-customers to easily access EXASolution. Using their browsers they
-could, for example, execute queries, access product information and
-documentation, and download the latest drivers directly from
-EXASolution.
-
-The Web interface can be accessed by simply pointing a browser to
-EXASolution's URL: http://<exa-ip>:8563
-
-The customer is then presented with a simple Web page, on which they
-can perform certain actions (TBD).
-size, withLocalTimeZone
+EXASOL will not send Ping frames to the client.

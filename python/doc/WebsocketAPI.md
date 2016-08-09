@@ -12,24 +12,20 @@ the standardized ways of communicating to a database, such as JDBC,
 ODBC or ADO.NET which are mostly old and static standards and which 
 create additional complexity due to the necessary driver managers. 
 
-In addition to that, the support for Web Services provides various 
-services like returning static files (e.g. documentation of the
-commands including the JSON structure used for communication). By
-returning JavaScript that is executed in the browser, the user can
-easily execute queries directly within the browser.
-
 
 ## Clients support
 
-On the one hand, a native Python driver using this WebSocket API is 
+Currently a native Python driver using this WebSocket API has been
 implemented. By that you don't need any pyodbc bridge anymore, but 
 can connect your Python directly with EXASOL. PyODBC is not ideal due
 to the need for an ODBC driver manager and certain restrictions in 
 data type conversions.
 
-Furthermore, a JavaScript file can be requested from the connection
-server. By executing this in the browser, the user will be able to
-execute queries directly within the browser.
+Further languages will be added in the future, and we encourage you
+to provide us feedback what languages you are interested in, and 
+maybe you are even keen to support our community with own developments. 
+It would then be nice if you could share your work with us, and 
+we will of course help you by any means. 
 
 
 # EXASOL JSON over WebSockets API details

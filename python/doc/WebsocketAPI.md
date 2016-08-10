@@ -2,15 +2,15 @@
 
 ## Why an WebSockets API?
 
-The JSON over WebSockets client-server protocol allows customers to
+The JSON over WebSockets client-server protocol allows customers to 
 implement their own drivers for all kinds of platforms using a 
 connection-based web protocol. 
 
-The main advantages are flexibility regarding the programming languages
+The main advantages are flexibility regarding the programming languages 
 you want to integrate EXASOL into, and a more native access compared to 
-the standardized ways of communicating to a database, such as JDBC, 
-ODBC or ADO.NET which are mostly old and static standards and which 
-create additional complexity due to the necessary driver managers. 
+the standardized ways of communicating with a database, such as JDBC, 
+ODBC or ADO.NET, which are mostly old and static standards and create
+additional complexity due to the necessary driver managers.
 
 
 ## Clients support

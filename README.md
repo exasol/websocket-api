@@ -1,19 +1,14 @@
-# EXASOL native drivers
+# WebSockets API 
+The JSON over WebSockets client-server protocol allows customers to 
+implement their own drivers for all kinds of platforms using a
+connection-based web protocol.
 
-This repository is used to develop, maintain and publish native open
-source EXASOL drivers.
+The main advantages are flexibility regarding the programming languages
+you want to integrate EXASOL into, and a more native access compared to 
+the standardized ways of communicating with a database, such as JDBC, 
+ODBC or ADO.NET, which are mostly old and static standards and create 
+additional complexity due to the necessary driver managers.
 
-## Python DB API v2.0 compatible driver
-
-In directory `python`, you'll find an implementation of PEP 249
-(https://www.python.org/dev/peps/pep-0249/) "Python Database API
-Specification v2.0" for developed for EXASOL.
-
-This driver uses the Websocket API based communication protocol to
-EXASOL with JSON as serialization format. It is usable as a drop-in 
-replacement for PyODBC and similar ODBC based packages and does
-not require and driver manager.
-
-## Javascript
-
-TBD
+Content:
+* In file WebsocketAPI.md you'll find the API specification of the protocol
+* Several native EXASOL driver implementations using the JSON over WebSockets API protocol

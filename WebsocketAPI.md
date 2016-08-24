@@ -79,18 +79,18 @@ user's password. The public key can be obtained in one of two ways:
 Response fields:
   * status (string) => command status: "ok" or "error"
   * responseData (object, optional) => only present if status is "ok"
-       * publicKeyPem (string) => PEM-formatted, 1024-bit RSA public
+    * publicKeyPem (string) => PEM-formatted, 1024-bit RSA public
          key used to encode the user's password (see 3.)
-       * publicKeyModulus (string) => Hexadecimal modulus of the
+    * publicKeyModulus (string) => Hexadecimal modulus of the
          1024-bit RSA public key used to encode the user's password
          (see 3.)
-       * publicKeyExponent (string) => Hexadecimal exponent of the
+    * publicKeyExponent (string) => Hexadecimal exponent of the
          1024-bit RSA public key used to encode the user's password
          (see 3.)
   * exception (object, optional) => only present if status is "error"
-       * text (string) => exception message which provides error
+    * text (string) => exception message which provides error
          details
-       * sqlCode (string) => five-character exception code if known,
+    * sqlCode (string) => five-character exception code if known,
          otherwise "00000"
 
 Response JSON format
@@ -169,26 +169,26 @@ process failed and a connection couldn't be established.
 Response fields:
   * status (string) => command status: "ok" or "error"
   * responseData (object, optional) => only present if status is "ok"
-       * sessionId (number) => current session ID
-       * protocolVersion (number) => protocol version of the connection
+    * sessionId (number) => current session ID
+    * protocolVersion (number) => protocol version of the connection
          (e.g., 14)
-       * releaseVersion (string) => EXASOL version (e.g. "6.0.0")
-       * databaseName (string) => database name (e.g., "productionDB1")
-       * productName (string) => EXASOL product name:
+    * releaseVersion (string) => EXASOL version (e.g. "6.0.0")
+    * databaseName (string) => database name (e.g., "productionDB1")
+    * productName (string) => EXASOL product name:
          "EXASolution"
-       * maxDataMessageSize (number) => maximum size of a data message
+    * maxDataMessageSize (number) => maximum size of a data message
          in bytes
-       * maxIdentifierLength (number) => maximum length of identifiers
-       * maxVarcharLength (number) =>  maximum length of VARCHAR values
-       * identifierQuoteString (string) => value of the identifier
+    * maxIdentifierLength (number) => maximum length of identifiers
+    * maxVarcharLength (number) =>  maximum length of VARCHAR values
+    * identifierQuoteString (string) => value of the identifier
          quote string (e.g., "'")
-       * timeZone (string) => name of the session time zone
-       * timeZoneBehavior (string) => value of the session option
+    * timeZone (string) => name of the session time zone
+    * timeZoneBehavior (string) => value of the session option
          "TIME_ZONE_BEHAVIOR"
   * exception (object, optional) =>  only present if status is "error"
-       * text (string) => exception message which provides error
+    * text (string) => exception message which provides error
          details
-       * sqlCode (string) => five-character exception code if known,
+    * sqlCode (string) => five-character exception code if known,
          otherwise "00000"
 
 Response JSON format
@@ -252,18 +252,18 @@ user's password. The public key can be obtained in one of two ways:
 Response fields:
   * status (string) => command status: "ok" or "error"
   * responseData (object, optional) => only present if status is "ok"
-       * publicKeyPem (string) => PEM-formatted, 1024-bit RSA public
+    * publicKeyPem (string) => PEM-formatted, 1024-bit RSA public
          key used to encode the user's password (see 3.)
-       * publicKeyModulus (string) => Hexadecimal modulus of the
+    * publicKeyModulus (string) => Hexadecimal modulus of the
          1024-bit RSA public key used to encode the user's password
          (see 3.)
-       * publicKeyExponent (string) => Hexadecimal exponent of the
+    * publicKeyExponent (string) => Hexadecimal exponent of the
          1024-bit RSA public key used to encode the user's password
          (see 3.)
   * exception (object, optional) => only present if status is "error"
-       * text (string) => exception message which provides error
+    * text (string) => exception message which provides error
          details
-       * sqlCode (string) => five-character exception code if known,
+    * sqlCode (string) => five-character exception code if known,
          otherwise "00000"
 
 Response JSON format
@@ -315,26 +315,26 @@ be established.
 Response fields:
   * status (string) => command status: "ok" or "error"
   * responseData (object, optional) => only present if status is "ok"
-       * sessionId (number) => current session ID
-       * protocolVersion (number) => protocol version of the connection
+    * sessionId (number) => current session ID
+    * protocolVersion (number) => protocol version of the connection
          (e.g., 14)
-       * releaseVersion (string) => EXASOL version (e.g. "6.0.0")
-       * databaseName (string) => database name (e.g., "productionDB1")
-       * productName (string) => EXASOL product name:
+    * releaseVersion (string) => EXASOL version (e.g. "6.0.0")
+    * databaseName (string) => database name (e.g., "productionDB1")
+    * productName (string) => EXASOL product name:
          "EXASolution"
-       * maxDataMessageSize (number) => maximum size of a data message
+    * maxDataMessageSize (number) => maximum size of a data message
          in bytes
-       * maxIdentifierLength (number) => maximum length of identifiers
-       * maxVarcharLength (number) =>  maximum length of VARCHAR values
-       * identifierQuoteString (string) => value of the identifier
+    * maxIdentifierLength (number) => maximum length of identifiers
+    * maxVarcharLength (number) =>  maximum length of VARCHAR values
+    * identifierQuoteString (string) => value of the identifier
          quote string (e.g., "'")
-       * timeZone (string) => name of the session time zone
-       * timeZoneBehavior (string) => value of the session option
+    * timeZone (string) => name of the session time zone
+    * timeZoneBehavior (string) => value of the session option
          "TIME_ZONE_BEHAVIOR"
   * exception (object, optional) =>  only present if status is "error"
-       * text (string) => exception message which provides error
+    * text (string) => exception message which provides error
          details
-       * sqlCode (string) => five-character exception code if known,
+    * sqlCode (string) => five-character exception code if known,
          otherwise "00000"
 
 Response JSON format
@@ -391,9 +391,9 @@ Response fields:
   * attributes (object) =>  array of set attributes for the connection
     (see below)
   * exception (object, optional) =>  only present if status is "error"
-       * text (string) => exception message which provides error
+    * text (string) => exception message which provides error
          details
-       * sqlCode (string) => five-character exception code if known,
+    * sqlCode (string) => five-character exception code if known,
          otherwise "00000"
 
 Reponse JSON format
@@ -436,9 +436,9 @@ Response fields:
     below)
   * exception(object, optional) =>  only present if status is "error"
   *
-       * text (string) => exception message which provides error
+    * text (string) => exception message which provides error
          details
-       * sqlCode (string) => five-character exception code if known,
+    * sqlCode (string) => five-character exception code if known,
          otherwise "00000"
 
 Reponse JSON format
@@ -480,10 +480,10 @@ Response fields:
   * attributes (object) =>  array of set attributes for the connection
     (see below)
   * exception (object, optional) =>  only present if status is "error"
-       * text (string) => exception message which provides error
+    * text (string) => exception message which provides error
          details
   *
-       * sqlCode (string) => five-character exception code if known,
+    * sqlCode (string) => five-character exception code if known,
          otherwise "00000"
 
 Response JSON format
@@ -527,58 +527,58 @@ Response fields:
   * attributes (object) =>  array of set attributes for the connection
     (see below)
   * responseData (object, optional) => only present if status is "ok"
-       * statementHandle (number) => prepared statement handle
-       * parameterData (object) => prepared statement parameter
+    * statementHandle (number) => prepared statement handle
+    * parameterData (object) => prepared statement parameter
          information
-            * numColumns (number) => number of columns in columns
-            * columns (object[]) => array of column metadata objects
-                 * name (string) => column name
-                 * dataType (object) => column metadata
-                 * type (string) => column data type
-                 * precision (number, optional) => column precision
-                 * scale (number, optional) => column scale
-                 * size (number, optional) => maximum size in bytes of
+      * numColumns (number) => number of columns in columns
+      * columns (object[]) => array of column metadata objects
+        * name (string) => column name
+        * dataType (object) => column metadata
+        * type (string) => column data type
+        * precision (number, optional) => column precision
+        * scale (number, optional) => column scale
+        * size (number, optional) => maximum size in bytes of
                    a column value
-                 * characterSet (string, optional) => character
+        * characterSet (string, optional) => character
                    encoding of a text column
-                 * withLocalTimeZone (true | false, optional) =>
+        * withLocalTimeZone (true | false, optional) =>
                    specifies if a timestamp has a local time zone
-                 * fraction (number, optional) => fractional part of
+        * fraction (number, optional) => fractional part of
                    number
-                 * srid (number, optional) => spatial reference system
+        * srid (number, optional) => spatial reference system
                    identifier
-       * type (string) => type of result: "resultSet" or "rowCount"
-       * rowCount (number, optional) => present if type is "rowCount",
+    * type (string) => type of result: "resultSet" or "rowCount"
+    * rowCount (number, optional) => present if type is "rowCount",
          number of rows
-       * resultSets (object[]) => present if type is "resultSet", array
+    * resultSets (object[]) => present if type is "resultSet", array
          of result sets
-            * resultSetHandle (number) => result set handle
-            * numColumns (number) => number of columns in the result
+      * resultSetHandle (number) => result set handle
+      * numColumns (number) => number of columns in the result
               set
-            * numRows (number) => number of rows in the result set
-            * numRowsInMessage (number) => number of rows in the
+      * numRows (number) => number of rows in the result set
+      * numRowsInMessage (number) => number of rows in the
               current message
-            * columns (object[]) => array of column metadata objects
-                 * name (string) => column name
-                 * dataType (object) => column metadata
-                      * type (string) => column data type
-                      * precision (number, optional) => column
+      * columns (object[]) => array of column metadata objects
+        * name (string) => column name
+        * dataType (object) => column metadata
+          * type (string) => column data type
+          * precision (number, optional) => column
                         precision
-                      * scale (number, optional) => column scale
-                      * size (number, optional) => maximum size in
+          * scale (number, optional) => column scale
+          * size (number, optional) => maximum size in
                         bytes of a column value
-                      * characterSet (string, optional) => character
+          * characterSet (string, optional) => character
                         encoding of a text column
-                      * withLocalTimeZone (true | false, optional) =>
+          * withLocalTimeZone (true | false, optional) =>
                         specifies if a timestamp has a local time zone
-                      * fraction (number, optional) => fractional part
+          * fraction (number, optional) => fractional part
                         of number
-                      * srid (number, optional) => spatial reference
+          * srid (number, optional) => spatial reference
                         system identifier
   * exception (object, optional) =>  only present if status is "error"
-       * text (string) => exception message which provides error
+    * text (string) => exception message which provides error
          details
-       * sqlCode (string) => five-character exception code if known,
+    * sqlCode (string) => five-character exception code if known,
          otherwise "00000"
 
 Response JSON format
@@ -694,30 +694,30 @@ Response fields:
   * status (string) => command status: "ok" or "error"
   * attributes (object) =>  array of set attributes for the connection (see below)
   * responseData (object, optional) => only present if status is "ok"
-       * type (string) => type of result: "resultSet" or "rowCount"
-       * rowCount (number, optional) => present if type is "rowCount", number of rows
-       * resultSets (object[]) => present if type is "resultSet", array of result sets
-            * resultSetHandle (number) => result set handle
-            * numColumns (number) => number of columns in the result
+    * type (string) => type of result: "resultSet" or "rowCount"
+    * rowCount (number, optional) => present if type is "rowCount", number of rows
+    * resultSets (object[]) => present if type is "resultSet", array of result sets
+      * resultSetHandle (number) => result set handle
+      * numColumns (number) => number of columns in the result
               set
-            * numRows (number) => number of rows in the result set
-            * numRowsInMessage (number) => number of rows in the
+      * numRows (number) => number of rows in the result set
+      * numRowsInMessage (number) => number of rows in the
               current message
-            * columns (object[]) => array of column metadata objects
-                 * name (string) => column name
-                 * dataType (object) => column metadata
-                      * type (string) => column data type
-                      * precision (number, optional) => column precision
-                      * scale (number, optional) => column scale
-                      * size (number, optional) => maximum size in bytes of a column value
-                      * characterSet (string, optional) => character encoding of a text column
-                      * withLocalTimeZone (true | false, optional) => specifies if a timestamp has a local time zone
-                      * fraction (number, optional) => fractional part of number
-                      * srid (number, optional) => spatial reference system identifier
-            * data (array[]) => object containing the data for the prepared statement in column-major order
+      * columns (object[]) => array of column metadata objects
+        * name (string) => column name
+        * dataType (object) => column metadata
+          * type (string) => column data type
+          * precision (number, optional) => column precision
+          * scale (number, optional) => column scale
+          * size (number, optional) => maximum size in bytes of a column value
+          * characterSet (string, optional) => character encoding of a text column
+          * withLocalTimeZone (true | false, optional) => specifies if a timestamp has a local time zone
+          * fraction (number, optional) => fractional part of number
+          * srid (number, optional) => spatial reference system identifier
+      * data (array[]) => object containing the data for the prepared statement in column-major order
   * exception (object, optional) =>  only present if status is "error"
-       * text (string) => exception message which provides error details
-       * sqlCode (string) => five-character exception code if known, otherwise "00000"
+    * text (string) => exception message which provides error details
+    * sqlCode (string) => five-character exception code if known, otherwise "00000"
 
 Response JSON format
 ```
@@ -790,9 +790,9 @@ Response fields:
   * attributes (object) =>  array of set attributes for the connection
     (see below)
   * exception (object, optional) =>  only present if status is "error"
-       * text (string) => exception message which provides error
+    * text (string) => exception message which provides error
          details
-       * sqlCode (string) => five-character exception code if known,
+    * sqlCode (string) => five-character exception code if known,
          otherwise "00000"
 
 Response JSON format
@@ -836,40 +836,40 @@ Response fields:
   * attributes (object) =>  array of set attributes for the connection
     (see below)
   * responseData (object, optional) => only present if status is "ok"
-       * type (string) => type of result: "resultSet" or "rowCount"
-       * rowCount (number, optional) => present if type is "rowCount",
+    * type (string) => type of result: "resultSet" or "rowCount"
+    * rowCount (number, optional) => present if type is "rowCount",
          number of rows
-       * resultSets (object[]) => present if type is "resultSet", array
+    * resultSets (object[]) => present if type is "resultSet", array
          of result sets
-            * resultSetHandle (number) => result set handle
-            * numColumns (number) => number of columns in the result
+      * resultSetHandle (number) => result set handle
+      * numColumns (number) => number of columns in the result
               set
-            * numRows (number) => number of rows in the result set
-            * numRowsInMessage (number) => number of rows in the
+      * numRows (number) => number of rows in the result set
+      * numRowsInMessage (number) => number of rows in the
               current message
-            * columns (object[]) => array of column metadata objects
-                 * name (string) => column name
-                 * dataType (object) => column metadata
-                      * type (string) => column data type
-                      * precision (number, optional) => column
+      * columns (object[]) => array of column metadata objects
+        * name (string) => column name
+        * dataType (object) => column metadata
+          * type (string) => column data type
+          * precision (number, optional) => column
                         precision
-                      * scale (number, optional) => column scale
-                      * size (number, optional) => maximum size in
+          * scale (number, optional) => column scale
+          * size (number, optional) => maximum size in
                         bytes of a column value
-                      * characterSet (string, optional) => character
+          * characterSet (string, optional) => character
                         encoding of a text column
-                      * withLocalTimeZone (true | false, optional) =>
+          * withLocalTimeZone (true | false, optional) =>
                         specifies if a timestamp has a local time zone
-                      * fraction (number, optional) => fractional part
+          * fraction (number, optional) => fractional part
                         of number
-                      * srid (number, optional) => spatial reference
+          * srid (number, optional) => spatial reference
                         system identifier
-            * data (array[]) =>object containing the data for the
+      * data (array[]) =>object containing the data for the
               prepared statement in column-major order
   * exception (object, optional) =>  only present if status is "error"
-       * text (string) => exception message which provides error
+    * text (string) => exception message which provides error
          details
-       * sqlCode (string) => five-character exception code if known,
+    * sqlCode (string) => five-character exception code if known,
          otherwise "00000"
 
 Response JSON format
@@ -943,13 +943,13 @@ Request JSON format
 Response fields:
   * status (string) => command status: "ok" or "error"
   * responseData (object, optional) => only present if status is "ok"
-       * numRows (number) => number of rows in the result set
-       * data (array[]) => object containing the data for the prepared
+    * numRows (number) => number of rows in the result set
+    * data (array[]) => object containing the data for the prepared
          statement in column-major order
   * exception (object, optional) =>  only present if status is "error"
-       * text (string) => exception message which provides error
+    * text (string) => exception message which provides error
          details
-       * sqlCode (string) => five-character exception code if known,
+    * sqlCode (string) => five-character exception code if known,
          otherwise "00000"
 
 Response JSON format
@@ -993,9 +993,9 @@ Request JSON format
 Response fields:
   * status (string) => command status: "ok" or "error"
   * exception (object, optional) =>  only present if status is "error"
-       * text (string) => exception message which provides error
+    * text (string) => exception message which provides error
          details
-       * sqlCode (string) => five-character exception code if known,
+    * sqlCode (string) => five-character exception code if known,
          otherwise "00000"
 
 Response JSON format
@@ -1033,12 +1033,12 @@ Request JSON format
 Response fields:
   * status (string) => command status: "ok" or "error"
   * responseData (object, optional) => only present if status is "ok"
-       * numNodes (number) => number of nodes in the cluster
-       * nodes (string[]) => array of cluster node IP addresses
+    * numNodes (number) => number of nodes in the cluster
+    * nodes (string[]) => array of cluster node IP addresses
   * exception (object, optional) =>  only present if status is "error"
-       * text (string) => exception message which provides error
+    * text (string) => exception message which provides error
          details
-       * sqlCode (string) => five-character exception code if known,
+    * sqlCode (string) => five-character exception code if known,
          otherwise "00000"
 
 Response JSON format
@@ -1088,40 +1088,40 @@ Response fields:
   * attributes (object) =>  array of set attributes for the connection
     (see below)
   * responseData (object, optional) => only present if status is "ok"
-       * type (string) => type of result: "resultSet" or "rowCount"
-       * rowCount (number, optional) => present if type is "rowCount",
+    * type (string) => type of result: "resultSet" or "rowCount"
+    * rowCount (number, optional) => present if type is "rowCount",
          number of rows
-       * resultSets (object[]) => present if type is "resultSet", array
+    * resultSets (object[]) => present if type is "resultSet", array
          of result sets
-            * resultSetHandle (number) => result set handle
-            * numColumns (number) => number of columns in the result
+      * resultSetHandle (number) => result set handle
+      * numColumns (number) => number of columns in the result
               set
-            * numRows (number) => number of rows in the result set
-            * numRowsInMessage (number) => number of rows in the
+      * numRows (number) => number of rows in the result set
+      * numRowsInMessage (number) => number of rows in the
               current message
-            * columns (object[]) => array of column metadata objects
-                 * name (string) => column name
-                 * dataType (object) => column metadata
-                      * type (string) => column data type
-                      * precision (number, optional) => column
+      * columns (object[]) => array of column metadata objects
+        * name (string) => column name
+        * dataType (object) => column metadata
+          * type (string) => column data type
+          * precision (number, optional) => column
                         precision
-                      * scale (number, optional) => column scale
-                      * size (number, optional) => maximum size in
+          * scale (number, optional) => column scale
+          * size (number, optional) => maximum size in
                         bytes of a column value
-                      * characterSet (string, optional) => character
+          * characterSet (string, optional) => character
                         encoding of a text column
-                      * withLocalTimeZone (true | false, optional) =>
+          * withLocalTimeZone (true | false, optional) =>
                         specifies if a timestamp has a local time zone
-                      * fraction (number, optional) => fractional part
+          * fraction (number, optional) => fractional part
                         of number
-                      * srid (number, optional) => spatial reference
+          * srid (number, optional) => spatial reference
                         system identifier
-            * data (array[]) => object containing the data for the
+      * data (array[]) => object containing the data for the
               prepared statement in column-major order
   * exception (object, optional) =>  only present if status is "error"
-       * text (string) => exception message which provides error
+    * text (string) => exception message which provides error
          details
-       * sqlCode (string) => five-character exception code if known,
+    * sqlCode (string) => five-character exception code if known,
          otherwise "00000"
 
 Response JSON format
@@ -1194,16 +1194,16 @@ Request JSON format
 Response fields:
   * status (string) => command status: "ok" or "error"
   * responseData (object, optional) => only present if status is "ok"
-       * numOpenConnections (number) => number of subconnections
+    * numOpenConnections (number) => number of subconnections
          actually opened
-       * token (number) => token required for the login of
+    * token (number) => token required for the login of
          subconnections
-       * nodes (string[]) => IP addresses and ports of the nodes, to
+    * nodes (string[]) => IP addresses and ports of the nodes, to
          which subconnections may be established
   * exception (object, optional) =>  only present if status is "error"
-       * text (string) => exception message which provides error
+    * text (string) => exception message which provides error
          details
-       * sqlCode (string) => five-character exception code if known,
+    * sqlCode (string) => five-character exception code if known,
          otherwise "00000"
 
 Response JSON format
@@ -1255,36 +1255,36 @@ Response fields:
   * attributes (object) =>  array of set attributes for the connection
     (see below)
   * responseData (object, optional) => only present if status is "ok"
-       * type (string) => type of result: "resultSet"
-       * resultSets (object[]) => present if type is "resultSet", array
+    * type (string) => type of result: "resultSet"
+    * resultSets (object[]) => present if type is "resultSet", array
          of result sets
-            * resultSetHandle (number) => result set handle
-            * numColumns (number) => number of columns in the result
+      * resultSetHandle (number) => result set handle
+      * numColumns (number) => number of columns in the result
               set
-            * numRows (number) => number of rows in the result set
-            * numRowsInMessage (number) => number of rows in the
+      * numRows (number) => number of rows in the result set
+      * numRowsInMessage (number) => number of rows in the
               current message
-            * columns (object[]) => array of column metadata objects
-                 * name (string) => column name
-                 * dataType (object) => column metadata
-                      * type (string) => column data type
-                      * precision (number, optional) => column
+      * columns (object[]) => array of column metadata objects
+        * name (string) => column name
+        * dataType (object) => column metadata
+          * type (string) => column data type
+          * precision (number, optional) => column
                         precision
-                      * scale (number, optional) => column scale
-                      * size (number, optional) => maximum size in
+          * scale (number, optional) => column scale
+          * size (number, optional) => maximum size in
                         bytes of a column value
-                      * characterSet (string, optional) => character
+          * characterSet (string, optional) => character
                         encoding of a text column
-                      * withLocalTimeZone (true | false, optional) =>
+          * withLocalTimeZone (true | false, optional) =>
                         specifies if a timestamp has a local time zone
-                      * fraction (number, optional) => fractional part
+          * fraction (number, optional) => fractional part
                         of number
-                      * srid (number, optional) => spatial reference
+          * srid (number, optional) => spatial reference
                         system identifier
   * exception (object, optional) =>  only present if status is "error"
-       * text (string) => exception message which provides error
+    * text (string) => exception message which provides error
          details
-       * sqlCode (string) => five-character exception code if known,
+    * sqlCode (string) => five-character exception code if known,
          otherwise "00000"
 
 Response JSON format
@@ -1351,11 +1351,11 @@ Request JSON format
 Response fields:
   * status (string) => command status: "ok" or "error"
   * responseData (object, optional) => only present if status is "ok"
-       * rowOffset (number) => row offset of connection's result set
+    * rowOffset (number) => row offset of connection's result set
   * exception (object, optional) =>  only present if status is "error"
-       * text (string) => exception message which provides error
+    * text (string) => exception message which provides error
          details
-       * sqlCode (string) => five-character exception code if known,
+    * sqlCode (string) => five-character exception code if known,
          otherwise "00000"
 
 Response JSON format
@@ -1407,11 +1407,11 @@ Request JSON format
 Response fields:
   * status (string) => command status: "ok" or "error"
   * responseData (object, optional) => only present if status is "ok"
-       * status (string) => status of the query
+    * status (string) => status of the query
   * exception (object, optional) =>  only present if status is "error"
-       * text (string) => exception message which provides error
+    * text (string) => exception message which provides error
          details
-       * sqlCode (string) => five-character exception code if known,
+    * sqlCode (string) => five-character exception code if known,
          otherwise "00000"
 
 Response JSON format

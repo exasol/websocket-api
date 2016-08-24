@@ -646,28 +646,22 @@ created.
 
 Request fields:
   * command (string) => command name: "executePreparedStatement"
-  * attributes (object) =>  array of attributes to set for the
-    connection (see below)
+  * attributes (object) =>  array of attributes to set for the connection (see below)
   * statementHandle (number) => prepared statement handle
   * numColumns (number) => number of columns in data
   * numRows (number) => number of rows in data
   * columns (object[]) => array of column metadata objects
-       * name (string) => column name
-       * dataType (object) => column metadata
-            * type (string) => column data type
-            * precision (number, optional) => column precision
-            * scale (number, optional) => column scale
-            * size (number, optional) => maximum size in bytes of a
-              column value
-            * characterSet (string, optional) => character encoding of
-              a text column
-            * withLocalTimeZone (true | false, optional) => specifies
-              if a timestamp has a local time zone
-            * fraction (number, optional) => fractional part of number
-            * srid (number, optional) => spatial reference system
-              identifier
-  * data (array[]) => object containing the data for the prepared
-    statement in column-major order
+    * name (string) => column name
+    * dataType (object) => column metadata
+      * type (string) => column data type
+      * precision (number, optional) => column precision
+      * scale (number, optional) => column scale
+      * size (number, optional) => maximum size in bytes of a column value
+      * characterSet (string, optional) => character encoding of a text column
+      * withLocalTimeZone (true | false, optional) => specifies if a timestamp has a local time zone
+      * fraction (number, optional) => fractional part of number
+      * srid (number, optional) => spatial reference system identifier
+  * data (array[]) => object containing the data for the prepared statement in column-major order
 
 Request JSON format
 ```

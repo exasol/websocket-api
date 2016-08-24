@@ -59,8 +59,7 @@ The login process is composed of four steps:
    
    Request fields:
      * command (string) => command name: "login"
-     * protocolVersion (number) => requested WebSocket protocol version,
-       (e.g., 1)
+     * protocolVersion (number) => requested WebSocket protocol version, (e.g., 1)
    
    Request JSON format
    ```
@@ -73,25 +72,17 @@ The login process is composed of four steps:
 2. The server returns a public key which is used to encode the
    user's password. The public key can be obtained in one of two ways:
     a. importing the key using the publicKeyPem field
-    b. constructing the key using the publicKeyModulus and
-       publicKeyExponent fields
+    b. constructing the key using the publicKeyModulus and publicKeyExponent fields
 
    Response fields:
      * status (string) => command status: "ok" or "error"
      * responseData (object, optional) => only present if status is "ok"
-       * publicKeyPem (string) => PEM-formatted, 1024-bit RSA public
-            key used to encode the user's password (see 3.)
-       * publicKeyModulus (string) => hexadecimal modulus of the
-            1024-bit RSA public key used to encode the user's password
-            (see 3.)
-       * publicKeyExponent (string) => hexadecimal exponent of the
-            1024-bit RSA public key used to encode the user's password
-            (see 3.)
+       * publicKeyPem (string) => PEM-formatted, 1024-bit RSA public key used to encode the user's password (see 3.)
+       * publicKeyModulus (string) => hexadecimal modulus of the 1024-bit RSA public key used to encode the user's password (see 3.)
+       * publicKeyExponent (string) => hexadecimal exponent of the 1024-bit RSA public key used to encode the user's password (see 3.)
      * exception (object, optional) => only present if status is "error"
-       * text (string) => exception message which provides error
-            details
-       * sqlCode (string) => five-character exception code if known,
-            otherwise "00000"
+       * text (string) => exception message which provides error details
+       * sqlCode (string) => five-character exception code if known, otherwise "00000"
    
    Response JSON format
    ```
@@ -116,28 +107,18 @@ The login process is composed of four steps:
    other client information.
    
    Request fields:
-     * username (string) => EXASOL user name to use for the login
-       process
-     * password (string) => user's password, which is encrypted using
-       publicKey (see 2.) and PKCS #1 v1.5 padding, encoded in Base64
-       format
-     * useCompression (boolean) => use compression for messages during the
-       session (beginning after the login process is completed)
+     * username (string) => EXASOL user name to use for the login process
+     * password (string) => user's password, which is encrypted using publicKey (see 2.) and PKCS #1 v1.5 padding, encoded in Base64 format
+     * useCompression (boolean) => use compression for messages during the session (beginning after the login process is completed)
      * sessionId (number, optional) => requested session ID
-     * clientName (string, optional) => client program name, (e.g.,
-       "EXAplus")
+     * clientName (string, optional) => client program name, (e.g., "EXAplus")
      * driverName (string, optional) => driver name, (e.g., "EXA Python")
-     * clientOs (string, optional) => name and version of the client
-       operating system
-     * clientOsUsername (string, optional) => client's operating system
-       user name
-     * clientLanguage (string, optional) => language setting of the client
-       system
+     * clientOs (string, optional) => name and version of the client operating system
+     * clientOsUsername (string, optional) => client's operating system user name
+     * clientLanguage (string, optional) => language setting of the client system
      * clientVersion (string, optional) => client version number
-     * clientRuntime (string, optional) => name and version of the client
-       runtime
-     * attributes (object, optional) => array of attributes to set for the
-       connection (see below)
+     * clientRuntime (string, optional) => name and version of the client runtime
+     * attributes (object, optional) => array of attributes to set for the connection (see below)
    
    Request JSON format
    ```
@@ -170,26 +151,19 @@ The login process is composed of four steps:
      * status (string) => command status: "ok" or "error"
      * responseData (object, optional) => only present if status is "ok"
        * sessionId (number) => current session ID
-       * protocolVersion (number) => protocol version of the connection
-            (e.g., 14)
+       * protocolVersion (number) => protocol version of the connection (e.g., 14)
        * releaseVersion (string) => EXASOL version (e.g. "6.0.0")
        * databaseName (string) => database name (e.g., "productionDB1")
-       * productName (string) => EXASOL product name:
-            "EXASolution"
-       * maxDataMessageSize (number) => maximum size of a data message
-            in bytes
+       * productName (string) => EXASOL product name: "EXASolution"
+       * maxDataMessageSize (number) => maximum size of a data message in bytes
        * maxIdentifierLength (number) => maximum length of identifiers
        * maxVarcharLength (number) =>  maximum length of VARCHAR values
-       * identifierQuoteString (string) => value of the identifier
-            quote string (e.g., "'")
+       * identifierQuoteString (string) => value of the identifier quote string (e.g., "'")
        * timeZone (string) => name of the session time zone
-       * timeZoneBehavior (string) => value of the session option
-            "TIME_ZONE_BEHAVIOR"
+       * timeZoneBehavior (string) => value of the session option "TIME_ZONE_BEHAVIOR"
      * exception (object, optional) =>  only present if status is "error"
-       * text (string) => exception message which provides error
-            details
-       * sqlCode (string) => five-character exception code if known,
-            otherwise "00000"
+       * text (string) => exception message which provides error details
+       * sqlCode (string) => five-character exception code if known, otherwise "00000"
    
    Response JSON format
    ```
@@ -227,141 +201,121 @@ specified below.
 The login process is composed of four steps:
 
 1. The client sends the login command including the requested protocol
-version.
-
-Request fields:
-  * command (string) => command name: "login"
-  * protocolVersion (number) => requested WebSocket protocol version,
-    (e.g., 1)
-
-Request JSON format
-```
- {
-     "command": "subLogin",
-     "protocolVersion": <number>
- }
-```
+   version.
+   
+   Request fields:
+     * command (string) => command name: "login"
+     * protocolVersion (number) => requested WebSocket protocol version, (e.g., 1)
+   
+   Request JSON format
+   ```
+    {
+        "command": "subLogin",
+        "protocolVersion": <number>
+    }
+   ```
 
 
 2. The server returns a public key which is used to encode the
-user's password. The public key can be obtained in one of two ways:
- a. importing the key using the publicKeyPem field
- b. constructing the key using the publicKeyModulus and
-    publicKeyExponent fields.
-
-Response fields:
-  * status (string) => command status: "ok" or "error"
-  * responseData (object, optional) => only present if status is "ok"
-    * publicKeyPem (string) => PEM-formatted, 1024-bit RSA public
-         key used to encode the user's password (see 3.)
-    * publicKeyModulus (string) => hexadecimal modulus of the
-         1024-bit RSA public key used to encode the user's password
-         (see 3.)
-    * publicKeyExponent (string) => hexadecimal exponent of the
-         1024-bit RSA public key used to encode the user's password
-         (see 3.)
-  * exception (object, optional) => only present if status is "error"
-    * text (string) => exception message which provides error
-         details
-    * sqlCode (string) => five-character exception code if known,
-         otherwise "00000"
-
-Response JSON format
-```
- {
-     "status": <"ok" | "error">,
-     // if status is "ok"
-     "responseData": {
-             "publicKeyPem": <string>,
-             "publicKeyModulus": <string>,
-             "publicKeyExponent": <string>
-     },
-     // if status is "error"
-     "exception": {
-             "text": <string>,
-             "sqlCode": <string>
-     }
- }
-```
-
+   user's password. The public key can be obtained in one of two ways:
+    a. importing the key using the publicKeyPem field
+    b. constructing the key using the publicKeyModulus and publicKeyExponent fields.
+   
+   Response fields:
+     * status (string) => command status: "ok" or "error"
+     * responseData (object, optional) => only present if status is "ok"
+       * publicKeyPem (string) => PEM-formatted, 1024-bit RSA public key used to encode the user's password (see 3.)
+       * publicKeyModulus (string) => hexadecimal modulus of the 1024-bit RSA public key used to encode the user's password (see 3.)
+       * publicKeyExponent (string) => hexadecimal exponent of the 1024-bit RSA public key used to encode the user's password (see 3.)
+     * exception (object, optional) => only present if status is "error"
+       * text (string) => exception message which provides error details
+       * sqlCode (string) => five-character exception code if known, otherwise "00000"
+   
+   Response JSON format
+   ```
+    {
+        "status": <"ok" | "error">,
+        // if status is "ok"
+        "responseData": {
+                "publicKeyPem": <string>,
+                "publicKeyModulus": <string>,
+                "publicKeyExponent": <string>
+        },
+        // if status is "error"
+        "exception": {
+                "text": <string>,
+                "sqlCode": <string>
+        }
+    }
+   ```
+   
 
 3. The client sends the username, encrypted password, and token.
 
-Request fields:
-  * username (string) => EXASOL user name to use for the login
-    process
-  * password (string) => user's password, which is encrypted using
-    publicKey (see 2.) and PKCS #1 v1.5 padding, encoded in Base64
-    format
-  * token (number) => token required for subconnection logins (see,
-    EnterParallel)
-
-Request JSON format
-```
- {
-     "username": <string>,
-     "password": <string>,
-     "token": <number>
- }
-```
-
+   Request fields:
+     * username (string) => EXASOL user name to use for the login process
+     * password (string) => user's password, which is encrypted using publicKey (see 2.) and PKCS #1 v1.5 padding, encoded in Base64 format
+     * token (number) => token required for subconnection logins (see, EnterParallel)
+   
+   Request JSON format
+   ```
+    {
+        "username": <string>,
+        "password": <string>,
+        "token": <number>
+    }
+   ```
+   
 4. The server uses username, password, and token (see 3.) to
-authenticate the user. If successful, the server replies with an
-"ok" response and a subconnection is established. If authentication of
-the user fails, the server sends an "error" response to the client
-indicating that the login process failed and a subconnection couldn't
-be established.
-
-Response fields:
-  * status (string) => command status: "ok" or "error"
-  * responseData (object, optional) => only present if status is "ok"
-    * sessionId (number) => current session ID
-    * protocolVersion (number) => protocol version of the connection
-         (e.g., 14)
-    * releaseVersion (string) => EXASOL version (e.g. "6.0.0")
-    * databaseName (string) => database name (e.g., "productionDB1")
-    * productName (string) => EXASOL product name:
-         "EXASolution"
-    * maxDataMessageSize (number) => maximum size of a data message
-         in bytes
-    * maxIdentifierLength (number) => maximum length of identifiers
-    * maxVarcharLength (number) =>  maximum length of VARCHAR values
-    * identifierQuoteString (string) => value of the identifier
-         quote string (e.g., "'")
-    * timeZone (string) => name of the session time zone
-    * timeZoneBehavior (string) => value of the session option
-         "TIME_ZONE_BEHAVIOR"
-  * exception (object, optional) =>  only present if status is "error"
-    * text (string) => exception message which provides error
-         details
-    * sqlCode (string) => five-character exception code if known,
-         otherwise "00000"
-
-Response JSON format
-```
- {
-     "status": <"ok" | "error">,
-     // if status is "ok"
-     "responseData": {
-             "sessionId": <number>,
-             "protocolVersion": <number>,
-             "releaseVersion": <string>,
-             "databaseName": <string>,
-             "productName": <string>,
-             "maxDataMessageSize": <number>,
-             "maxIdentifierLength": <number>,
-             "maxVarcharLength": <number>,
-             "identifierQuoteString": <string>,
-             "timeZone": <string>,
-             "timeZoneBehavior": <string>
-     },
-     // if status is "error"
-     "exception": {
-             "text": <string>,
-             "sqlCode": <string>
-     }
- }
-```
+   authenticate the user. If successful, the server replies with an
+   "ok" response and a subconnection is established. If authentication of
+   the user fails, the server sends an "error" response to the client
+   indicating that the login process failed and a subconnection couldn't
+   be established.
+   
+   Response fields:
+     * status (string) => command status: "ok" or "error"
+     * responseData (object, optional) => only present if status is "ok"
+       * sessionId (number) => current session ID
+       * protocolVersion (number) => protocol version of the connection (e.g., 14)
+       * releaseVersion (string) => EXASOL version (e.g. "6.0.0")
+       * databaseName (string) => database name (e.g., "productionDB1")
+       * productName (string) => EXASOL product name: "EXASolution"
+       * maxDataMessageSize (number) => maximum size of a data message in bytes
+       * maxIdentifierLength (number) => maximum length of identifiers
+       * maxVarcharLength (number) =>  maximum length of VARCHAR values
+       * identifierQuoteString (string) => value of the identifier quote string (e.g., "'")
+       * timeZone (string) => name of the session time zone
+       * timeZoneBehavior (string) => value of the session option "TIME_ZONE_BEHAVIOR"
+     * exception (object, optional) =>  only present if status is "error"
+       * text (string) => exception message which provides error details
+       * sqlCode (string) => five-character exception code if known, otherwise "00000"
+   
+   Response JSON format
+   ```
+    {
+        "status": <"ok" | "error">,
+        // if status is "ok"
+        "responseData": {
+                "sessionId": <number>,
+                "protocolVersion": <number>,
+                "releaseVersion": <string>,
+                "databaseName": <string>,
+                "productName": <string>,
+                "maxDataMessageSize": <number>,
+                "maxIdentifierLength": <number>,
+                "maxVarcharLength": <number>,
+                "identifierQuoteString": <string>,
+                "timeZone": <string>,
+                "timeZoneBehavior": <string>
+        },
+        // if status is "error"
+        "exception": {
+                "text": <string>,
+                "sqlCode": <string>
+        }
+    }
+   ```
 
 ## Commands
 

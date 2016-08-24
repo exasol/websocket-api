@@ -1438,37 +1438,23 @@ Attributes can be queried with the GetAttributes command and some of
 them can be modified with the SetAttributes command. Modified
 attributes are included in command replies.
 
-Name JSON value Read-only Committable Description
-autocommit true | false no no If true, commit() will be executed
-automatically after each statement. If false, commit() and rollback()
-must be executed manually.
-compressionEnabled true | false yes no If true, the WebSocket data
-frame payload data is compressed. If false, it is not compressed.
-currentSchema string no yes Current schema name
-dateFormat string yes yes Date format
-dateLanguage string yes yes Language used for the day and month of
-dates.
-datetimeFormat string yes yes Timestamp format
-defaultLikeEscapeCharacter string yes yes Escape character in LIKE
-expressions.
-feedbackInterval number no no Time interval (in seconds) specifying how
-often heartbeat/feedback packets are sent to the client during query
-execution.
-numericCharacters string no yes Characters specifying the group and
-decimal separators (NLS_NUMERIC_CHARACTERS). For example, ",." would
-result in "123,456,789.123".
-openTransaction true | false yes no If true, a transaction is open. If
-false, a transaction is not open.
-queryTimeout number no yes Query timeout value (in seconds). If a query
-runs longer than the specified time, it will be aborted.
-snapshotTransactionsEnabled true | false no no If true, snapshot
-transactions will be used. If false, they will not be used.
-timestampUtcEnabled true | false no no If true, timestamps will be
-converted to UTC. If false, UTC will not be used.
-timezone string yes yes Timezone of the session.
-timeZoneBehavior string yes yes Specifies the conversion behavior of
-UTC timestamps to local timestamps when the time value occurs during a
-time shift because of daylight saving time (TIME_ZONE_BEHAVIOR).
+| Name | JSON value | Read-only | Committable | Description |
+| --- | --- | --- | --- | --- |
+| autocommit | true \| false | no | no | If true, commit() will be executed automatically after each statement. If false, commit() and rollback() must be executed manually. |
+| compressionEnabled | true \| false | yes | no | If true, the WebSocket data frame payload data is compressed. If false, it is not compressed. |
+| currentSchema | string | no |  yes | Current schema name |
+| dateFormat |  string | yes | yes | Date format |
+| dateLanguage | string | yes | yes | Language used for the day and month of dates. |
+| datetimeFormat | string | yes | yes | Timestamp format |
+| defaultLikeEscapeCharacter | string | yes | yes | Escape character in LIKE expressions. |
+| feedbackInterval | number | no | no | Time interval (in seconds) specifying how often heartbeat/feedback packets are sent to the client during query execution. |
+| numericCharacters | string | no | yes | Characters specifying the group and decimal separators (NLS_NUMERIC_CHARACTERS). For example, ",." would result in "123,456,789.123". |
+| openTransaction | true \| false | yes | no | If true, a transaction is open. If false, a transaction is not open. 
+| queryTimeout | number | no | yes | Query timeout value (in seconds). If a query runs longer than the specified time, it will be aborted. |
+| snapshotTransactionsEnabled | true \| false | no | no | If true, snapshot transactions will be used. If false, they will not be used. |
+| timestampUtcEnabled | true \| false | no | no | If true, timestamps will be converted to UTC. If false, UTC will not be used. |
+| timezone | string | yes | yes | Timezone of the session. |
+| timeZoneBehavior | string | yes | yes | Specifies the conversion behavior of UTC timestamps to local timestamps when the time value occurs during a time shift because of daylight saving time (TIME_ZONE_BEHAVIOR). |
 
 Attribute JSON format
 ```

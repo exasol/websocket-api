@@ -698,14 +698,11 @@ Request JSON format
 
 Response fields:
   * status (string) => command status: "ok" or "error"
-  * attributes (object) =>  array of set attributes for the connection
-    (see below)
+  * attributes (object) =>  array of set attributes for the connection (see below)
   * responseData (object, optional) => only present if status is "ok"
        * type (string) => type of result: "resultSet" or "rowCount"
-       * rowCount (number, optional) => present if type is "rowCount",
-         number of rows
-       * resultSets (object[]) => present if type is "resultSet", array
-         of result sets
+       * rowCount (number, optional) => present if type is "rowCount", number of rows
+       * resultSets (object[]) => present if type is "resultSet", array of result sets
             * resultSetHandle (number) => result set handle
             * numColumns (number) => number of columns in the result
               set
@@ -716,26 +713,17 @@ Response fields:
                  * name (string) => column name
                  * dataType (object) => column metadata
                       * type (string) => column data type
-                      * precision (number, optional) => column
-                        precision
+                      * precision (number, optional) => column precision
                       * scale (number, optional) => column scale
-                      * size (number, optional) => maximum size in
-                        bytes of a column value
-                      * characterSet (string, optional) => character
-                        encoding of a text column
-                      * withLocalTimeZone (true | false, optional) =>
-                        specifies if a timestamp has a local time zone
-                      * fraction (number, optional) => fractional part
-                        of number
-                      * srid (number, optional) => spatial reference
-                        system identifier
-            * data (array[]) => object containing the data for the
-              prepared statement in column-major order
+                      * size (number, optional) => maximum size in bytes of a column value
+                      * characterSet (string, optional) => character encoding of a text column
+                      * withLocalTimeZone (true | false, optional) => specifies if a timestamp has a local time zone
+                      * fraction (number, optional) => fractional part of number
+                      * srid (number, optional) => spatial reference system identifier
+            * data (array[]) => object containing the data for the prepared statement in column-major order
   * exception (object, optional) =>  only present if status is "error"
-       * text (string) => exception message which provides error
-         details
-       * sqlCode (string) => five-character exception code if known,
-         otherwise "00000"
+       * text (string) => exception message which provides error details
+       * sqlCode (string) => five-character exception code if known, otherwise "00000"
 
 Response JSON format
 ```

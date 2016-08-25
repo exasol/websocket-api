@@ -1,3 +1,14 @@
+# Introduction
+
+This is an implementation of PEP 249 (https://www.python.org/dev/peps/pep-0249/)
+"Python Database API Specification v2.0" for EXASOL.
+
+This driver uses the EXASOL Websocket API protocol with JSON 
+as serialization format. It is usable as a drop-in replacement 
+for PyODBC and similar ODBC based packages and does not require 
+any driver manager.
+
+
 # Installation
 
 To install this driver with `pip` enter following command:

@@ -22,7 +22,7 @@ Small example, which shows how to create a connection and execute some query:
 ```python
 import EXASOL
 
-with EXASOL.connect('ws://10.10.1.1:8563') as connection:
+with EXASOL.connect('ws://10.10.1.1:8563', 'user', 'pwd') as connection:
      with connection.cursor() as cursor:
           cursor.execute('SELECT * FROM someschema.sometable')
           for row in cursor:

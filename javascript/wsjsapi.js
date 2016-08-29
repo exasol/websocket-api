@@ -169,6 +169,7 @@ var Exasol = function(url, user, pass, onconnect, onerror) {
                         context.publicKey = response['publicKey'];
                         context.com({"username": user,
                                      "password": pw,
+                                     "useCompression": false,
                                      "clientName": "EXAJS",
                                      "driverName": "WS",
                                      "clientOs": "Browser",

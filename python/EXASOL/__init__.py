@@ -234,15 +234,14 @@ class cursor(object):
     def _execute_simple(self, operation, rep = None):
         if rep is None:
             rep = self.connection._req(command = 'execute', sqlText = operation)
-        if rep.get('numResults', 0) != 1:
-            raise NotSupportedError('only single result querys supported, got %d resuts' % rep.get('numResuts', 0))
-        rep = rep['results'][0]
         if rep['resultType'] == 'rowCount':
             self._fetch_reset()
-            self.rowcount = rep['rowCount']
+            self.rowcount = rep['numRows']
             return self.rowcount
         if rep['resultType'] == 'resultSet':
-            self._result = rep['resultSet']
+            if len(rep['resultSets']) != 1:
+                raise NotSupportedError('only single result querys supported, got %d resuts' % rep.get('numResuts', 0))
+            self._result = rep['resultSets'][0]
             self.rowcount = self._result['numRows']
             self.description = []
             for col in self._result['columns']:

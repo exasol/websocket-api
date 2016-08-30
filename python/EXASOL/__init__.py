@@ -76,6 +76,9 @@ class timer:
         self._pti += pt - self._pt
         self._pci += pc - self._pc
 
+def defaultTypeMapper(column, data):
+    return data
+
 class cursor(object):
     """Cursor for EXASOL DB result sets
 
@@ -185,6 +188,10 @@ class cursor(object):
                 self._currow += restfetch
                 self._realpos += restfetch
             if ret is None: return None
+            cols = self.description
+            typm = self.connection._type_mapper
+            for i in range(len(ret)):
+                ret[i] = typm(cols[i], ret[i])
             if not self.connection.columnar_mode:
                 ret = list(zip(*ret))
         return ret
@@ -291,7 +298,11 @@ class connect(object):
     columnar_mode = False # in columnar mode executemany expects list of columns as parameters
                           # and fetchmany returns list of columns instead list of rows
 
-    def __init__(self, url, username, password, autocommit = False, queryTimeout = 60, useCompression = False):
+    def __init__(self, url, username, password,
+                 autocommit = False,
+                 queryTimeout = 60,
+                 useCompression = False,
+                 typeMapper = defaultTypeMapper):
         """Create the connection
 
         Parameters:
@@ -311,6 +322,7 @@ class connect(object):
         self._attributes = None
         self._compression = useCompression
         self._inconnect = False
+        self._type_mapper = typeMapper
         self._connect()
         self._login()
 

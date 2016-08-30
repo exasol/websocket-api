@@ -234,14 +234,15 @@ class cursor(object):
     def _execute_simple(self, operation, rep = None):
         if rep is None:
             rep = self.connection._req(command = 'execute', sqlText = operation)
-        if rep['resultType'] == 'rowCount':
+        if len(rep.get('results', [])) != 1:
+            raise NotSupportedError('only single result querys supported, got %d resuts' % rep.get('numResults', 0))
+        res = rep['results'][0]
+        if res['resultType'] == 'rowCount':
             self._fetch_reset()
-            self.rowcount = rep['numRows']
+            self.rowcount = res['rowCount']
             return self.rowcount
-        if rep['resultType'] == 'resultSet':
-            if len(rep['resultSets']) != 1:
-                raise NotSupportedError('only single result querys supported, got %d resuts' % rep.get('numResuts', 0))
-            self._result = rep['resultSets'][0]
+        if res['resultType'] == 'resultSet':
+            self._result = res['resultSet']
             self.rowcount = self._result['numRows']
             self.description = []
             for col in self._result['columns']:
@@ -351,6 +352,8 @@ class connect(object):
         """Get or set the session attributes"""
         if attrs is not None or self._attributes is None:
             if attrs is not None:
+                # HACK, should be removed
+                del attrs.__dict__['openTransaction']
                 self._req(command = 'setAttributes', attributes = attrs.__dict__)
             self._attributes = attributes(self._req(command = 'getAttributes'))
         return self._attributes

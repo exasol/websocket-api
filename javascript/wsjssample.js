@@ -22,12 +22,13 @@ function printResult(res) {
 function formExecute() {
     sqlText = document.getElementById("query").value;
     document.getElementById("result").innerHTML = "";
-    exa.com({'command': 'execute', 'sqlText': sqlText}, function(res) {
-        console.log("OK: " + JSON.stringify(rep));
+    exa.com({'command': 'execute', 'sqlText': sqlText}, function(rep) {
+        res = rep.results[0];
+        console.log("OK: " + JSON.stringify(res));
         if (res.resultType == 'rowCount') {
-            document.getElementById("result").innerHTML = res.numRows + " rows";
+            document.getElementById("result").innerHTML = res.rowCount + " rows";
         } else if (res.resultType == 'resultSet') {
-            var rset = res.resultSets[0];
+            var rset = res.resultSet;
             if (rset.data != undefined) {
                 rset.dataRows = rset.numRows;
                 printResult(rset);

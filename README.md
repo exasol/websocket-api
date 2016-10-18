@@ -1,4 +1,7 @@
 # WebSockets API 
+
+###### Please note that this is an open source project which is officially supported by EXASOL. For any question, you can contact our support team.
+
 The JSON over WebSockets client-server protocol allows customers to 
 implement their own drivers for all kinds of platforms using a
 connection-based web protocol.

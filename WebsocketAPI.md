@@ -484,7 +484,7 @@ Response fields:
         * resultType (string) => type of result: "resultSet" or "rowCount"
         * rowCount (number, optional) => present if resultType is "rowCount", number of rows
         * resultSet (object, optional) => present if resultType is "resultSet", result set
-          * resultSetHandle (number) => result set handle
+          * resultSetHandle (number, optional) => result set handle
           * numColumns (number) => number of columns in the result set
           * numRows (number) => number of rows in the result set
           * numRowsInMessage (number) => number of rows in the current message
@@ -569,6 +569,8 @@ Response JSON format
 This command executes a prepared statement which has already been
 created.
 
+If the SQL statement returns a result set which has less than 1,000 rows of data, the data will be provided in the data field of resultSet. However if the SQL statement returns a result set which has 1,000 or more rows of data, a result set will be opened whose handle is returned in the resultSetHandle field of resultSet. Using this handle, the data from the result set can be retrieved using the Fetch command. Once the result set is no longer needed, it should be closed using the CloseResultSet command.
+
 Request fields:
   * command (string) => command name: "executePreparedStatement"
   * attributes (object, optional) =>   attributes to set for the connection (see below)
@@ -625,7 +627,7 @@ Response fields:
       * resultType (string) => type of result: "resultSet" or "rowCount"
       * rowCount (number, optional) => present if resultType is "rowCount", number of rows
       * resultSet (object, optional) => present if resultType is "resultSet", result set
-        * resultSetHandle (number) => result set handle
+        * resultSetHandle (number, optional) => result set handle
         * numColumns (number) => number of columns in the result set
         * numRows (number) => number of rows in the result set
         * numRowsInMessage (number) => number of rows in the current message
@@ -640,7 +642,7 @@ Response fields:
             * withLocalTimeZone (true | false, optional) => specifies if a timestamp has a local time zone
             * fraction (number, optional) => fractional part of number
             * srid (number, optional) => spatial reference system identifier
-        * data (array[]) => object containing the data for the prepared statement in column-major order
+        * data (array[], optional) => object containing the data for the prepared statement in column-major order
   * exception (object, optional) =>  only present if status is "error"
     * text (string) => exception message which provides error details
     * sqlCode (string) => five-character exception code if known, otherwise "00000"
@@ -741,6 +743,8 @@ Response JSON format
 
 This command executes an SQL statement.
 
+If the SQL statement returns a result set which has less than 1,000 rows of data, the data will be provided in the data field of resultSet. However if the SQL statement returns a result set which has 1,000 or more rows of data, a result set will be opened whose handle is returned in the resultSetHandle field of resultSet. Using this handle, the data from the result set can be retrieved using the Fetch command. Once the result set is no longer needed, it should be closed using the CloseResultSet command.
+
 Request fields:
   * command (string) => command name: "executePreparedStatement"
   * attributes (object) => attributes to set for the connection (see below)
@@ -769,7 +773,7 @@ Response fields:
         * resultSetHandle (number) => result set handle
         * numColumns (number) => number of columns in the result set
         * numRows (number) => number of rows in the result set
-        * numRowsInMessage (number) => number of rows in the current message
+        * numRowsInMessage (number, optional) => number of rows in the current message
         * columns (object[]) => array of column metadata objects
           * name (string) => column name
           * dataType (object) => column metadata
@@ -781,7 +785,7 @@ Response fields:
             * withLocalTimeZone (true | false, optional) => specifies if a timestamp has a local time zone
             * fraction (number, optional) => fractional part of number
             * srid (number, optional) => spatial reference system identifier
-        * data (array[]) => object containing the data for the prepared statement in column-major order
+        * data (array[], optional) => object containing the data for the prepared statement in column-major order
   * exception (object, optional) =>  only present if status is "error"
     * text (string) => exception message which provides error details
     * sqlCode (string) => five-character exception code if known, otherwise "00000"
@@ -976,6 +980,8 @@ Response JSON format
 
 This command executes multiple SQL statements sequentially as a batch.
 
+If the SQL statement returns a result set which has less than 1,000 rows of data, the data will be provided in the data field of resultSet. However if the SQL statement returns a result set which has 1,000 or more rows of data, a result set will be opened whose handle is returned in the resultSetHandle field of resultSet. Using this handle, the data from the result set can be retrieved using the Fetch command. Once the result set is no longer needed, it should be closed using the CloseResultSet command.
+
 Request fields:
   * command (string) => command name: "executeBatch"
   * attributes (object, optional) => attributes to set for the connection (see below)
@@ -1003,7 +1009,7 @@ Response fields:
       * resultType (string) => type of result: "resultSet" or "rowCount"
       * rowCount (number, optional) => present if resultType is "rowCount", number of rows
       * resultSet (object, optional) => present if resultType is "resultSet", result set
-        * resultSetHandle (number) => result set handle
+        * resultSetHandle (number, optional) => result set handle
         * numColumns (number) => number of columns in the result set
         * numRows (number) => number of rows in the result set
         * numRowsInMessage (number) => number of rows in the current message
@@ -1018,7 +1024,7 @@ Response fields:
             * withLocalTimeZone (true | false, optional) => specifies if a timestamp has a local time zone
             * fraction (number, optional) => fractional part of number
             * srid (number, optional) => spatial reference system identifier
-        * data (array[]) => object containing the data for the prepared statement in column-major order
+        * data (array[], optional) => object containing the data for the prepared statement in column-major order
   * exception (object, optional) =>  only present if status is "error"
     * text (string) => exception message which provides error details
     * sqlCode (string) => five-character exception code if known, otherwise "00000"
@@ -1156,7 +1162,7 @@ Response fields:
     * results (object[]) => array of result objects
       * resultType (string) => type of result: "resultSet"
       * resultSet (object) => result set
-        * resultSetHandle (number) => result set handle
+        * resultSetHandle (number, optional) => result set handle
         * numColumns (number) => number of columns in the result set
         * numRows (number) => number of rows in the result set
         * numRowsInMessage (number) => number of rows in the current message

@@ -847,7 +847,7 @@ Request fields:
   * command (string) => command name: "fetch"
   * attributes (object, optional) =>  attributes to set for the connection (see below)
   * resultSetHandle (number) => result set handle
-  * startPosition (number) => row offset (0-bytes) from which to begin data retrieval
+  * startPosition (number) => row offset (0-based) from which to begin data retrieval
   * numBytes (number) => number of bytes to retrieve
 
 Request JSON format

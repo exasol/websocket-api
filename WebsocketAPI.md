@@ -848,7 +848,7 @@ Request fields:
   * attributes (object, optional) =>  attributes to set for the connection (see below)
   * resultSetHandle (number) => result set handle
   * startPosition (number) => row offset (0-based) from which to begin data retrieval
-  * numBytes (number) => number of bytes to retrieve
+  * numBytes (number) => number of bytes to retrieve (max: 64MB)
 
 Request JSON format
 ```

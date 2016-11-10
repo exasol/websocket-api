@@ -62,7 +62,7 @@ The login process is composed of four steps:
      * protocolVersion (number) => requested WebSocket protocol version, (e.g., 1)
    
    Request JSON format
-   ```
+   ```javascript
     {
         "command": "login",
         "protocolVersion": <number>
@@ -85,7 +85,7 @@ The login process is composed of four steps:
        * sqlCode (string) => five-character exception code if known, otherwise "00000"
    
    Response JSON format
-   ```
+   ```javascript
     {
         "status": <"ok" | "error">,
         // if status is "ok"
@@ -121,7 +121,7 @@ The login process is composed of four steps:
      * attributes (object, optional) => array of attributes to set for the connection (see below)
    
    Request JSON format
-   ```
+   ```javascript
     {
         "username": <string>,
         "password": <string>,
@@ -166,7 +166,7 @@ The login process is composed of four steps:
        * sqlCode (string) => five-character exception code if known, otherwise "00000"
    
    Response JSON format
-   ```
+   ```javascript
     {
         "status": <"ok" | "error">,
         // if status is "ok"
@@ -208,7 +208,7 @@ The login process is composed of four steps:
      * protocolVersion (number) => requested WebSocket protocol version, (e.g., 1)
    
    Request JSON format
-   ```
+   ```javascript
     {
         "command": "subLogin",
         "protocolVersion": <number>
@@ -232,7 +232,7 @@ The login process is composed of four steps:
        * sqlCode (string) => five-character exception code if known, otherwise "00000"
    
    Response JSON format
-   ```
+   ```javascript
     {
         "status": <"ok" | "error">,
         // if status is "ok"
@@ -258,7 +258,7 @@ The login process is composed of four steps:
      * token (number) => token required for subconnection logins (see, EnterParallel)
    
    Request JSON format
-   ```
+   ```javascript
     {
         "username": <string>,
         "password": <string>,
@@ -292,7 +292,7 @@ The login process is composed of four steps:
        * sqlCode (string) => five-character exception code if known, otherwise "00000"
    
    Response JSON format
-   ```
+   ```javascript
     {
         "status": <"ok" | "error">,
         // if status is "ok"
@@ -330,7 +330,7 @@ Request fields:
   * attributes (object, optional) => attributes to set for the connection (see below)
 
 Request JSON format
-```
+```javascript
  {
      "command": "disconnect",
      "attributes": {
@@ -347,7 +347,7 @@ Response fields:
     * sqlCode (string) => five-character exception code if known, otherwise "00000"
 
 Reponse JSON format
-```
+```javascript
  {
      "status": <"ok" | "error">,
      "attributes": {
@@ -370,7 +370,7 @@ Request fields:
   * attributes (object, optional) => attributes to set for the connection (see below)
 
 JSON format
-```
+```javascript
  {
      "command": "getAttributes",
      "attributes": {
@@ -387,7 +387,7 @@ Response fields:
     * sqlCode (string) => five-character exception code if known, otherwise "00000"
 
 Reponse JSON format
-```
+```javascript
  {
      "status": <"ok" | "error">,
      "attributes": {
@@ -410,7 +410,7 @@ Request fields:
   * attributes (object, optional) =>  attributes to set for the connection (see below)
 
 Request JSON format
-```
+```javascript
  {
      "command": "setAttributes",
      "attributes": {
@@ -427,7 +427,7 @@ Response fields:
     * sqlCode (string) => five-character exception code if known, otherwise "00000"
 
 Response JSON format
-```
+```javascript
  {
      "status": <"ok" | "error">,
      "attributes": {
@@ -451,7 +451,7 @@ Request fields:
   * sqlText (string) => SQL statement
 
 Request JSON format
-```
+```javascript
  {
      "command": "createPreparedStatement",
      "attributes": {
@@ -504,7 +504,7 @@ Response fields:
     * sqlCode (string) => five-character exception code if known, otherwise "00000"
 
 Response JSON format
-```
+```javascript
  {
      "status": <"ok" | "error">,
      "attributes": {
@@ -591,7 +591,7 @@ Request fields:
   * data (array[], optional) => array containing the data for the prepared statement in column-major order
 
 Request JSON format
-```
+```javascript
  {
     "command": "executePreparedStatement",
     "attributes": {
@@ -613,7 +613,11 @@ Request JSON format
             "srid": <number>
         }
     } ],
-    "data": [ [ <string | number | true | false | null> ] ]
+    "data": [
+        [
+            <string | number | true | false | null>
+        ]
+    ]
  }
 ```
 
@@ -648,7 +652,7 @@ Response fields:
     * sqlCode (string) => five-character exception code if known, otherwise "00000"
 
 Response JSON format
-```
+```javascript
  {
      "status": <"ok" | "error">,
      "attributes": {
@@ -707,7 +711,7 @@ Request fields:
   * statementHandle (number) => prepared statement handle
 
 Request JSON format
-```
+```javascript
  {
      "command": "closePreparedStatement",
      "attributes": {
@@ -725,7 +729,7 @@ Response fields:
     * sqlCode (string) => five-character exception code if known, otherwise "00000"
 
 Response JSON format
-```
+```javascript
  {
      "status": <"ok" | "error">,
      "attributes": {
@@ -751,7 +755,7 @@ Request fields:
   * sqlText (string) => SQL statement to execute
 
 Request JSON format
-```
+```javascript
  {
      "command": "execute",
      "attributes": {
@@ -791,7 +795,7 @@ Response fields:
     * sqlCode (string) => five-character exception code if known, otherwise "00000"
 
 Response JSON format
-```
+```javascript
  {
      "status": <"ok" | "error">,
      "attributes": {
@@ -851,7 +855,7 @@ Request fields:
   * numBytes (number) => number of bytes to retrieve (max: 64MB)
 
 Request JSON format
-```
+```javascript
  {
      "command": "fetch",
      "attributes": {
@@ -873,13 +877,17 @@ Response fields:
     * sqlCode (string) => five-character exception code if known, otherwise "00000"
 
 Response JSON format
-```
+```javascript
  {
      "status": <"ok" | "error">,
      // in case of "ok"
      "responseData": {
              "numRows": <number>,
-             "data": [ [ <string | number | true | false | null> ] ]
+             "data": [
+                 [
+                     <string | number | true | false | null>
+                 ]
+             ]
      },
      // in case of "error"
      "exception": {
@@ -899,7 +907,7 @@ Request fields:
   * resultSetHandles (number[]) => array of result set handles
 
 Request JSON format
-```
+```javascript
  {
      "command": "closeResultSet",
      "attributes": {
@@ -916,7 +924,7 @@ Response fields:
     * sqlCode (string) => five-character exception code if known, otherwise "00000"
 
 Response JSON format
-```
+```javascript
  {
      "status": <"ok" | "error">,
      // in case of "error"
@@ -937,7 +945,7 @@ Request fields:
   * attributes (object, optional) => attributes to set for the connection (see below)
 
 Request JSON format
-```
+```javascript
  {
      "command": "getHosts",
      "attributes": {
@@ -958,7 +966,7 @@ Response fields:
          otherwise "00000"
 
 Response JSON format
-```
+```javascript
  {
      "status": <"ok" | "error">,
      // in case of "ok"
@@ -988,7 +996,7 @@ Request fields:
   * sqlTexts (string[]) => array of SQL statement to execute
 
 Request JSON format
-```
+```javascript
  {
      "command": "executeBatch",
      "attributes": {
@@ -1030,7 +1038,7 @@ Response fields:
     * sqlCode (string) => five-character exception code if known, otherwise "00000"
 
 Response JSON format
-```
+```javascript
  {
      "status": <"ok" | "error">,
      "attributes": {
@@ -1091,7 +1099,7 @@ Request fields:
   * numRequestedConnections (number) => number of subconnections to open. If 0, all open subconnections are closed.
 
 Request JSON format
-```
+```javascript
  {
      "command": "enterParallel",
      "attributes": {
@@ -1112,7 +1120,7 @@ Response fields:
     * sqlCode (string) => five-character exception code if known, otherwise "00000"
 
 Response JSON format
-```
+```javascript
  {
      "status": <"ok" | "error">,
      // in case of "ok"
@@ -1142,7 +1150,7 @@ Request fields:
   * resultSetHandles (number[]) => array of open result set handles
 
 Request JSON format
-```
+```javascript
  {
      "command": "getResultSetHeader",
      "attributes": {
@@ -1182,7 +1190,7 @@ Response fields:
     * sqlCode (string) => five-character exception code if known, otherwise "00000"
 
 Response JSON format
-```
+```javascript
  {
      "status": <"ok" | "error">,
      "attributes": {
@@ -1234,7 +1242,7 @@ Request fields:
   * resultSetHandle (number) => open result set handle
 
 Request JSON format
-```
+```javascript
  {
      "command": "getOffset",
      "attributes": {
@@ -1253,7 +1261,7 @@ Response fields:
     * sqlCode (string) => five-character exception code if known, otherwise "00000"
 
 Response JSON format
-```
+```javascript
  {
      "status": <"ok" | "error">,
      // in case of "ok"
@@ -1276,7 +1284,7 @@ Request fields:
   * command (string) => command name: "abortQuery"
 
 Request JSON format
-```
+```javascript
  {
      "command": "abortQuery"
  }
@@ -1311,7 +1319,7 @@ attributes are included in command replies.
 Attributes are specified as an object of name/value pairs. Multiple attributes are separated by a comma.
 
 Attribute JSON format
-```
+```javascript
  {
      // name: value
      <string>: <string | number | true | false>

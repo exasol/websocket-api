@@ -1325,39 +1325,37 @@ Attribute JSON format
 The following data types and properties can be used to specify column
 types in the executePreparedStatement request.
 
-```
-                Type              Required Properties Optional Properties
-   BOOLEAN
-   CHAR                           size
-   DATE
-   DECIMAL                        precision, scale
-   DOUBLE
-   GEOMETRY
-   INTERVAL DAY TO SECOND         precision, fraction
-   INTERVAL YEAR TO MONTH         precision
-   TIMESTAMP                                          withLocalTimeZone
-   TIMESTAMP WITH LOCAL TIME ZONE                     withLocalTimeZone
-   VARCHAR                        size
-```
+| Type | Required Properties | Optional Properties |
+| --- | --- | --- |
+| BOOLEAN | |
+| CHAR | size | |
+| DATE | | |
+| DECIMAL | precision, scale | |
+| DOUBLE | | |
+| GEOMETRY | | |
+| INTERVAL DAY TO SECOND | precision, fraction | |
+| INTERVAL YEAR TO MONTH | precision | |
+| TIMESTAMP | | withLocalTimeZone |
+| TIMESTAMP WITH LOCAL TIME ZONE | | withLocalTimeZone |
+| VARCHAR | size | |
 
 
 The following data types and properties are used to specify column
 types in responses from EXASOL.
 
-```
-                Type                     Properties
-   BOOLEAN
-   CHAR                           size, characterSet
-   DATE                           size
-   DECIMAL                        precision, scale
-   DOUBLE
-   GEOMETRY                       size, srid
-   INTERVAL DAY TO SECOND         size, precision, fraction
-   INTERVAL YEAR TO MONTH         size, precision
-   TIMESTAMP                      size, withLocalTimeZone
-   TIMESTAMP WITH LOCAL TIME ZONE size, withLocalTimeZone
-   VARCHAR                        size, characterSet
-```
+| Type | Properties |
+| --- | --- |
+| BOOLEAN | |
+| CHAR | size, characterSet |
+| DATE | size |
+| DECIMAL | precision, scale |
+| DOUBLE | |
+| GEOMETRY | size, srid |
+| INTERVAL DAY TO SECOND | size, precision, fraction |
+| INTERVAL YEAR TO MONTH | size, precision |
+| TIMESTAMP | size, withLocalTimeZone |
+| TIMESTAMP WITH LOCAL TIME ZONE | size, withLocalTimeZone |
+| VARCHAR | size, characterSet |
 
 ## Compression
 

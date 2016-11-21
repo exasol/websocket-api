@@ -1,10 +1,18 @@
-# Installation
+# Introduction
 
-Copy the files `wsapi.js` and `bigint.js` to your webserver or directory, where you can access it.
+This is a protoype implementation of a web client for EXASOL which uses the EXASOL WebSocket protocol API with JSON as the serialization format.
 
-# Usage
+# Web Interface Usage
 
-To connect use the `Exasol` object with the connection string, user name and password as the first three arguments. The fourth argument is a function, which is called after successfull connection. The fifth argument is a function whith is called on connection error and ond errors which happens on usage of this object.
+A recent or similar version of this code is already included with EXASOL 6.0. It may be updated from time to time in future versions.
+
+To access the web interface, simply enter the following URL into the web browser: `http://<exa-host>:8563/console.html`.
+
+Note: HTTPS is currently unsupported.
+
+# Code Usage
+
+To connect, use the `Exasol` object with the connection string, user name and password as the first three arguments. The fourth argument is a function, which is called after the connection has been successfully established. The fifth argument is a function which is called on connection error and on errors related to the usage of this object.
 
 ```
 var exa = new Exasol("ws://127.0.0.1:8563", "sys", "exasol",
@@ -16,7 +24,7 @@ var exa = new Exasol("ws://127.0.0.1:8563", "sys", "exasol",
                      });
 ```
 
-To communicate with the database, use the `com` method, for example to execute a query:
+To communicate with the database, use the `com` method. For example, to execute a query:
 ```
 exa.com({'command': 'execute', 'sqlText': 'SELECT * FROM cat'},
         function(rep) {
@@ -24,7 +32,7 @@ exa.com({'command': 'execute', 'sqlText': 'SELECT * FROM cat'},
         }, exa.onerror);
 ```
 
-The last two arguments are again functions, which are executed on success respective on error whith the result as argument. The error handler, given with in connection is accessible throug `onerror` member variable.
+The last two arguments are again functions, which are executed on success or on error with the result as the argument. The error handler, given with the connection, is accessible through the `onerror` member variable.
 
 To fetch the data, you can use integrated fetch method `com` method or the shorter `fetch` method:
 ```
@@ -37,4 +45,4 @@ exa.com({'command': 'execute', 'sqlText': 'SELECT * FROM cat'},
         }, exa.onerror);
 ```
 
-For more information about the protocol please reffer the websocket api reference.
+For more information about the protocol, please refer to the WebSocket API reference.

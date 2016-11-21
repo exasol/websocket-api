@@ -46,3 +46,12 @@ exa.com({'command': 'execute', 'sqlText': 'SELECT * FROM cat'},
 ```
 
 For more information about the protocol, please refer to the WebSocket API reference.
+
+# Open-Source Library Usage
+
+This implementation makes use of the following open-source code.
+
+* BigInteger (in `jsbn/`): http://www-cs-students.stanford.edu/%7Etjw/jsbn/
+* jQuery (in `jquery/`): http://jquery.com
+* DataTables (in `DataTables/`): https://datatables.net
+* CodeMirror (in `codemirror/`): https://github.com/codemirror/CodeMirror

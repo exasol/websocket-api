@@ -467,9 +467,9 @@ Response fields:
   * responseData (object, optional) => only present if status is "ok"
     * statementHandle (number) => prepared statement handle
     * parameterData (object) => prepared statement parameter information
-      * numColumns (number) => number of columns in columns
+      * numColumns (number) => number of columns
       * columns (object[]) => array of column metadata objects
-        * name (string) => column name
+        * name (string) => column name: always "" as named parameters are not supported
         * dataType (object) => column metadata
         * type (string) => column data type
         * precision (number, optional) => column precision

@@ -1,6 +1,6 @@
 # EXASOL JSON over WebSockets API - Introduction
 
-## Why an WebSockets API?
+## Why a WebSockets API?
 
 The JSON over WebSockets client-server protocol allows customers to 
 implement their own drivers for all kinds of platforms using a 
@@ -1410,7 +1410,7 @@ After a subconnection is no longer needed, the disconnect command should be call
 
 ### Example
 
-The following is a pseudocode example of how to create, use, and close subconnections to fetch a result set from an executed prepared statement. If subconnections have already been created or are needed afterwards, the enterParallel, subLogin, and disconnect commands may be ignored.
+The following is an example of how to create, use, and close subconnections to fetch a result set from an executed prepared statement. If subconnections have already been created or are needed afterwards, the enterParallel, subLogin, and disconnect commands may be ignored.
 
 1. On main connection:
    * Create subconnections (enterParallel)

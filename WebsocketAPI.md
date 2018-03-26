@@ -1387,3 +1387,45 @@ EXASOL, for example, as client-initiated keepalives. EXASOL
 will respond to a Ping frame with a Pong response.
 
 EXASOL will not send Ping frames to the client.
+
+## Subconnections
+
+### Introduction
+
+Subconnections are additional connections to EXASOL cluster nodes which can be created by the client. The main reason to create and use subconnections, as opposed to simply using the existing main connection, is to parallelize fetching/inserting data from/into EXASOL.
+
+For example, fetching a result set from EXASOL can be done easily using the main connection. In this scenario, the EXASOL cluster nodes will automatically send their data to the node which is connected to the client. This node then sends the combined data as a single result set. Thus, the client does not need to be aware of any data sharing/communication among the EXASOL cluster nodes.
+
+However, for performance-critical scenarios, a significant performance gain can be acheived by using subconnections to fetch/insert data directly from/into multiple EXASOL cluster nodes in parallel. Thus, instead of all the data going through the single main connection, the data can flow through multiple subconnections to different EXASOL nodes in parallel.
+
+Please note that subconnections are only useful for multi-node EXASOL clusters. With a single-node EXASOL instance, the subconnection would basically be a duplicate of the main connection.
+
+### How to create and use subconnections
+
+Subconnections are created using the enterParallel command. The number of requested subconnections can be specified by the user, and the number of subconnections actually opened is given in the enterParallel response. Please note that the maximum number of subconnections is equal to the number of nodes in the EXASOL cluster. For example, if the user has an eight-node cluster and requests 1,000 subconnections, only eight subconnections will be opened. As a general rule, the number of subconnections should usually be equal to the number of nodes in the EXASOL cluster, which ensures one subconnection per node. After the subconnections have been created, the subLogin command should be used to login to each subconnection. Note: Failing to login to all subconnections will cause the login to hang. After this, they are ready for use.
+
+:warning: Any command can be executed on subconnections; however, there is a significant difference in *how* they can be executed. The only two commands which can be executed ansynchronously on subconnections (i.e., not executed on all subconnections at the same time) are fetch and executePrepared. All other commands are synchronous, meaning the same command must be executed on all subconnections at the same time. For example, if the execute command is not called on all subconnections, the call will hang and eventually fail because of a time out.
+
+After a subconnection is no longer needed, the disconnect command should be called and the WebSocket for it closed as normal. Please note that subconnections can be reused for multiple statements.
+
+### Example
+
+The following is a pseudocode example of how to create, use, and close subconnections to fetch a result set from an executed prepared statement. If subconnections have already been created or are needed afterwards, the enterParallel, subLogin, and disconnect commands may be ignored.
+
+1. On main connection:
+   * Create subconnections (enterParallel)
+
+2. On subconnections:
+   * Login to subconnection (subLogin)
+
+3. On main connection:
+   * Execute prepared statement (executePreparedStatement)
+
+4. On subconnections:
+   * Get result set offset (getOffset)
+   * Fetch result set data using the offset (fetch)
+   * Close result set (closeResultSet)
+   * Disconnect (disconnect)
+
+5. On main connection:
+   * Close result set (closeResultSet)

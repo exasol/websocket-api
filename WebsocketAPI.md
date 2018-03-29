@@ -943,6 +943,7 @@ an EXASOL cluster.
 Request fields:
   * command (string) => command name: "getHosts"
   * attributes (object, optional) => attributes to set for the connection (see below)
+  * hostIp (string) => IP address of the EXASOL host to which the client is currently connected (i.e., the EXASOL host used to create the connection; e.g., ws://\<hostIp\>:8563)
 
 Request JSON format
 ```javascript
@@ -950,7 +951,8 @@ Request JSON format
      "command": "getHosts",
      "attributes": {
              // as defined separately
-     }
+     },
+     "hostIp": <string>
  }
 ```
 
@@ -1096,6 +1098,7 @@ are closed.
 Request fields:
   * command (string) => command name: "enterParallel"
   * attributes (object, optional) => attributes to set for the connection (see below)
+  * hostIp (string) => IP address of the EXASOL host to which the client is currently connected (i.e., the EXASOL host used to create the connection; e.g., ws://\<hostIp\>:8563)
   * numRequestedConnections (number) => number of subconnections to open. If 0, all open subconnections are closed.
 
 Request JSON format
@@ -1105,6 +1108,7 @@ Request JSON format
      "attributes": {
              // as defined separately
      },
+     "hostIp": <string>,
      "numRequestedConnections": <number>
  }
 ```

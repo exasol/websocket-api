@@ -302,7 +302,8 @@ class connect(object):
                  autocommit = False,
                  queryTimeout = 60,
                  useCompression = False,
-                 typeMapper = defaultTypeMapper):
+                 typeMapper = defaultTypeMapper,
+                 **options):
         """Create the connection
 
         Parameters:
@@ -311,6 +312,7 @@ class connect(object):
         autocommit: enable or disable autocommit on connection
         queryTimeout: wait maximal givent time for an answer
         useCompression: enable or disable compressed communication
+        options: custom websocket options (see https://github.com/websocket-client/websocket-client)
         """
         self._timers = {}
         self._url = url
@@ -323,6 +325,7 @@ class connect(object):
         self._compression = useCompression
         self._inconnect = False
         self._type_mapper = typeMapper
+        self._options = options
         self._connect()
         self._login()
 
@@ -413,7 +416,7 @@ class connect(object):
         with timer(self, 'conn'):
             try:
                 self._inconnect = True
-                self.__ws = create_connection(self._url)
+                self.__ws = create_connection(self._url, **self._options)
                 self._ws_send = self.__ws.send
                 self._ws_recv = self.__ws.recv
                 ret = self._req(command = 'login', protocolVersion = 1)
@@ -439,7 +442,7 @@ class connect(object):
                     'driverName': DRIVER_NAME,
                     'clientOs': '%s %s %s' % (platform.system(), platform.release(), platform.version()),
                     'useCompression': self._compression,
-                    'clienOsUsername': getpass.getuser(),
+                    'clientOsUsername': getpass.getuser(),
                     'clientVersion': CLIENT_VERSION,
                     'clientRuntime': 'Python %s' % platform.python_version()}
             if self._session_id is not None:

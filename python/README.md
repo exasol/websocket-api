@@ -18,7 +18,7 @@ $> pip install 'git+http://github.com/EXASOL/websocket-api.git#egg=exasol-ws-api
 
 # Usage
 
-Small example, which shows how to create a connection and execute some query:
+A small example, which shows how to create a connection and execute some query:
 ```python
 import EXASOL
 
@@ -28,8 +28,23 @@ with EXASOL.connect('ws://10.10.1.1:8563', 'user', 'pwd') as connection:
           for row in cursor:
               print(row)
 ```
-
+To create a secure WebSocket connection, simply specify `wss://` instead of `ws://` in the URL.
 
 Please see also Python DB API v2.0 documentation for further details:
 https://www.python.org/dev/peps/pep-0249/
 
+### Optional WebSocket connection options
+
+This driver uses the `websocket_client` module as a low-level WebSocket client. Optional connection details for the `websocket_client` module can be specified as keyword arguments in `EXASOL.connect()`. For details on the possible connection options, please see https://github.com/websocket-client/websocket-client.
+
+For example, to disable SSL certificate validation while creating a secure connection, `sslopt={"cert_reqs": ssl.CERT_NONE}` should be specified.
+```python
+import EXASOL
+import ssl
+
+with EXASOL.connect('wss://10.10.1.1:8563', 'user', 'pwd', sslopt={"cert_reqs": ssl.CERT_NONE}) as connection:
+     with connection.cursor() as cursor:
+          cursor.execute('SELECT * FROM someschema.sometable')
+          for row in cursor:
+              print(row)
+```

@@ -42,7 +42,7 @@ with EXASOL.connect('wss://10.10.1.1:8563', 'user', 'pwd') as connection:
               print(row)
 ```
 
-### Optional connection options
+### Specification of connection options
 
 Optional connection details can be specified as keyword arguments in `EXASOL.connect()`. These are passed to the `websocket_client` module, which is used as a low-level WebSocket client.  For details on the possible connection options, please see https://github.com/websocket-client/websocket-client.
 

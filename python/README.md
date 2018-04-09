@@ -34,7 +34,7 @@ https://www.python.org/dev/peps/pep-0249/
 ### Secure connections
 
 To create a secure WebSocket connection, simply specify `wss://` instead of `ws://` in the URL.
-```
+```python
 with EXASOL.connect('wss://10.10.1.1:8563', 'user', 'pwd') as connection:
      with connection.cursor() as cursor:
           cursor.execute('SELECT * FROM someschema.sometable')

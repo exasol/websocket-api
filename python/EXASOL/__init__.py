@@ -163,7 +163,11 @@ class cursor(object):
                 rest = self._resdata['numRows']
             else: rest = rsize
             if rest == 0: data = []
-            else: data = self._resdata['data']
+            else:
+                if ('data' in self._resdata):
+                    data = self._resdata['data']
+                else:
+                    data = []
             ret = None
             while True:
                 if rest == 0 or self._realpos >= self.rowcount:

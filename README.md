@@ -13,5 +13,5 @@ ODBC or ADO.NET, which are mostly old and static standards and create
 additional complexity due to the necessary driver managers.
 
 Content:
-* In file WebsocketAPI.md you'll find the API specification of the protocol
+* [API specification of the protocol](WebsocketAPI.md)
 * Several native EXASOL driver implementations using the JSON over WebSockets API protocol

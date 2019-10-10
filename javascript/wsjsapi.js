@@ -1,3 +1,9 @@
+// npm i jsbn
+// npm i ws
+
+jsbn = require('jsbn');
+WebSocket = require('ws');
+
 var json_parse = (function () {
     "use strict";
 
@@ -294,7 +300,8 @@ var json_parse = (function () {
     };
 }());
 
-var Exasol = function(url, user, pass, onconnect, onerror) {
+module.exports = {
+ Exasol : function(url, user, pass, onconnect, onerror) {
     var context = this;
     context.onerror = onerror;
     context.sessionId = "-1";
@@ -436,8 +443,9 @@ var Exasol = function(url, user, pass, onconnect, onerror) {
                 context.connection.onmessage = function(rd) {
                     console.log("Unexpected message: " + rd);
                 };
-                console.log('Got response: ' + repdata.data);
+                //console.log('Got response: ' + repdata.data);
                 rep = json_parse(repdata.data);
+                console.log('Got response: ' + rep.responseData.numRows + ' rows');
                 if (rep['status'] == 'ok') {
                     if (rep['exception'] != undefined)
                         throw ("Database error [" + rep['exception']['sqlCode'] + "] "
@@ -466,7 +474,7 @@ var Exasol = function(url, user, pass, onconnect, onerror) {
 
     context.fetch = function(res, startPosition, numBytes, onResponse) {
         context.com({'command': 'fetch',
-                     'resultSetHandle': +res.resultSetHandle,
+                     'resultSetHandle': +parseInt(res.resultSetHandle),
                      'startPosition': +startPosition,
                      'numBytes': +numBytes},
                     function(rep) {
@@ -500,4 +508,4 @@ var Exasol = function(url, user, pass, onconnect, onerror) {
                                     }, context.onerror);
                     }, context.onerror);
     };
-};
+}};

@@ -490,7 +490,9 @@ module.exports = {
     };
 
     context.inwork = false;
-    context.connection = new WebSocket(url);
+    context.connection = new WebSocket(url, {
+        //cert: ''
+      });
     context.connection.onopen = function () {
         context.com({"command": "login", "protocolVersion": 1},
                     function(response) {

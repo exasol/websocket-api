@@ -39,13 +39,14 @@ connection.connect(
 
             connection.execute({
             //sqlText: "SELECT 5 AS num, 'hi' as txt union all SELECT 7 AS num, 'hello' as txt",
-            sqlText: "SELECT article_id, description, base_sales_price FROM retail.article",
-            //sqlText: "SELECT * FROM retail.sales_positions",
+            //sqlText: "SELECT article_id, description, base_sales_price FROM retail.article",
+            sqlText: "SELECT * FROM retail.sales_positions LIMIT 1000000",
             complete: function(err, stmt, rows) {
                 if (err) {
                 console.error('Failed to execute statement due to the following error: ' + err.message);
                 } else {
                 console.log('Number of rows produced: ' + rows.length);
+                console.log('ARTICLE_ID: '+rows[123456].ARTICLE_ID)
                 elapsed_time('Finish')
                 }
             }

@@ -7,6 +7,8 @@ class ExasolConnection {
     sessionId = null;
     exa_con = null;
 
+    static FETCH_BATCH_SIZE = 1024*100;
+
     constructor(account, username, password) {
         this.account = account
         this.username = username
@@ -55,7 +57,7 @@ class ExasolConnection {
     fetch_next_batch(resultSet, columns, stmt, callback) {
         var err = null
         var conn = this
-        conn.exa_con.fetch(resultSet, conn.numRows_current_pos, 1024*10,
+        conn.exa_con.fetch(resultSet, conn.numRows_current_pos, ExasolConnection.FETCH_BATCH_SIZE,
             function (res) {
                 var new_rows = ExasolConnection.get_rows(res, columns)
                 conn.numRows_current_pos += parseInt(res.numRowsInMessage);

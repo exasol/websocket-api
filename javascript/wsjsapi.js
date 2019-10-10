@@ -4,7 +4,7 @@
 jsbn = require('jsbn');
 WebSocket = require('ws');
 
-var debug = true
+var debug = false
 
 var json_parse = (function () {
     "use strict";

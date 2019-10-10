@@ -4,6 +4,15 @@ exasol = require('./jsexasol');
 
 console.log('Hello');
 
+var start = process.hrtime();
+
+var elapsed_time = function(note){
+    var precision = 3; // 3 decimal places
+    var elapsed = process.hrtime(start)[1] / 1000000; // divide by a million to get nano to milli
+    console.log(process.hrtime(start)[0] + " s, " + elapsed.toFixed(precision) + " ms - " + note); // print message + time
+    start = process.hrtime(); // reset the timer
+}
+
 account = 'localhost:8563'
 user = 'sys'
 password = 'exasol'
@@ -31,11 +40,13 @@ connection.connect(
             connection.execute({
             //sqlText: "SELECT 5 AS num, 'hi' as txt union all SELECT 7 AS num, 'hello' as txt",
             sqlText: "SELECT article_id, description, base_sales_price FROM retail.article",
+            //sqlText: "SELECT * FROM retail.sales_positions",
             complete: function(err, stmt, rows) {
                 if (err) {
                 console.error('Failed to execute statement due to the following error: ' + err.message);
                 } else {
                 console.log('Number of rows produced: ' + rows.length);
+                elapsed_time('Finish')
                 }
             }
             });

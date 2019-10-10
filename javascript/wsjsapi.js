@@ -4,6 +4,8 @@
 jsbn = require('jsbn');
 WebSocket = require('ws');
 
+var debug = true
+
 var json_parse = (function () {
     "use strict";
 
@@ -441,14 +443,14 @@ module.exports = {
             context.inwork = false;
             try {
                 context.connection.onmessage = function(rd) {
-                    console.log("Unexpected message: " + rd);
+                    if (debug) console.log("Unexpected message: " + rd);
                 };
-                //console.log('Got response: ' + repdata.data);
+                //if (debug) console.log('Got response: ' + repdata.data);
                 rep = json_parse(repdata.data);
                 numRows = 'numRows' in rep.responseData ? rep.responseData.numRows : 
                           'results' in rep.responseData ? rep.responseData.results[0].resultSet.numRows : null;
 
-                console.log('Got response: ' + numRows + ' rows');
+                if (debug) console.log('Got response: ' + numRows + ' rows');
                 if (rep['status'] == 'ok') {
                     if (rep['exception'] != undefined)
                         throw ("Database error [" + rep['exception']['sqlCode'] + "] "
@@ -470,7 +472,7 @@ module.exports = {
             throw "Connection already in work";
         }
         
-        console.log('Send request: ' + reqdata);
+        if (debug) console.log('Send request: ' + reqdata);
         context.inwork = true;
         context.connection.send(reqdata);
     };

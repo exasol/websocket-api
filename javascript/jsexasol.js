@@ -37,8 +37,8 @@ class ExasolConnection {
 
     static get_rows(resultSet, columns) {
         var rows = []
-        var data = resultSet.data      /* [ [r1c1, r1c2], [r2c1, r2c2], ...] */
-        for(var r in data) {
+        var data = resultSet.data      /* [ [r1c1, r2c1,...], [r1c1, r2c2,...], ...] */
+        for(var r in data[0]) {
             var row = {}
             for(var c in columns) {
                 row[columns[c].name] = data[c][r]

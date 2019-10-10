@@ -445,7 +445,10 @@ module.exports = {
                 };
                 //console.log('Got response: ' + repdata.data);
                 rep = json_parse(repdata.data);
-                console.log('Got response: ' + rep.responseData.numRows + ' rows');
+                numRows = 'numRows' in rep.responseData ? rep.responseData.numRows : 
+                          'results' in rep.responseData ? rep.responseData.results[0].resultSet.numRows : null;
+
+                console.log('Got response: ' + numRows + ' rows');
                 if (rep['status'] == 'ok') {
                     if (rep['exception'] != undefined)
                         throw ("Database error [" + rep['exception']['sqlCode'] + "] "

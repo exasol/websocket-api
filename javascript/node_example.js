@@ -30,7 +30,7 @@ connection.connect(
 
             connection.execute({
             //sqlText: "SELECT 5 AS num, 'hi' as txt union all SELECT 7 AS num, 'hello' as txt",
-            sqlText: "SELECT 1,2,3 FROM retail.article",
+            sqlText: "SELECT article_id, description, base_sales_price FROM retail.article",
             complete: function(err, stmt, rows) {
                 if (err) {
                 console.error('Failed to execute statement due to the following error: ' + err.message);

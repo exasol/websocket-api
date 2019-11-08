@@ -490,9 +490,10 @@ module.exports = {
     };
 
     context.inwork = false;
-    context.connection = new WebSocket(url, {
-        //cert: ''
-      });
+    context.connection = new WebSocket(url, { "cert_reqs":0,
+        //cert: "-----BEGIN CERTIFICATE-----\nMIIDPTCCAiWgAwIBAgIJAMZU5w2Lf1cPMA0GCSqGSIb3DQEBCwUAMDUxCzAJBgNV\nBAYTAkRFMRIwEAYDVQQHDAlOdXJlbWJlcmcxEjAQBgNVBAoMCUVYQVNPTCBBRzAe\nFw0xOTExMDgxNTExMDdaFw0zMzA3MTcxNTExMDdaMDUxCzAJBgNVBAYTAkRFMRIw\nEAYDVQQHDAlOdXJlbWJlcmcxEjAQBgNVBAoMCUVYQVNPTCBBRzCCASIwDQYJKoZI\nhvcNAQEBBQADggEPADCCAQoCggEBALfypvhPv1vlhAzeMO5Vn6FMNiYgHWN4dDXK\n9Hx80yXLuyuoB1H47SS/SHLDIvGliwFT5T71cjcI17vrNmXxcIpvgEsYPCAVN0Pi\nfEpnia8AFJRjJ8BsR0uRpuZJDJPxyL16luwpL6XNGJL317goRas6gH8gLqA5PDHN\nMZB5hM/X78iKWMsgYzk4Ja48DBRJbY0qqHTZQvsVJobo/57+vPzdFBFQglNNP3np\nWtV875el4sMG9qD1pyLzc5LOYH5hqkxwbO/GFIOzq/Bprv7VdiIbXK4zOHa/ut/B\ntuuEfjUfdVif6jwYtAMBcnsRD2tLUI7RY6IJARa4DcNqP+nnrncCAwEAAaNQME4w\nHQYDVR0OBBYEFMyqj1V9IlgICg5x/Mg/vKQyopvkMB8GA1UdIwQYMBaAFMyqj1V9\nIlgICg5x/Mg/vKQyopvkMAwGA1UdEwQFMAMBAf8wDQYJKoZIhvcNAQELBQADggEB\nAG0ulZfrJ2XP3bEUX2nSNaKOxnTJhaR1a3xyDDDWH9MTw94121CB5YdGM2Fu6+ss\ngGrNpxyGPtfbJlzjLQJntPerdsKJWPjP8Fa7BLqE1FuIv47koauDUf9jiuLk1aPs\ndWPIO1v/jbmao7tyGLIjuBsB/+exDkijjvCL0a/f4PKeSR9j6CB7TBehx0qWQa6f\npGU3xgow54bFhvYORpbKrAYSAQIaCGIpw4wnASFRJ8QPXqrNJjXSxT4DM3eMiOJQ\nZwfkMuFZzTdkjWPAWIyJBT8eAcew/E0+MDt8LztkVhiYy7F2RB0FO+2uEeIo5Pd/\nc8o+KrbsHm4AIw8rcl2OvtI=\n-----END CERTIFICATE-----\n"
+        rejectUnauthorized: false //sslCertificatePath: ""
+    });
     context.connection.onopen = function () {
         context.com({"command": "login", "protocolVersion": 1},
                     function(response) {

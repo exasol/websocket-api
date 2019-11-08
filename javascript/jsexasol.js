@@ -19,7 +19,7 @@ class ExasolConnection {
         var conn = this
         var err = null
 
-        this.exa_con = new wsjsapi.Exasol("ws://"+this.account, this.username, this.password,
+        this.exa_con = new wsjsapi.Exasol("wss://"+this.account, this.username, this.password,
         function (context) {
             console.log('Connected: ' + context)
             conn.sessionId = context.sessionId

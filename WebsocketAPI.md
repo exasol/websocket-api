@@ -466,7 +466,7 @@ Response fields:
   * attributes (object, optional) => attributes set for the connection (see below)
   * responseData (object, optional) => only present if status is "ok"
     * statementHandle (number) => prepared statement handle
-    * parameterData (object) => prepared statement parameter information
+    * parameterData (object, optional) => prepared statement parameter information
       * numColumns (number) => number of columns
       * columns (object[]) => array of column metadata objects
         * name (string) => column name: always "" as named parameters are not supported

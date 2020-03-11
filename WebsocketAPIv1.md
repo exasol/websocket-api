@@ -44,15 +44,11 @@ After the handshake the process is identical to a connection using the
 standard drivers like JDBC or ODBC: The connection server listens to
 incoming messages and forwards the requests to the database. 
 
-## Login summary
+## Command summary
 | Command | Description |
 | --- | --- |
 | [login](#login-establishes-a-connection-to-exasol) | Establishes a connection to Exasol |
 | [sublogin](#sublogin-establishes-a-subconnection-to-exasol) | Establishes a subconnection to Exasol |
-
-## Command summary
-| Command | Description |
-| --- | --- |
 | [disconnect](#disconnect-closes-a-connection-to-exasol) | Closes a connection to Exasol |
 | [getAttributes](#getattributes-gets-the-session-attribute-values) | Gets the session attribute values |
 | [setAttributes](#setattributes-sets-the-given-session-attribute-values) | Sets the given session attribute values |
@@ -209,6 +205,8 @@ The following is an example of how to create, use, and close subconnections to f
 
 5. On main connection:
    * Close result set (closeResultSet)
+
+## Command details
 
 ### Login: Establishes a connection to Exasol
 
@@ -481,8 +479,6 @@ The login process is composed of four steps:
         }
     }
    ```
-
-## Commands
 
 ### Disconnect: Closes a connection to Exasol
 

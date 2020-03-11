@@ -1,4 +1,4 @@
-# EXASOL JSON over WebSockets API - Introduction
+# Exasol JSON over WebSockets API - Introduction
 
 ## Why a WebSockets API?
 
@@ -7,7 +7,7 @@ implement their own drivers for all kinds of platforms using a
 connection-based web protocol. 
 
 The main advantages are flexibility regarding the programming languages 
-you want to integrate EXASOL into, and a more native access compared to 
+you want to integrate Exasol into, and a more native access compared to 
 the standardized ways of communicating with a database, such as JDBC, 
 ODBC or ADO.NET, which are mostly old and static standards and create
 additional complexity due to the necessary driver managers.
@@ -17,7 +17,7 @@ additional complexity due to the necessary driver managers.
 
 Currently a native Python driver using this WebSocket API has been
 implemented. By that you don't need any pyodbc bridge anymore, but 
-can connect your Python directly with EXASOL. PyODBC is not ideal due
+can connect your Python directly with Exasol. PyODBC is not ideal due
 to the need for an ODBC driver manager and certain restrictions in 
 data type conversions.
 
@@ -28,11 +28,11 @@ It would then be nice if you could share your work with us, and
 we will of course help you by any means. 
 
 
-# EXASOL JSON over WebSockets API details
+# Exasol JSON over WebSockets API details
 
 ## WebSocket Protocol v1
 
-WebSocket Protocol v1 requires an EXASOL client/server protocol of
+WebSocket Protocol v1 requires an Exasol client/server protocol of
 at least v14. It follows the standards IETF as RFC 6455.
 
 The connection server identifies the initial GET request by the client.
@@ -129,7 +129,7 @@ types in the executePreparedStatement request.
 
 
 The following data types and properties are used to specify column
-types in responses from EXASOL.
+types in responses from Exasol.
 
 | Type | Properties |
 | --- | --- |
@@ -163,26 +163,26 @@ during query execution. These messages are sent using Pong WebSocket
 control frames (see RFC 6455), and thus a response is not expected.
 
 The client may send Ping WebSocket control frames (see RFC 6455) to
-EXASOL, for example, as client-initiated keepalives. EXASOL
+Exasol, for example, as client-initiated keepalives. Exasol
 will respond to a Ping frame with a Pong response.
 
-EXASOL will not send Ping frames to the client.
+Exasol will not send Ping frames to the client.
 
 ## Subconnections
 
 ### Introduction
 
-Subconnections are additional connections to EXASOL cluster nodes which can be created by the client. The main reason to create and use subconnections, as opposed to simply using the existing main connection, is to parallelize fetching/inserting data from/into EXASOL.
+Subconnections are additional connections to Exasol cluster nodes which can be created by the client. The main reason to create and use subconnections, as opposed to simply using the existing main connection, is to parallelize fetching/inserting data from/into Exasol.
 
-For example, fetching a result set from EXASOL can be done easily using the main connection. In this scenario, the EXASOL cluster nodes will automatically send their data to the node which is connected to the client. This node then sends the combined data as a single result set. Thus, the client does not need to be aware of any data sharing/communication among the EXASOL cluster nodes.
+For example, fetching a result set from Exasol can be done easily using the main connection. In this scenario, the Exasol cluster nodes will automatically send their data to the node which is connected to the client. This node then sends the combined data as a single result set. Thus, the client does not need to be aware of any data sharing/communication among the Exasol cluster nodes.
 
-However, for performance-critical scenarios, a significant performance gain can be acheived by using subconnections to fetch/insert data directly from/into multiple EXASOL cluster nodes in parallel. Thus, instead of all the data going through the single main connection, the data can flow through multiple subconnections to different EXASOL nodes in parallel.
+However, for performance-critical scenarios, a significant performance gain can be acheived by using subconnections to fetch/insert data directly from/into multiple Exasol cluster nodes in parallel. Thus, instead of all the data going through the single main connection, the data can flow through multiple subconnections to different Exasol nodes in parallel.
 
-Please note that subconnections are only useful for multi-node EXASOL clusters. With a single-node EXASOL instance, the subconnection would basically be a duplicate of the main connection.
+Please note that subconnections are only useful for multi-node Exasol clusters. With a single-node Exasol instance, the subconnection would basically be a duplicate of the main connection.
 
 ### How to create and use subconnections
 
-Subconnections are created using the enterParallel command. The number of requested subconnections can be specified by the user, and the number of subconnections actually opened is given in the enterParallel response. Please note that the maximum number of subconnections is equal to the number of nodes in the EXASOL cluster. For example, if the user has an eight-node cluster and requests 1,000 subconnections, only eight subconnections will be opened. As a general rule, the number of subconnections should usually be equal to the number of nodes in the EXASOL cluster, which ensures one subconnection per node. After the subconnections have been created, the subLogin command should be used to login to each subconnection. Note: Failing to login to all subconnections will cause the login to hang. After this, they are ready for use.
+Subconnections are created using the enterParallel command. The number of requested subconnections can be specified by the user, and the number of subconnections actually opened is given in the enterParallel response. Please note that the maximum number of subconnections is equal to the number of nodes in the Exasol cluster. For example, if the user has an eight-node cluster and requests 1,000 subconnections, only eight subconnections will be opened. As a general rule, the number of subconnections should usually be equal to the number of nodes in the Exasol cluster, which ensures one subconnection per node. After the subconnections have been created, the subLogin command should be used to login to each subconnection. Note: Failing to login to all subconnections will cause the login to hang. After this, they are ready for use.
 
 :warning: Any command can be executed on subconnections; however, there is a significant difference in *how* they can be executed. The only two commands which can be executed ansynchronously on subconnections (i.e., not executed on all subconnections at the same time) are fetch and executePrepared. All other commands are synchronous, meaning the same command must be executed on all subconnections at the same time. For example, if the execute command is not called on all subconnections, the call will hang and eventually fail because of a time out.
 
@@ -210,11 +210,11 @@ The following is an example of how to create, use, and close subconnections to f
 5. On main connection:
    * Close result set (closeResultSet)
 
-### Login: Establishes a connection to EXASOL
+### Login: Establishes a connection to Exasol
 
 This command invokes the login process which establishes a connection
-between the client and EXASOL. As long as the connection is open,
-the user can interact with EXASOL using the commands specified
+between the client and Exasol. As long as the connection is open,
+the user can interact with Exasol using the commands specified
 below.
 
 The login process is composed of four steps:
@@ -272,7 +272,7 @@ The login process is composed of four steps:
    other client information.
    
    Request fields:
-     * username (string) => EXASOL user name to use for the login process
+     * username (string) => Exasol user name to use for the login process
      * password (string) => user's password, which is encrypted using publicKey (see 2.) and PKCS #1 v1.5 padding, encoded in Base64 format
      * useCompression (boolean) => use compression for messages during the session (beginning after the login process is completed)
      * sessionId (number, optional) => requested session ID
@@ -317,9 +317,9 @@ The login process is composed of four steps:
      * responseData (object, optional) => only present if status is "ok"
        * sessionId (number) => current session ID
        * protocolVersion (number) => protocol version of the connection (e.g., 14)
-       * releaseVersion (string) => EXASOL version (e.g. "6.0.0")
+       * releaseVersion (string) => Exasol version (e.g. "6.0.0")
        * databaseName (string) => database name (e.g., "productionDB1")
-       * productName (string) => EXASOL product name: "EXASolution"
+       * productName (string) => Exasol product name: "EXASolution"
        * maxDataMessageSize (number) => maximum size of a data message in bytes
        * maxIdentifierLength (number) => maximum length of identifiers
        * maxVarcharLength (number) =>  maximum length of VARCHAR values
@@ -356,11 +356,11 @@ The login process is composed of four steps:
     }
    ```
 
-### SubLogin: Establishes a subconnection to EXASOL
+### SubLogin: Establishes a subconnection to Exasol
 
 This command invokes the login process, which establishes a
-subconnection between the client and EXASOL. Using subconnections,
-the user can interact with EXASOL in parallel using the commands
+subconnection between the client and Exasol. Using subconnections,
+the user can interact with Exasol in parallel using the commands
 specified below.
 
 The login process is composed of four steps:
@@ -418,7 +418,7 @@ The login process is composed of four steps:
 3. The client sends the username, encrypted password, and token.
 
    Request fields:
-     * username (string) => EXASOL user name to use for the login process
+     * username (string) => Exasol user name to use for the login process
      * password (string) => user's password, which is encrypted using publicKey (see 2.) and PKCS #1 v1.5 padding, encoded in Base64 format
      * token (number) => token required for subconnection logins (see, EnterParallel)
    
@@ -443,9 +443,9 @@ The login process is composed of four steps:
      * responseData (object, optional) => only present if status is "ok"
        * sessionId (number) => current session ID
        * protocolVersion (number) => protocol version of the connection (e.g., 14)
-       * releaseVersion (string) => EXASOL version (e.g. "6.0.0")
+       * releaseVersion (string) => Exasol version (e.g. "6.0.0")
        * databaseName (string) => database name (e.g., "productionDB1")
-       * productName (string) => EXASOL product name: "EXASolution"
+       * productName (string) => Exasol product name: "EXASolution"
        * maxDataMessageSize (number) => maximum size of a data message in bytes
        * maxIdentifierLength (number) => maximum length of identifiers
        * maxVarcharLength (number) =>  maximum length of VARCHAR values
@@ -484,11 +484,11 @@ The login process is composed of four steps:
 
 ## Commands
 
-### Disconnect: Closes a connection to EXASOL
+### Disconnect: Closes a connection to Exasol
 
-This command closes the connection between the client and EXASOL.
+This command closes the connection between the client and Exasol.
 After the connection is closed, it cannot be used for further
-interaction with EXASOL anymore.
+interaction with Exasol anymore.
 
 Request fields:
   * command (string) => command name: "disconnect"
@@ -1103,12 +1103,12 @@ Response JSON format
 ### GetHosts: Gets the hosts in a cluster
 
 This command gets the number hosts and the IP address of each host in
-an EXASOL cluster.
+an Exasol cluster.
 
 Request fields:
   * command (string) => command name: "getHosts"
   * attributes (object, optional) => attributes to set for the connection (see below)
-  * hostIp (string) => IP address of the EXASOL host to which the client is currently connected (i.e., the EXASOL host used to create the connection; e.g., ws://\<hostIp\>:8563)
+  * hostIp (string) => IP address of the Exasol host to which the client is currently connected (i.e., the Exasol host used to create the connection; e.g., ws://\<hostIp\>:8563)
 
 Request JSON format
 ```javascript
@@ -1263,7 +1263,7 @@ are closed.
 Request fields:
   * command (string) => command name: "enterParallel"
   * attributes (object, optional) => attributes to set for the connection (see below)
-  * hostIp (string) => IP address of the EXASOL host to which the client is currently connected (i.e., the EXASOL host used to create the connection; e.g., ws://\<hostIp\>:8563)
+  * hostIp (string) => IP address of the Exasol host to which the client is currently connected (i.e., the Exasol host used to create the connection; e.g., ws://\<hostIp\>:8563)
   * numRequestedConnections (number) => number of subconnections to open. If 0, all open subconnections are closed.
 
 Request JSON format

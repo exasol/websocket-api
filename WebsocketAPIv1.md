@@ -291,7 +291,7 @@ The login process is composed of four steps:
      * status (string) => command status: "ok" or "error"
      * responseData (object, optional) => only present if status is "ok"
        * sessionId (number) => current session ID
-       * protocolVersion (number) => protocol version of the connection (e.g., 14)
+       * protocolVersion (number) => WebSocket protocol version of the connection (e.g., 1)
        * releaseVersion (string) => Exasol version (e.g. "6.0.0")
        * databaseName (string) => database name (e.g., "productionDB1")
        * productName (string) => Exasol product name: "EXASolution"
@@ -417,7 +417,7 @@ The login process is composed of four steps:
      * status (string) => command status: "ok" or "error"
      * responseData (object, optional) => only present if status is "ok"
        * sessionId (number) => current session ID
-       * protocolVersion (number) => protocol version of the connection (e.g., 14)
+       * protocolVersion (number) => WebSocket protocol version of the connection (e.g., 1)
        * releaseVersion (string) => Exasol version (e.g. "6.0.0")
        * databaseName (string) => database name (e.g., "productionDB1")
        * productName (string) => Exasol product name: "EXASolution"

@@ -60,17 +60,17 @@ The following commands are used to query metadata from Exasol.
 
 | Command | Description |
 | --- | --- |
-| [getCatalogs]() |  |
-| [getColumnPrivileges]() |  |
-| [getColumns]() |  |
-| [getPrimaryKeys]() |  |
-| [getProcedureColumns]() |  |
-| [getProcedures]() |  |
-| [getSchemas]() |  |
-| [getTablePrivileges]() |  |
-| [getTables]() |  |
-| [getTableTypes]() |  |
-| [getTypeInfo]() |  |
+| [getCatalogs](#getcatalogs-gets-the-catalog-names) | Gets the catalog names |
+| [getColumnPrivileges](#getcolumnprivileges-gets-column-privilege-descriptions) | Gets column privilege descriptions |
+| [getColumns](#getcolumns-gets-column-descriptions) | Gets column descriptions |
+| [getPrimaryKeys](#getprimarykeys-gets-primary-key-descriptions) | Gets primary key descriptions |
+| [getProcedureColumns](#getprocedurecolumns-gets-procedure-column-descriptions) | Gets procedure column descriptions |
+| [getProcedures](#getprocedures-gets-procedure-descriptions) | Gets procedure descriptions |
+| [getSchemas](#getschemas-gets-the-schema-names) | Gets the schema names |
+| [getTablePrivileges](#gettableprivileges-gets-table-privilege-descriptions) | Gets table privilege descriptions |
+| [getTables](#gettables-gets-table-descriptions) | Gets table descriptions |
+| [getTableTypes](#gettabletypes-gets-the-supported-table-types) | Gets the supported table types |
+| [getTypeInfo](#gettypeinfo-gets-the-supported-data-types) | Gets the supported data types |
 
 ## Attributes: Session and database properties
 

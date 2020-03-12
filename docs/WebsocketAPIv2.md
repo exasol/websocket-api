@@ -15,8 +15,8 @@ incoming messages and forwards the requests to the database.
 
 | Exasol Version | Change | Issue |
 | --- | --- | --- |
-| 7.0.0 | Metadata commands were added. | [EXASOL-2640](https://www.exasol.com/support/browse/EXASOL-2640) |
-| 7.0.0 | Columns of type `HASHTYPE` can be specified using the `HASHTYPE` type. | [EXASOL-2643](https://www.exasol.com/support/browse/EXASOL-2643) |
+| 7.0.0 | Metadata commands were added. See [Metadata-related commands](#metadata-related-commands) for details. | [EXASOL-2640](https://www.exasol.com/support/browse/EXASOL-2640) |
+| 7.0.0 | Columns of type `HASHTYPE` can be specified using the `HASHTYPE` type. See [Data Types](#data-types-type-names-and-properties) for details. | [EXASOL-2643](https://www.exasol.com/support/browse/EXASOL-2643) |
 
 ## Command summary
 
@@ -53,6 +53,24 @@ reading result sets, and getting and setting session attributes.
 | [getOffset](#getoffset-gets-the-row-offset-of-a-result-set) | Gets the row offset of a result set |
 | [getResultSetHeader](#getresultsetheader-gets-a-result-set-header) | Gets a result set header |
 | [setAttributes](#setattributes-sets-the-given-session-attribute-values) | Sets the given session attribute values |
+
+### Metadata-related commands
+
+The following commands are used to query metadata from Exasol.
+
+| Command | Description |
+| --- | --- |
+| [getCatalogs]() |  |
+| [getColumnPrivileges]() |  |
+| [getColumns]() |  |
+| [getPrimaryKeys]() |  |
+| [getProcedureColumns]() |  |
+| [getProcedures]() |  |
+| [getSchemas]() |  |
+| [getTablePrivileges]() |  |
+| [getTables]() |  |
+| [getTableTypes]() |  |
+| [getTypeInfo]() |  |
 
 ## Attributes: Session and database properties
 
@@ -1439,3 +1457,25 @@ Request JSON format
      "command": "abortQuery"
  }
 ```
+
+### GetCatalogs: Gets the catalog names
+
+### GetSchemas: Gets the schema names
+
+### GetTypeInfo: Gets the supported data types
+
+### GetTableTypes: Gets the supported table types
+
+### GetTables: Gets table descriptions
+
+### GetColumns: Gets column descriptions
+
+### GetTablePrivileges: Gets table privilege descriptions
+
+### GetColumnPrivileges: Gets column privilege descriptions
+
+### GetPrimaryKeys: Gets primary key descriptions
+
+### GetProcedures: Gets procedure descriptions
+
+### GetProcedureColumns: Gets procedure column descriptions

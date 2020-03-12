@@ -31,7 +31,7 @@ and query the hosts of an Exasol cluster.
 | [enterParallel](#enterparallel-opens-subconnections-for-parallel-execution) | Opens subconnections for parallel execution |
 | [getHosts](#gethosts-gets-the-hosts-in-a-cluster) | Gets the hosts in a cluster |
 | [login](#login-establishes-a-connection-to-exasol) | Establishes a connection to Exasol |
-| [sublogin](#sublogin-establishes-a-subconnection-to-exasol) | Establishes a subconnection to Exasol |
+| [subLogin](#sublogin-establishes-a-subconnection-to-exasol) | Establishes a subconnection to Exasol |
 
 ### Session-related commands
 
@@ -211,6 +211,963 @@ The following is an example of how to create, use, and close subconnections to f
 
 ## Command details
 
+### AbortQuery: Aborts a running query
+
+This command aborts a running query. It does not have a response.
+
+Request fields:
+  * command (string) => command name: "abortQuery"
+
+Request JSON format
+```javascript
+ {
+     "command": "abortQuery"
+ }
+```
+
+### ClosePreparedStatement: Closes a prepared statement
+
+This command closes a prepared statement which has already been
+created.
+
+Request fields:
+  * command (string) => command name: "closePreparedStatement"
+  * attributes (object, optional) => attributes to set for the connection (see below)
+  * statementHandle (number) => prepared statement handle
+
+Request JSON format
+```javascript
+ {
+     "command": "closePreparedStatement",
+     "attributes": {
+             // as defined separately
+     },
+     "statementHandle": <number>
+ }
+```
+
+Response fields:
+  * status (string) => command status: "ok" or "error"
+  * attributes (object) => attributes set for the connection (see below)
+  * exception (object, optional) =>  only present if status is "error"
+    * text (string) => exception message which provides error details
+    * sqlCode (string) => five-character exception code if known, otherwise "00000"
+
+Response JSON format
+```javascript
+ {
+     "status": <"ok" | "error">,
+     "attributes": {
+             // as defined separately
+     },
+     // in case of "error"
+     "exception": {
+             "text": <string>,
+             "sqlCode": <string>
+     }
+ }
+```
+
+### CloseResultSet: Closes a result set
+
+This command closes result sets.
+
+Request fields:
+  * command (string) => command name: "closeResultSet"
+  * attributes (object, optional) => attributes to set for the connection (see below)
+  * resultSetHandles (number[]) => array of result set handles
+
+Request JSON format
+```javascript
+ {
+     "command": "closeResultSet",
+     "attributes": {
+             // as defined separately
+     },
+     "resultSetHandles": [ <number> ]
+ }
+```
+
+Response fields:
+  * status (string) => command status: "ok" or "error"
+  * exception (object, optional) =>  only present if status is "error"
+    * text (string) => exception message which provides error details
+    * sqlCode (string) => five-character exception code if known, otherwise "00000"
+
+Response JSON format
+```javascript
+ {
+     "status": <"ok" | "error">,
+     // in case of "error"
+     "exception": { // Optional: error
+             "text": <string>, // Exception text
+             "sqlCode": <string> // Five-character exception code if known, otherwise "00000"
+     }
+ }
+```
+
+### CreatePreparedStatement: Creates a prepared statement
+
+This command creates a prepared statement.
+
+Request fields:
+  * command (string) => command name: "createPreparedStatement"
+  * attributes (object, optional) => attributes to set for the connection (see below)
+  * sqlText (string) => SQL statement
+
+Request JSON format
+```javascript
+ {
+     "command": "createPreparedStatement",
+     "attributes": {
+             // as defined separately
+     },
+     "sqlText": <string>
+ }
+```
+
+Response fields:
+  * status (string) => command status: "ok" or "error"
+  * attributes (object, optional) => attributes set for the connection (see below)
+  * responseData (object, optional) => only present if status is "ok"
+    * statementHandle (number) => prepared statement handle
+    * parameterData (object, optional) => prepared statement parameter information
+      * numColumns (number) => number of columns
+      * columns (object[]) => array of column metadata objects
+        * name (string) => column name: always "" as named parameters are not supported
+        * dataType (object) => column metadata
+        * type (string) => column data type
+        * precision (number, optional) => column precision
+        * scale (number, optional) => column scale
+        * size (number, optional) => maximum size in bytes of a column value
+        * characterSet (string, optional) => character encoding of a text column
+        * withLocalTimeZone (true | false, optional) => specifies if a timestamp has a local time zone
+        * fraction (number, optional) => fractional part of number
+        * srid (number, optional) => spatial reference system identifier
+      * numResults (number) => number of result objects
+      * results (object[]) => array of result objects
+        * resultType (string) => type of result: "resultSet" or "rowCount"
+        * rowCount (number, optional) => present if resultType is "rowCount", number of rows
+        * resultSet (object, optional) => present if resultType is "resultSet", result set
+          * resultSetHandle (number, optional) => result set handle
+          * numColumns (number) => number of columns in the result set
+          * numRows (number) => number of rows in the result set
+          * numRowsInMessage (number) => number of rows in the current message
+          * columns (object[]) => array of column metadata objects
+            * name (string) => column name
+            * dataType (object) => column metadata
+              * type (string) => column data type
+              * precision (number, optional) => column precision
+              * scale (number, optional) => column scale
+              * size (number, optional) => maximum size in bytes of a column value
+              * characterSet (string, optional) => character encoding of a text column
+              * withLocalTimeZone (true | false, optional) => specifies if a timestamp has a local time zone
+              * fraction (number, optional) => fractional part of number
+              * srid (number, optional) => spatial reference system identifier
+  * exception (object, optional) =>  only present if status is "error"
+    * text (string) => exception message which provides error details
+    * sqlCode (string) => five-character exception code if known, otherwise "00000"
+
+Response JSON format
+```javascript
+ {
+     "status": <"ok" | "error">,
+     "attributes": {
+         // as defined separately
+     },
+     // if status is "ok"
+     "responseData": {
+         "statementHandle": <number>,
+         "parameterData": {
+             "numColumns": <number>,
+             "columns": [ {
+                 "name": <string>,
+                 "dataType": {
+                     "type": <string>,
+                     "precision": <number>,
+                     "scale": <number>,
+                     "size": <number>,
+                     "characterSet": <number>,
+                     "withLocalTimeZone": <true | false>,
+                     "fraction": <number>,
+                     "srid": <number>
+                 }
+             } ]
+         },
+         "numResults": <number>,
+         "results": [ {
+             "resultType": <"resultSet" | "rowCount">,
+             // if type is "rowCount"
+             "rowCount": <number>,
+             // if type is "resultSet"
+             "resultSet": {
+                 "resultSetHandle": <number>,
+                 "numColumns": <number>,
+                 "numRows": <number>,
+                 "numRowsInMessage": <number>,
+                 "columns": [ {
+                     "name": <string>,
+                     "dataType": {
+                         "type": <string>,
+                         "precision": <number>,
+                         "scale": <number>,
+                         "size": <number>,
+                         "characterSet": <number>,
+                         "withLocalTimeZone": <true | false>,
+                         "fraction": <number>,
+                         "srid": <number>
+                     }
+                 } ]
+             }
+         } ]
+     },
+     // if status is "error"
+     "exception": {
+         "text": <string>,
+         "sqlCode": <string>
+     }
+ }
+```
+
+### Disconnect: Closes a connection to Exasol
+
+This command closes the connection between the client and Exasol.
+After the connection is closed, it cannot be used for further
+interaction with Exasol anymore.
+
+Request fields:
+  * command (string) => command name: "disconnect"
+  * attributes (object, optional) => attributes to set for the connection (see below)
+
+Request JSON format
+```javascript
+ {
+     "command": "disconnect",
+     "attributes": {
+             // as defined separately
+     }
+ }
+```
+
+Response fields:
+  * status (string) => command status: "ok" or "error"
+  * attributes (object, optional) => attributes set for the connection (see below)
+  * exception (object, optional) =>  only present if status is "error"
+    * text (string) => exception message which provides error details
+    * sqlCode (string) => five-character exception code if known, otherwise "00000"
+
+Reponse JSON format
+```javascript
+ {
+     "status": <"ok" | "error">,
+     "attributes": {
+             // as defined separately
+     },
+     // if status is "error"
+     "exception": {
+             "text": <string>,
+             "sqlCode": <string>
+     }
+ }
+```
+
+### EnterParallel: Opens subconnections for parallel execution
+
+This command opens subconnections, which are additional connections to
+other nodes in the cluster, for the purpose of parallel execution. If
+the requested number of subconnections is 0, all open subconnections
+are closed.
+
+Request fields:
+  * command (string) => command name: "enterParallel"
+  * attributes (object, optional) => attributes to set for the connection (see below)
+  * hostIp (string) => IP address of the Exasol host to which the client is currently connected (i.e., the Exasol host used to create the connection; e.g., ws://\<hostIp\>:8563)
+  * numRequestedConnections (number) => number of subconnections to open. If 0, all open subconnections are closed.
+
+Request JSON format
+```javascript
+ {
+     "command": "enterParallel",
+     "attributes": {
+             // as defined separately
+     },
+     "hostIp": <string>,
+     "numRequestedConnections": <number>
+ }
+```
+
+Response fields:
+  * status (string) => command status: "ok" or "error"
+  * responseData (object, optional) => only present if status is "ok"
+    * numOpenConnections (number) => number of subconnections actually opened
+    * token (number) => token required for the login of subconnections
+    * nodes (string[]) => IP addresses and ports of the nodes, to which subconnections may be established
+  * exception (object, optional) =>  only present if status is "error"
+    * text (string) => exception message which provides error details
+    * sqlCode (string) => five-character exception code if known, otherwise "00000"
+
+Response JSON format
+```javascript
+ {
+     "status": <"ok" | "error">,
+     // in case of "ok"
+     "responseData": {
+             "numOpenConnections": <number>,
+             "token": <number>,
+             "nodes": [
+                     <string>
+             ]
+     },
+     // in case of "error"
+     "exception": {
+             "text": <string>,
+             "sqlCode": <string>
+     }
+ }
+```
+
+### Execute: Executes an SQL statement
+
+This command executes an SQL statement.
+
+If the SQL statement returns a result set which has less than 1,000 rows of data, the data will be provided in the data field of resultSet. However if the SQL statement returns a result set which has 1,000 or more rows of data, a result set will be opened whose handle is returned in the resultSetHandle field of resultSet. Using this handle, the data from the result set can be retrieved using the Fetch command. Once the result set is no longer needed, it should be closed using the CloseResultSet command.
+
+Request fields:
+  * command (string) => command name: "executePreparedStatement"
+  * attributes (object) => attributes to set for the connection (see below)
+  * sqlText (string) => SQL statement to execute
+
+Request JSON format
+```javascript
+ {
+     "command": "execute",
+     "attributes": {
+             // as defined separately
+     },
+     "sqlText": <string>
+ }
+```
+
+Response fields:
+  * status (string) => command status: "ok" or "error"
+  * attributes (object, optional) => attributes set for the connection (see below)
+  * responseData (object, optional) => only present if status is "ok"
+    * numResults (number) => number of result objects
+    * results (object[]) => array of result objects
+      * resultType (string) => type of result: "resultSet" or "rowCount"
+      * rowCount (number, optional) => present if resultType is "rowCount", number of rows
+      * resultSet (object, optional) => present if resultType is "resultSet", result set
+        * resultSetHandle (number) => result set handle
+        * numColumns (number) => number of columns in the result set
+        * numRows (number) => number of rows in the result set
+        * numRowsInMessage (number, optional) => number of rows in the current message
+        * columns (object[]) => array of column metadata objects
+          * name (string) => column name
+          * dataType (object) => column metadata
+            * type (string) => column data type
+            * precision (number, optional) => column precision
+            * scale (number, optional) => column scale
+            * size (number, optional) => maximum size in bytes of a column value
+            * characterSet (string, optional) => character encoding of a text column
+            * withLocalTimeZone (true | false, optional) => specifies if a timestamp has a local time zone
+            * fraction (number, optional) => fractional part of number
+            * srid (number, optional) => spatial reference system identifier
+        * data (array[], optional) => object containing the data for the prepared statement in column-major order
+  * exception (object, optional) =>  only present if status is "error"
+    * text (string) => exception message which provides error details
+    * sqlCode (string) => five-character exception code if known, otherwise "00000"
+
+Response JSON format
+```javascript
+ {
+     "status": <"ok" | "error">,
+     "attributes": {
+         // as defined separately
+     },
+     // in case of "ok"
+     "responseData": { // Optional: ok
+         "numResults": <number>,
+         "results": [ {
+             "resultType": <"resultSet" | "rowCount">,
+             // if type is "rowCount"
+             "rowCount": <number>,
+             // if type is "resultSet"
+             "resultSet": {
+                 "resultSetHandle": <number>,
+                 "numColumns": <number>,
+                 "numRows": <number>,
+                 "numRowsInMessage": <number>,
+                 "columns": [ {
+                     "name": <string>,
+                     "dataType": {
+                         "type": <string>,
+                         "precision": <number>,
+                         "scale": <number>,
+                         "size": <number>,
+                         "characterSet": <number>,
+                         "withLocalTimeZone": <true | false>,
+                         "fraction": <number>,
+                         "srid": <number>
+                     }
+                 } ],
+                 "data": [
+                     [
+                         <string | number | true | false | null>
+                     ]
+                 ]
+             }
+         } ]
+     },
+     // in case of "error"
+     "exception": {
+         "text": <string>,
+         "sqlCode": <string>
+     }
+ }
+```
+
+### ExecuteBatch: Executes multiple SQL statements as a batch
+
+This command executes multiple SQL statements sequentially as a batch.
+
+If the SQL statement returns a result set which has less than 1,000 rows of data, the data will be provided in the data field of resultSet. However if the SQL statement returns a result set which has 1,000 or more rows of data, a result set will be opened whose handle is returned in the resultSetHandle field of resultSet. Using this handle, the data from the result set can be retrieved using the Fetch command. Once the result set is no longer needed, it should be closed using the CloseResultSet command.
+
+Request fields:
+  * command (string) => command name: "executeBatch"
+  * attributes (object, optional) => attributes to set for the connection (see below)
+  * sqlTexts (string[]) => array of SQL statement to execute
+
+Request JSON format
+```javascript
+ {
+     "command": "executeBatch",
+     "attributes": {
+             // as defined separately
+     },
+     "sqlTexts": [
+             <string>
+     ]
+ }
+```
+
+Response fields:
+  * status (string) => command status: "ok" or "error"
+  * attributes (object, optional) => attributes set for the connection (see below)
+  * responseData (object, optional) => only present if status is "ok"
+    * numResults (number) => number of result objects
+    * results (object[]) => array of result objects
+      * resultType (string) => type of result: "resultSet" or "rowCount"
+      * rowCount (number, optional) => present if resultType is "rowCount", number of rows
+      * resultSet (object, optional) => present if resultType is "resultSet", result set
+        * resultSetHandle (number, optional) => result set handle
+        * numColumns (number) => number of columns in the result set
+        * numRows (number) => number of rows in the result set
+        * numRowsInMessage (number) => number of rows in the current message
+        * columns (object[]) => array of column metadata objects
+          * name (string) => column name
+          * dataType (object) => column metadata
+            * type (string) => column data type
+            * precision (number, optional) => column precision
+            * scale (number, optional) => column scale
+            * size (number, optional) => maximum size in bytes of a column value
+            * characterSet (string, optional) => character encoding of a text column
+            * withLocalTimeZone (true | false, optional) => specifies if a timestamp has a local time zone
+            * fraction (number, optional) => fractional part of number
+            * srid (number, optional) => spatial reference system identifier
+        * data (array[], optional) => object containing the data for the prepared statement in column-major order
+  * exception (object, optional) =>  only present if status is "error"
+    * text (string) => exception message which provides error details
+    * sqlCode (string) => five-character exception code if known, otherwise "00000"
+
+Response JSON format
+```javascript
+ {
+     "status": <"ok" | "error">,
+     "attributes": {
+         // as defined separately
+     },
+     // in case of "ok"
+     "responseData": {
+         "numResults": <number>,
+         "results": [ {
+             "resultType": <"resultSet" | "rowCount">,
+             // if type is "rowCount"
+             "rowCount": <number>,
+             // if type is "resultSet"
+             "resultSet": {
+                 "resultSetHandle": <number>,
+                 "numColumns": <number>,
+                 "numRows": <number>,
+                 "numRowsInMessage": <number>,
+                 "columns": [ {
+                     "name": <string>,
+                     "dataType": {
+                         "type": <string>,
+                         "precision": <number>,
+                         "scale": <number>,
+                         "size": <number>,
+                         "characterSet": <number>,
+                         "withLocalTimeZone": <true | false>,
+                         "fraction": <number>,
+                         "srid": <number>
+                     }
+                 } ],
+                 "data": [
+                     [
+                         <string | number | true | false | null>
+                     ]
+                 ]
+             }
+         } ]
+     },
+     // in case of "error"
+     "exception": {
+         "text": <string>,
+         "sqlCode": <string>
+     }
+ }
+```
+
+### ExecutePreparedStatement: Executes a prepared statement
+
+This command executes a prepared statement which has already been
+created.
+
+If the SQL statement returns a result set which has less than 1,000 rows of data, the data will be provided in the data field of resultSet. However if the SQL statement returns a result set which has 1,000 or more rows of data, a result set will be opened whose handle is returned in the resultSetHandle field of resultSet. Using this handle, the data from the result set can be retrieved using the Fetch command. Once the result set is no longer needed, it should be closed using the CloseResultSet command.
+
+Request fields:
+  * command (string) => command name: "executePreparedStatement"
+  * attributes (object, optional) =>   attributes to set for the connection (see below)
+  * statementHandle (number) => prepared statement handle
+  * numColumns (number) => number of columns in data
+  * numRows (number) => number of rows in data
+  * columns (object[], optional) => array of column metadata objects
+    * name (string) => column name
+    * dataType (object) => column metadata
+      * type (string) => column data type
+      * precision (number, optional) => column precision
+      * scale (number, optional) => column scale
+      * size (number, optional) => maximum size in bytes of a column value
+      * characterSet (string, optional) => character encoding of a text column
+      * withLocalTimeZone (true | false, optional) => specifies if a timestamp has a local time zone
+      * fraction (number, optional) => fractional part of number
+      * srid (number, optional) => spatial reference system identifier
+  * data (array[], optional) => array containing the data for the prepared statement in column-major order
+
+Request JSON format
+```javascript
+ {
+    "command": "executePreparedStatement",
+    "attributes": {
+        // as defined separately
+    },
+    "statementHandle": <number>,
+    "numColumns": <number>,
+    "numRows": <number>,
+    "columns": [ {
+        "name": <string>,
+        "dataType": {
+            "type": <string>,
+            "precision": <number>,
+            "scale": <number>,
+            "size": <number>,
+            "characterSet": <number>,
+            "withLocalTimeZone": <boolean>,
+            "fraction": <number>,
+            "srid": <number>
+        }
+    } ],
+    "data": [
+        [
+            <string | number | true | false | null>
+        ]
+    ]
+ }
+```
+
+Response fields:
+
+  * status (string) => command status: "ok" or "error"
+  * attributes (object, optional) => attributes set for the connection (see below)
+  * responseData (object, optional) => only present if status is "ok"
+    * numResults (number) => number of result objects
+    * results (object[]) => array of result objects
+      * resultType (string) => type of result: "resultSet" or "rowCount"
+      * rowCount (number, optional) => present if resultType is "rowCount", number of rows
+      * resultSet (object, optional) => present if resultType is "resultSet", result set
+        * resultSetHandle (number, optional) => result set handle
+        * numColumns (number) => number of columns in the result set
+        * numRows (number) => number of rows in the result set
+        * numRowsInMessage (number) => number of rows in the current message
+        * columns (object[]) => array of column metadata objects
+          * name (string) => column name
+          * dataType (object) => column metadata
+            * type (string) => column data type
+            * precision (number, optional) => column precision
+            * scale (number, optional) => column scale
+            * size (number, optional) => maximum size in bytes of a column value
+            * characterSet (string, optional) => character encoding of a text column
+            * withLocalTimeZone (true | false, optional) => specifies if a timestamp has a local time zone
+            * fraction (number, optional) => fractional part of number
+            * srid (number, optional) => spatial reference system identifier
+        * data (array[], optional) => object containing the data for the prepared statement in column-major order
+  * exception (object, optional) =>  only present if status is "error"
+    * text (string) => exception message which provides error details
+    * sqlCode (string) => five-character exception code if known, otherwise "00000"
+
+Response JSON format
+```javascript
+ {
+     "status": <"ok" | "error">,
+     "attributes": {
+         // as defined separately
+     },
+     // in case of "ok"
+     "responseData": {
+         "numResults": <number>,
+         "results": [ {
+             "resultType": <"resultSet" | "rowCount">,
+             // if type is "rowCount"
+             "rowCount": <number>,
+             // if type is "resultSet"
+             "resultSet": {
+                 "resultSetHandle": <number>,
+                 "numColumns": <number>,
+                 "numRows": <number>,
+                 "numRowsInMessage": <number>,
+                 "columns": [ {
+                     "name": <string>,
+                     "dataType": {
+                         "type": <string>,
+                         "precision": <number>,
+                         "scale": <number>,
+                         "size": <number>,
+                         "characterSet": <number>,
+                         "withLocalTimeZone": <true | false>,
+                         "fraction": <number>,
+                         "srid": <number>
+                     }
+                 } ],
+                 "data": [
+                     [
+                         <string | number | true | false | null>
+                     ]
+                 ]
+             }
+         } ]
+     },
+     // in case of "error"
+     "exception": {
+         "text": <string>,
+         "sqlCode": <string>
+     }
+ }
+```
+
+### Fetch: Retrieves data from a result set
+
+This command retrieves data from a result set.
+
+Request fields:
+  * command (string) => command name: "fetch"
+  * attributes (object, optional) =>  attributes to set for the connection (see below)
+  * resultSetHandle (number) => result set handle
+  * startPosition (number) => row offset (0-based) from which to begin data retrieval
+  * numBytes (number) => number of bytes to retrieve (max: 64MB)
+
+Request JSON format
+```javascript
+ {
+     "command": "fetch",
+     "attributes": {
+             // as defined separately
+     },
+     "resultSetHandle": <number>,
+     "startPosition": <number>,
+     "numBytes": <number>
+ }
+```
+
+Response fields:
+  * status (string) => command status: "ok" or "error"
+  * responseData (object, optional) => only present if status is "ok"
+    * numRows (number) => number of rows fetched from the result set
+    * data (array[]) => object containing the data for the prepared statement in column-major order
+  * exception (object, optional) =>  only present if status is "error"
+    * text (string) => exception message which provides error details
+    * sqlCode (string) => five-character exception code if known, otherwise "00000"
+
+Response JSON format
+```javascript
+ {
+     "status": <"ok" | "error">,
+     // in case of "ok"
+     "responseData": {
+             "numRows": <number>,
+             "data": [
+                 [
+                     <string | number | true | false | null>
+                 ]
+             ]
+     },
+     // in case of "error"
+     "exception": {
+             "text": <string>,
+             "sqlCode": <string>
+     }
+ }
+```
+
+### GetAttributes: Gets the session attribute values
+
+This command retrieves the session attribute values.
+
+Request fields:
+  * command (string) => command name: "getAttributes"
+  * attributes (object, optional) => attributes to set for the connection (see below)
+
+JSON format
+```javascript
+ {
+     "command": "getAttributes",
+     "attributes": {
+             // as defined separately
+     },
+ }
+```
+
+Response fields:
+  * status (string) => command status: "ok" or "error"
+  * attributes (object, optional) => attributes set for the connection (see below)
+  * exception(object, optional) =>  only present if status is "error"
+    * text (string) => exception message which provides error details
+    * sqlCode (string) => five-character exception code if known, otherwise "00000"
+
+Reponse JSON format
+```javascript
+ {
+     "status": <"ok" | "error">,
+     "attributes": {
+             // as defined separately
+     },
+     // if status is "error"
+     "exception": {
+             "text": <string>,
+             "sqlCode": <string>
+     }
+ }
+```
+
+### GetCatalogs: Gets the catalog names
+
+### GetColumnPrivileges: Gets column privilege descriptions
+
+### GetColumns: Gets column descriptions
+
+### GetHosts: Gets the hosts in a cluster
+
+This command gets the number hosts and the IP address of each host in
+an Exasol cluster.
+
+Request fields:
+  * command (string) => command name: "getHosts"
+  * attributes (object, optional) => attributes to set for the connection (see below)
+  * hostIp (string) => IP address of the Exasol host to which the client is currently connected (i.e., the Exasol host used to create the connection; e.g., ws://\<hostIp\>:8563)
+
+Request JSON format
+```javascript
+ {
+     "command": "getHosts",
+     "attributes": {
+             // as defined separately
+     },
+     "hostIp": <string>
+ }
+```
+
+Response fields:
+  * status (string) => command status: "ok" or "error"
+  * responseData (object, optional) => only present if status is "ok"
+    * numNodes (number) => number of nodes in the cluster
+    * nodes (string[]) => array of cluster node IP addresses
+  * exception (object, optional) =>  only present if status is "error"
+    * text (string) => exception message which provides error
+         details
+    * sqlCode (string) => five-character exception code if known,
+         otherwise "00000"
+
+Response JSON format
+```javascript
+ {
+     "status": <"ok" | "error">,
+     // in case of "ok"
+     "responseData": {
+             "numNodes": <number>,
+             "nodes": [
+                     <string>
+             ]
+     },
+     // in case of "error"
+     "exception": {
+             "text": <string>,
+             "sqlCode": <string>
+     }
+ }
+```
+
+### GetOffset: Gets the row offset of a result set
+
+This command retrieves the row offset of the result set of this
+(sub)connection. This is the row number of the first row of the current
+(sub)connection's result set in the global result set.
+
+Request fields:
+  * command (string) => command name: "getOffset"
+  * attributes (object, optional) => attributes to set for the connection (see below)
+  * resultSetHandle (number) => open result set handle
+
+Request JSON format
+```javascript
+ {
+     "command": "getOffset",
+     "attributes": {
+             // as defined separately
+     },
+     "resultSetHandle": <number>
+ }
+```
+
+Response fields:
+  * status (string) => command status: "ok" or "error"
+  * responseData (object, optional) => only present if status is "ok"
+    * rowOffset (number) => row offset of connection's result set
+  * exception (object, optional) =>  only present if status is "error"
+    * text (string) => exception message which provides error details
+    * sqlCode (string) => five-character exception code if known, otherwise "00000"
+
+Response JSON format
+```javascript
+ {
+     "status": <"ok" | "error">,
+     // in case of "ok"
+     "responseData": {
+             "rowOffset": <number>
+     },
+     // in case of "error"
+     "exception": {
+             "text": <string>,
+             "sqlCode": <string>
+     }
+ }
+```
+
+### GetPrimaryKeys: Gets primary key descriptions
+
+### GetProcedureColumns: Gets procedure column descriptions
+
+### GetProcedures: Gets procedure descriptions
+
+### GetResultSetHeader: Gets a result set header
+
+This command retrieves a header (i.e., empty result set) which contains
+the metadata for an open result set.
+
+Request fields:
+  * command (string) => command name: "getResultSetHeader"
+  * attributes (object, optional) => attributes to set for the connection (see below)
+  * resultSetHandles (number[]) => array of open result set handles
+
+Request JSON format
+```javascript
+ {
+     "command": "getResultSetHeader",
+     "attributes": {
+             // as defined separately
+     },
+     "resultSetHandles": [
+         <number>
+     ]
+ }
+```
+
+Response fields:
+  * status (string) => command status: "ok" or "error"
+  * attributes (object, optional) => attributes set for the connection (see below)
+  * responseData (object, optional) => only present if status is "ok"
+    * numResults (number) => number of result objects
+    * results (object[]) => array of result objects
+      * resultType (string) => type of result: "resultSet"
+      * resultSet (object) => result set
+        * resultSetHandle (number, optional) => result set handle
+        * numColumns (number) => number of columns in the result set
+        * numRows (number) => number of rows in the result set
+        * numRowsInMessage (number) => number of rows in the current message
+        * columns (object[]) => array of column metadata objects
+          * name (string) => column name
+          * dataType (object) => column metadata
+            * type (string) => column data type
+            * precision (number, optional) => column precision
+            * scale (number, optional) => column scale
+            * size (number, optional) => maximum size in bytes of a column value
+            * characterSet (string, optional) => character encoding of a text column
+            * withLocalTimeZone (true | false, optional) => specifies if a timestamp has a local time zone
+            * fraction (number, optional) => fractional part of number
+            * srid (number, optional) => spatial reference system identifier
+  * exception (object, optional) =>  only present if status is "error"
+    * text (string) => exception message which provides error details
+    * sqlCode (string) => five-character exception code if known, otherwise "00000"
+
+Response JSON format
+```javascript
+ {
+     "status": <"ok" | "error">,
+     "attributes": {
+         // as defined separately
+     },
+     // in case of "ok"
+     "responseData": {
+         "numResults": <number>,
+         "results": [ {
+             "resultType": "resultSet",
+             "resultSet": {
+                 "resultSetHandle": <number>,
+                 "numColumns": <number>,
+                 "numRows": <number>,
+                 "numRowsInMessage": <number>,
+                 "columns": [ {
+                     "name": <string>,
+                     "dataType": {
+                         "type": <string>,
+                         "precision": <number>,
+                         "scale": <number>,
+                         "size": <number>,
+                         "characterSet": <number>,
+                         "withLocalTimeZone": <true | false>,
+                         "fraction": <number>,
+                         "srid": <number>
+                     }
+                 } ]
+             }
+         } ]
+     },
+     // in case of "error"
+     "exception": {
+         "text": <string>,
+         "sqlCode": <string>
+     }
+ }
+```
+
+### GetSchemas: Gets the schema names
+
+### GetTablePrivileges: Gets table privilege descriptions
+
+### GetTables: Gets table descriptions
+
+### GetTableTypes: Gets the supported table types
+
+### GetTypeInfo: Gets the supported data types
+
 ### Login: Establishes a connection to Exasol
 
 This command invokes the login process which establishes a connection
@@ -357,6 +1314,46 @@ The login process is composed of four steps:
     }
    ```
 
+### SetAttributes: Sets the given session attribute values
+
+This command sets the specified session attribute values.
+
+Request fields:
+  * command (string) => command name: "getAttributes"
+  * attributes (object, optional) =>  attributes to set for the connection (see below)
+
+Request JSON format
+```javascript
+ {
+     "command": "setAttributes",
+     "attributes": {
+             // as defined separately
+     }
+ }
+```
+
+Response fields:
+  * status (string) => command status: "ok" or "error"
+  * attributes (object, optional) =>  attributes set for the connection (see below)
+  * exception (object, optional) =>  only present if status is "error"
+    * text (string) => exception message which provides error details
+    * sqlCode (string) => five-character exception code if known, otherwise "00000"
+
+Response JSON format
+```javascript
+ {
+     "status": <"ok" | "error">,
+     "attributes": {
+             // as defined separately
+     },
+     // if status is "error"
+     "exception": {
+             "text": <string>,
+             "sqlCode": <string>
+     }
+ }
+```
+
 ### SubLogin: Establishes a subconnection to Exasol
 
 This command invokes the login process, which establishes a
@@ -482,1000 +1479,3 @@ The login process is composed of four steps:
         }
     }
    ```
-
-### Disconnect: Closes a connection to Exasol
-
-This command closes the connection between the client and Exasol.
-After the connection is closed, it cannot be used for further
-interaction with Exasol anymore.
-
-Request fields:
-  * command (string) => command name: "disconnect"
-  * attributes (object, optional) => attributes to set for the connection (see below)
-
-Request JSON format
-```javascript
- {
-     "command": "disconnect",
-     "attributes": {
-             // as defined separately
-     }
- }
-```
-
-Response fields:
-  * status (string) => command status: "ok" or "error"
-  * attributes (object, optional) => attributes set for the connection (see below)
-  * exception (object, optional) =>  only present if status is "error"
-    * text (string) => exception message which provides error details
-    * sqlCode (string) => five-character exception code if known, otherwise "00000"
-
-Reponse JSON format
-```javascript
- {
-     "status": <"ok" | "error">,
-     "attributes": {
-             // as defined separately
-     },
-     // if status is "error"
-     "exception": {
-             "text": <string>,
-             "sqlCode": <string>
-     }
- }
-```
-
-### GetAttributes: Gets the session attribute values
-
-This command retrieves the session attribute values.
-
-Request fields:
-  * command (string) => command name: "getAttributes"
-  * attributes (object, optional) => attributes to set for the connection (see below)
-
-JSON format
-```javascript
- {
-     "command": "getAttributes",
-     "attributes": {
-             // as defined separately
-     },
- }
-```
-
-Response fields:
-  * status (string) => command status: "ok" or "error"
-  * attributes (object, optional) => attributes set for the connection (see below)
-  * exception(object, optional) =>  only present if status is "error"
-    * text (string) => exception message which provides error details
-    * sqlCode (string) => five-character exception code if known, otherwise "00000"
-
-Reponse JSON format
-```javascript
- {
-     "status": <"ok" | "error">,
-     "attributes": {
-             // as defined separately
-     },
-     // if status is "error"
-     "exception": {
-             "text": <string>,
-             "sqlCode": <string>
-     }
- }
-```
-
-### SetAttributes: Sets the given session attribute values
-
-This command sets the specified session attribute values.
-
-Request fields:
-  * command (string) => command name: "getAttributes"
-  * attributes (object, optional) =>  attributes to set for the connection (see below)
-
-Request JSON format
-```javascript
- {
-     "command": "setAttributes",
-     "attributes": {
-             // as defined separately
-     }
- }
-```
-
-Response fields:
-  * status (string) => command status: "ok" or "error"
-  * attributes (object, optional) =>  attributes set for the connection (see below)
-  * exception (object, optional) =>  only present if status is "error"
-    * text (string) => exception message which provides error details
-    * sqlCode (string) => five-character exception code if known, otherwise "00000"
-
-Response JSON format
-```javascript
- {
-     "status": <"ok" | "error">,
-     "attributes": {
-             // as defined separately
-     },
-     // if status is "error"
-     "exception": {
-             "text": <string>,
-             "sqlCode": <string>
-     }
- }
-```
-
-### CreatePreparedStatement: Creates a prepared statement
-
-This command creates a prepared statement.
-
-Request fields:
-  * command (string) => command name: "createPreparedStatement"
-  * attributes (object, optional) => attributes to set for the connection (see below)
-  * sqlText (string) => SQL statement
-
-Request JSON format
-```javascript
- {
-     "command": "createPreparedStatement",
-     "attributes": {
-             // as defined separately
-     },
-     "sqlText": <string>
- }
-```
-
-Response fields:
-  * status (string) => command status: "ok" or "error"
-  * attributes (object, optional) => attributes set for the connection (see below)
-  * responseData (object, optional) => only present if status is "ok"
-    * statementHandle (number) => prepared statement handle
-    * parameterData (object, optional) => prepared statement parameter information
-      * numColumns (number) => number of columns
-      * columns (object[]) => array of column metadata objects
-        * name (string) => column name: always "" as named parameters are not supported
-        * dataType (object) => column metadata
-        * type (string) => column data type
-        * precision (number, optional) => column precision
-        * scale (number, optional) => column scale
-        * size (number, optional) => maximum size in bytes of a column value
-        * characterSet (string, optional) => character encoding of a text column
-        * withLocalTimeZone (true | false, optional) => specifies if a timestamp has a local time zone
-        * fraction (number, optional) => fractional part of number
-        * srid (number, optional) => spatial reference system identifier
-      * numResults (number) => number of result objects
-      * results (object[]) => array of result objects
-        * resultType (string) => type of result: "resultSet" or "rowCount"
-        * rowCount (number, optional) => present if resultType is "rowCount", number of rows
-        * resultSet (object, optional) => present if resultType is "resultSet", result set
-          * resultSetHandle (number, optional) => result set handle
-          * numColumns (number) => number of columns in the result set
-          * numRows (number) => number of rows in the result set
-          * numRowsInMessage (number) => number of rows in the current message
-          * columns (object[]) => array of column metadata objects
-            * name (string) => column name
-            * dataType (object) => column metadata
-              * type (string) => column data type
-              * precision (number, optional) => column precision
-              * scale (number, optional) => column scale
-              * size (number, optional) => maximum size in bytes of a column value
-              * characterSet (string, optional) => character encoding of a text column
-              * withLocalTimeZone (true | false, optional) => specifies if a timestamp has a local time zone
-              * fraction (number, optional) => fractional part of number
-              * srid (number, optional) => spatial reference system identifier
-  * exception (object, optional) =>  only present if status is "error"
-    * text (string) => exception message which provides error details
-    * sqlCode (string) => five-character exception code if known, otherwise "00000"
-
-Response JSON format
-```javascript
- {
-     "status": <"ok" | "error">,
-     "attributes": {
-         // as defined separately
-     },
-     // if status is "ok"
-     "responseData": {
-         "statementHandle": <number>,
-         "parameterData": {
-             "numColumns": <number>,
-             "columns": [ {
-                 "name": <string>,
-                 "dataType": {
-                     "type": <string>,
-                     "precision": <number>,
-                     "scale": <number>,
-                     "size": <number>,
-                     "characterSet": <number>,
-                     "withLocalTimeZone": <true | false>,
-                     "fraction": <number>,
-                     "srid": <number>
-                 }
-             } ]
-         },
-         "numResults": <number>,
-         "results": [ {
-             "resultType": <"resultSet" | "rowCount">,
-             // if type is "rowCount"
-             "rowCount": <number>,
-             // if type is "resultSet"
-             "resultSet": {
-                 "resultSetHandle": <number>,
-                 "numColumns": <number>,
-                 "numRows": <number>,
-                 "numRowsInMessage": <number>,
-                 "columns": [ {
-                     "name": <string>,
-                     "dataType": {
-                         "type": <string>,
-                         "precision": <number>,
-                         "scale": <number>,
-                         "size": <number>,
-                         "characterSet": <number>,
-                         "withLocalTimeZone": <true | false>,
-                         "fraction": <number>,
-                         "srid": <number>
-                     }
-                 } ]
-             }
-         } ]
-     },
-     // if status is "error"
-     "exception": {
-         "text": <string>,
-         "sqlCode": <string>
-     }
- }
-```
-
-### ExecutePreparedStatement: Executes a prepared statement
-
-This command executes a prepared statement which has already been
-created.
-
-If the SQL statement returns a result set which has less than 1,000 rows of data, the data will be provided in the data field of resultSet. However if the SQL statement returns a result set which has 1,000 or more rows of data, a result set will be opened whose handle is returned in the resultSetHandle field of resultSet. Using this handle, the data from the result set can be retrieved using the Fetch command. Once the result set is no longer needed, it should be closed using the CloseResultSet command.
-
-Request fields:
-  * command (string) => command name: "executePreparedStatement"
-  * attributes (object, optional) =>   attributes to set for the connection (see below)
-  * statementHandle (number) => prepared statement handle
-  * numColumns (number) => number of columns in data
-  * numRows (number) => number of rows in data
-  * columns (object[], optional) => array of column metadata objects
-    * name (string) => column name
-    * dataType (object) => column metadata
-      * type (string) => column data type
-      * precision (number, optional) => column precision
-      * scale (number, optional) => column scale
-      * size (number, optional) => maximum size in bytes of a column value
-      * characterSet (string, optional) => character encoding of a text column
-      * withLocalTimeZone (true | false, optional) => specifies if a timestamp has a local time zone
-      * fraction (number, optional) => fractional part of number
-      * srid (number, optional) => spatial reference system identifier
-  * data (array[], optional) => array containing the data for the prepared statement in column-major order
-
-Request JSON format
-```javascript
- {
-    "command": "executePreparedStatement",
-    "attributes": {
-        // as defined separately
-    },
-    "statementHandle": <number>,
-    "numColumns": <number>,
-    "numRows": <number>,
-    "columns": [ {
-        "name": <string>,
-        "dataType": {
-            "type": <string>,
-            "precision": <number>,
-            "scale": <number>,
-            "size": <number>,
-            "characterSet": <number>,
-            "withLocalTimeZone": <boolean>,
-            "fraction": <number>,
-            "srid": <number>
-        }
-    } ],
-    "data": [
-        [
-            <string | number | true | false | null>
-        ]
-    ]
- }
-```
-
-Response fields:
-
-  * status (string) => command status: "ok" or "error"
-  * attributes (object, optional) => attributes set for the connection (see below)
-  * responseData (object, optional) => only present if status is "ok"
-    * numResults (number) => number of result objects
-    * results (object[]) => array of result objects
-      * resultType (string) => type of result: "resultSet" or "rowCount"
-      * rowCount (number, optional) => present if resultType is "rowCount", number of rows
-      * resultSet (object, optional) => present if resultType is "resultSet", result set
-        * resultSetHandle (number, optional) => result set handle
-        * numColumns (number) => number of columns in the result set
-        * numRows (number) => number of rows in the result set
-        * numRowsInMessage (number) => number of rows in the current message
-        * columns (object[]) => array of column metadata objects
-          * name (string) => column name
-          * dataType (object) => column metadata
-            * type (string) => column data type
-            * precision (number, optional) => column precision
-            * scale (number, optional) => column scale
-            * size (number, optional) => maximum size in bytes of a column value
-            * characterSet (string, optional) => character encoding of a text column
-            * withLocalTimeZone (true | false, optional) => specifies if a timestamp has a local time zone
-            * fraction (number, optional) => fractional part of number
-            * srid (number, optional) => spatial reference system identifier
-        * data (array[], optional) => object containing the data for the prepared statement in column-major order
-  * exception (object, optional) =>  only present if status is "error"
-    * text (string) => exception message which provides error details
-    * sqlCode (string) => five-character exception code if known, otherwise "00000"
-
-Response JSON format
-```javascript
- {
-     "status": <"ok" | "error">,
-     "attributes": {
-         // as defined separately
-     },
-     // in case of "ok"
-     "responseData": {
-         "numResults": <number>,
-         "results": [ {
-             "resultType": <"resultSet" | "rowCount">,
-             // if type is "rowCount"
-             "rowCount": <number>,
-             // if type is "resultSet"
-             "resultSet": {
-                 "resultSetHandle": <number>,
-                 "numColumns": <number>,
-                 "numRows": <number>,
-                 "numRowsInMessage": <number>,
-                 "columns": [ {
-                     "name": <string>,
-                     "dataType": {
-                         "type": <string>,
-                         "precision": <number>,
-                         "scale": <number>,
-                         "size": <number>,
-                         "characterSet": <number>,
-                         "withLocalTimeZone": <true | false>,
-                         "fraction": <number>,
-                         "srid": <number>
-                     }
-                 } ],
-                 "data": [
-                     [
-                         <string | number | true | false | null>
-                     ]
-                 ]
-             }
-         } ]
-     },
-     // in case of "error"
-     "exception": {
-         "text": <string>,
-         "sqlCode": <string>
-     }
- }
-```
-
-### ClosePreparedStatement: Closes a prepared statement
-
-This command closes a prepared statement which has already been
-created.
-
-Request fields:
-  * command (string) => command name: "closePreparedStatement"
-  * attributes (object, optional) => attributes to set for the connection (see below)
-  * statementHandle (number) => prepared statement handle
-
-Request JSON format
-```javascript
- {
-     "command": "closePreparedStatement",
-     "attributes": {
-             // as defined separately
-     },
-     "statementHandle": <number>
- }
-```
-
-Response fields:
-  * status (string) => command status: "ok" or "error"
-  * attributes (object) => attributes set for the connection (see below)
-  * exception (object, optional) =>  only present if status is "error"
-    * text (string) => exception message which provides error details
-    * sqlCode (string) => five-character exception code if known, otherwise "00000"
-
-Response JSON format
-```javascript
- {
-     "status": <"ok" | "error">,
-     "attributes": {
-             // as defined separately
-     },
-     // in case of "error"
-     "exception": {
-             "text": <string>,
-             "sqlCode": <string>
-     }
- }
-```
-
-### Execute: Executes an SQL statement
-
-This command executes an SQL statement.
-
-If the SQL statement returns a result set which has less than 1,000 rows of data, the data will be provided in the data field of resultSet. However if the SQL statement returns a result set which has 1,000 or more rows of data, a result set will be opened whose handle is returned in the resultSetHandle field of resultSet. Using this handle, the data from the result set can be retrieved using the Fetch command. Once the result set is no longer needed, it should be closed using the CloseResultSet command.
-
-Request fields:
-  * command (string) => command name: "executePreparedStatement"
-  * attributes (object) => attributes to set for the connection (see below)
-  * sqlText (string) => SQL statement to execute
-
-Request JSON format
-```javascript
- {
-     "command": "execute",
-     "attributes": {
-             // as defined separately
-     },
-     "sqlText": <string>
- }
-```
-
-Response fields:
-  * status (string) => command status: "ok" or "error"
-  * attributes (object, optional) => attributes set for the connection (see below)
-  * responseData (object, optional) => only present if status is "ok"
-    * numResults (number) => number of result objects
-    * results (object[]) => array of result objects
-      * resultType (string) => type of result: "resultSet" or "rowCount"
-      * rowCount (number, optional) => present if resultType is "rowCount", number of rows
-      * resultSet (object, optional) => present if resultType is "resultSet", result set
-        * resultSetHandle (number) => result set handle
-        * numColumns (number) => number of columns in the result set
-        * numRows (number) => number of rows in the result set
-        * numRowsInMessage (number, optional) => number of rows in the current message
-        * columns (object[]) => array of column metadata objects
-          * name (string) => column name
-          * dataType (object) => column metadata
-            * type (string) => column data type
-            * precision (number, optional) => column precision
-            * scale (number, optional) => column scale
-            * size (number, optional) => maximum size in bytes of a column value
-            * characterSet (string, optional) => character encoding of a text column
-            * withLocalTimeZone (true | false, optional) => specifies if a timestamp has a local time zone
-            * fraction (number, optional) => fractional part of number
-            * srid (number, optional) => spatial reference system identifier
-        * data (array[], optional) => object containing the data for the prepared statement in column-major order
-  * exception (object, optional) =>  only present if status is "error"
-    * text (string) => exception message which provides error details
-    * sqlCode (string) => five-character exception code if known, otherwise "00000"
-
-Response JSON format
-```javascript
- {
-     "status": <"ok" | "error">,
-     "attributes": {
-         // as defined separately
-     },
-     // in case of "ok"
-     "responseData": { // Optional: ok
-         "numResults": <number>,
-         "results": [ {
-             "resultType": <"resultSet" | "rowCount">,
-             // if type is "rowCount"
-             "rowCount": <number>,
-             // if type is "resultSet"
-             "resultSet": {
-                 "resultSetHandle": <number>,
-                 "numColumns": <number>,
-                 "numRows": <number>,
-                 "numRowsInMessage": <number>,
-                 "columns": [ {
-                     "name": <string>,
-                     "dataType": {
-                         "type": <string>,
-                         "precision": <number>,
-                         "scale": <number>,
-                         "size": <number>,
-                         "characterSet": <number>,
-                         "withLocalTimeZone": <true | false>,
-                         "fraction": <number>,
-                         "srid": <number>
-                     }
-                 } ],
-                 "data": [
-                     [
-                         <string | number | true | false | null>
-                     ]
-                 ]
-             }
-         } ]
-     },
-     // in case of "error"
-     "exception": {
-         "text": <string>,
-         "sqlCode": <string>
-     }
- }
-```
-
-### Fetch: Retrieves data from a result set
-
-This command retrieves data from a result set.
-
-Request fields:
-  * command (string) => command name: "fetch"
-  * attributes (object, optional) =>  attributes to set for the connection (see below)
-  * resultSetHandle (number) => result set handle
-  * startPosition (number) => row offset (0-based) from which to begin data retrieval
-  * numBytes (number) => number of bytes to retrieve (max: 64MB)
-
-Request JSON format
-```javascript
- {
-     "command": "fetch",
-     "attributes": {
-             // as defined separately
-     },
-     "resultSetHandle": <number>,
-     "startPosition": <number>,
-     "numBytes": <number>
- }
-```
-
-Response fields:
-  * status (string) => command status: "ok" or "error"
-  * responseData (object, optional) => only present if status is "ok"
-    * numRows (number) => number of rows fetched from the result set
-    * data (array[]) => object containing the data for the prepared statement in column-major order
-  * exception (object, optional) =>  only present if status is "error"
-    * text (string) => exception message which provides error details
-    * sqlCode (string) => five-character exception code if known, otherwise "00000"
-
-Response JSON format
-```javascript
- {
-     "status": <"ok" | "error">,
-     // in case of "ok"
-     "responseData": {
-             "numRows": <number>,
-             "data": [
-                 [
-                     <string | number | true | false | null>
-                 ]
-             ]
-     },
-     // in case of "error"
-     "exception": {
-             "text": <string>,
-             "sqlCode": <string>
-     }
- }
-```
-
-### CloseResultSet: Closes a result set
-
-This command closes result sets.
-
-Request fields:
-  * command (string) => command name: "closeResultSet"
-  * attributes (object, optional) => attributes to set for the connection (see below)
-  * resultSetHandles (number[]) => array of result set handles
-
-Request JSON format
-```javascript
- {
-     "command": "closeResultSet",
-     "attributes": {
-             // as defined separately
-     },
-     "resultSetHandles": [ <number> ]
- }
-```
-
-Response fields:
-  * status (string) => command status: "ok" or "error"
-  * exception (object, optional) =>  only present if status is "error"
-    * text (string) => exception message which provides error details
-    * sqlCode (string) => five-character exception code if known, otherwise "00000"
-
-Response JSON format
-```javascript
- {
-     "status": <"ok" | "error">,
-     // in case of "error"
-     "exception": { // Optional: error
-             "text": <string>, // Exception text
-             "sqlCode": <string> // Five-character exception code if known, otherwise "00000"
-     }
- }
-```
-
-### GetHosts: Gets the hosts in a cluster
-
-This command gets the number hosts and the IP address of each host in
-an Exasol cluster.
-
-Request fields:
-  * command (string) => command name: "getHosts"
-  * attributes (object, optional) => attributes to set for the connection (see below)
-  * hostIp (string) => IP address of the Exasol host to which the client is currently connected (i.e., the Exasol host used to create the connection; e.g., ws://\<hostIp\>:8563)
-
-Request JSON format
-```javascript
- {
-     "command": "getHosts",
-     "attributes": {
-             // as defined separately
-     },
-     "hostIp": <string>
- }
-```
-
-Response fields:
-  * status (string) => command status: "ok" or "error"
-  * responseData (object, optional) => only present if status is "ok"
-    * numNodes (number) => number of nodes in the cluster
-    * nodes (string[]) => array of cluster node IP addresses
-  * exception (object, optional) =>  only present if status is "error"
-    * text (string) => exception message which provides error
-         details
-    * sqlCode (string) => five-character exception code if known,
-         otherwise "00000"
-
-Response JSON format
-```javascript
- {
-     "status": <"ok" | "error">,
-     // in case of "ok"
-     "responseData": {
-             "numNodes": <number>,
-             "nodes": [
-                     <string>
-             ]
-     },
-     // in case of "error"
-     "exception": {
-             "text": <string>,
-             "sqlCode": <string>
-     }
- }
-```
-
-### ExecuteBatch: Executes multiple SQL statements as a batch
-
-This command executes multiple SQL statements sequentially as a batch.
-
-If the SQL statement returns a result set which has less than 1,000 rows of data, the data will be provided in the data field of resultSet. However if the SQL statement returns a result set which has 1,000 or more rows of data, a result set will be opened whose handle is returned in the resultSetHandle field of resultSet. Using this handle, the data from the result set can be retrieved using the Fetch command. Once the result set is no longer needed, it should be closed using the CloseResultSet command.
-
-Request fields:
-  * command (string) => command name: "executeBatch"
-  * attributes (object, optional) => attributes to set for the connection (see below)
-  * sqlTexts (string[]) => array of SQL statement to execute
-
-Request JSON format
-```javascript
- {
-     "command": "executeBatch",
-     "attributes": {
-             // as defined separately
-     },
-     "sqlTexts": [
-             <string>
-     ]
- }
-```
-
-Response fields:
-  * status (string) => command status: "ok" or "error"
-  * attributes (object, optional) => attributes set for the connection (see below)
-  * responseData (object, optional) => only present if status is "ok"
-    * numResults (number) => number of result objects
-    * results (object[]) => array of result objects
-      * resultType (string) => type of result: "resultSet" or "rowCount"
-      * rowCount (number, optional) => present if resultType is "rowCount", number of rows
-      * resultSet (object, optional) => present if resultType is "resultSet", result set
-        * resultSetHandle (number, optional) => result set handle
-        * numColumns (number) => number of columns in the result set
-        * numRows (number) => number of rows in the result set
-        * numRowsInMessage (number) => number of rows in the current message
-        * columns (object[]) => array of column metadata objects
-          * name (string) => column name
-          * dataType (object) => column metadata
-            * type (string) => column data type
-            * precision (number, optional) => column precision
-            * scale (number, optional) => column scale
-            * size (number, optional) => maximum size in bytes of a column value
-            * characterSet (string, optional) => character encoding of a text column
-            * withLocalTimeZone (true | false, optional) => specifies if a timestamp has a local time zone
-            * fraction (number, optional) => fractional part of number
-            * srid (number, optional) => spatial reference system identifier
-        * data (array[], optional) => object containing the data for the prepared statement in column-major order
-  * exception (object, optional) =>  only present if status is "error"
-    * text (string) => exception message which provides error details
-    * sqlCode (string) => five-character exception code if known, otherwise "00000"
-
-Response JSON format
-```javascript
- {
-     "status": <"ok" | "error">,
-     "attributes": {
-         // as defined separately
-     },
-     // in case of "ok"
-     "responseData": {
-         "numResults": <number>,
-         "results": [ {
-             "resultType": <"resultSet" | "rowCount">,
-             // if type is "rowCount"
-             "rowCount": <number>,
-             // if type is "resultSet"
-             "resultSet": {
-                 "resultSetHandle": <number>,
-                 "numColumns": <number>,
-                 "numRows": <number>,
-                 "numRowsInMessage": <number>,
-                 "columns": [ {
-                     "name": <string>,
-                     "dataType": {
-                         "type": <string>,
-                         "precision": <number>,
-                         "scale": <number>,
-                         "size": <number>,
-                         "characterSet": <number>,
-                         "withLocalTimeZone": <true | false>,
-                         "fraction": <number>,
-                         "srid": <number>
-                     }
-                 } ],
-                 "data": [
-                     [
-                         <string | number | true | false | null>
-                     ]
-                 ]
-             }
-         } ]
-     },
-     // in case of "error"
-     "exception": {
-         "text": <string>,
-         "sqlCode": <string>
-     }
- }
-```
-
-### EnterParallel: Opens subconnections for parallel execution
-
-This command opens subconnections, which are additional connections to
-other nodes in the cluster, for the purpose of parallel execution. If
-the requested number of subconnections is 0, all open subconnections
-are closed.
-
-Request fields:
-  * command (string) => command name: "enterParallel"
-  * attributes (object, optional) => attributes to set for the connection (see below)
-  * hostIp (string) => IP address of the Exasol host to which the client is currently connected (i.e., the Exasol host used to create the connection; e.g., ws://\<hostIp\>:8563)
-  * numRequestedConnections (number) => number of subconnections to open. If 0, all open subconnections are closed.
-
-Request JSON format
-```javascript
- {
-     "command": "enterParallel",
-     "attributes": {
-             // as defined separately
-     },
-     "hostIp": <string>,
-     "numRequestedConnections": <number>
- }
-```
-
-Response fields:
-  * status (string) => command status: "ok" or "error"
-  * responseData (object, optional) => only present if status is "ok"
-    * numOpenConnections (number) => number of subconnections actually opened
-    * token (number) => token required for the login of subconnections
-    * nodes (string[]) => IP addresses and ports of the nodes, to which subconnections may be established
-  * exception (object, optional) =>  only present if status is "error"
-    * text (string) => exception message which provides error details
-    * sqlCode (string) => five-character exception code if known, otherwise "00000"
-
-Response JSON format
-```javascript
- {
-     "status": <"ok" | "error">,
-     // in case of "ok"
-     "responseData": {
-             "numOpenConnections": <number>,
-             "token": <number>,
-             "nodes": [
-                     <string>
-             ]
-     },
-     // in case of "error"
-     "exception": {
-             "text": <string>,
-             "sqlCode": <string>
-     }
- }
-```
-
-### GetResultSetHeader: Gets a result set header
-
-This command retrieves a header (i.e., empty result set) which contains
-the metadata for an open result set.
-
-Request fields:
-  * command (string) => command name: "getResultSetHeader"
-  * attributes (object, optional) => attributes to set for the connection (see below)
-  * resultSetHandles (number[]) => array of open result set handles
-
-Request JSON format
-```javascript
- {
-     "command": "getResultSetHeader",
-     "attributes": {
-             // as defined separately
-     },
-     "resultSetHandles": [
-         <number>
-     ]
- }
-```
-
-Response fields:
-  * status (string) => command status: "ok" or "error"
-  * attributes (object, optional) => attributes set for the connection (see below)
-  * responseData (object, optional) => only present if status is "ok"
-    * numResults (number) => number of result objects
-    * results (object[]) => array of result objects
-      * resultType (string) => type of result: "resultSet"
-      * resultSet (object) => result set
-        * resultSetHandle (number, optional) => result set handle
-        * numColumns (number) => number of columns in the result set
-        * numRows (number) => number of rows in the result set
-        * numRowsInMessage (number) => number of rows in the current message
-        * columns (object[]) => array of column metadata objects
-          * name (string) => column name
-          * dataType (object) => column metadata
-            * type (string) => column data type
-            * precision (number, optional) => column precision
-            * scale (number, optional) => column scale
-            * size (number, optional) => maximum size in bytes of a column value
-            * characterSet (string, optional) => character encoding of a text column
-            * withLocalTimeZone (true | false, optional) => specifies if a timestamp has a local time zone
-            * fraction (number, optional) => fractional part of number
-            * srid (number, optional) => spatial reference system identifier
-  * exception (object, optional) =>  only present if status is "error"
-    * text (string) => exception message which provides error details
-    * sqlCode (string) => five-character exception code if known, otherwise "00000"
-
-Response JSON format
-```javascript
- {
-     "status": <"ok" | "error">,
-     "attributes": {
-         // as defined separately
-     },
-     // in case of "ok"
-     "responseData": {
-         "numResults": <number>,
-         "results": [ {
-             "resultType": "resultSet",
-             "resultSet": {
-                 "resultSetHandle": <number>,
-                 "numColumns": <number>,
-                 "numRows": <number>,
-                 "numRowsInMessage": <number>,
-                 "columns": [ {
-                     "name": <string>,
-                     "dataType": {
-                         "type": <string>,
-                         "precision": <number>,
-                         "scale": <number>,
-                         "size": <number>,
-                         "characterSet": <number>,
-                         "withLocalTimeZone": <true | false>,
-                         "fraction": <number>,
-                         "srid": <number>
-                     }
-                 } ]
-             }
-         } ]
-     },
-     // in case of "error"
-     "exception": {
-         "text": <string>,
-         "sqlCode": <string>
-     }
- }
-```
-
-### GetOffset: Gets the row offset of a result set
-
-This command retrieves the row offset of the result set of this
-(sub)connection. This is the row number of the first row of the current
-(sub)connection's result set in the global result set.
-
-Request fields:
-  * command (string) => command name: "getOffset"
-  * attributes (object, optional) => attributes to set for the connection (see below)
-  * resultSetHandle (number) => open result set handle
-
-Request JSON format
-```javascript
- {
-     "command": "getOffset",
-     "attributes": {
-             // as defined separately
-     },
-     "resultSetHandle": <number>
- }
-```
-
-Response fields:
-  * status (string) => command status: "ok" or "error"
-  * responseData (object, optional) => only present if status is "ok"
-    * rowOffset (number) => row offset of connection's result set
-  * exception (object, optional) =>  only present if status is "error"
-    * text (string) => exception message which provides error details
-    * sqlCode (string) => five-character exception code if known, otherwise "00000"
-
-Response JSON format
-```javascript
- {
-     "status": <"ok" | "error">,
-     // in case of "ok"
-     "responseData": {
-             "rowOffset": <number>
-     },
-     // in case of "error"
-     "exception": {
-             "text": <string>,
-             "sqlCode": <string>
-     }
- }
-```
-
-### AbortQuery: Aborts a running query
-
-This command aborts a running query. It does not have a response.
-
-Request fields:
-  * command (string) => command name: "abortQuery"
-
-Request JSON format
-```javascript
- {
-     "command": "abortQuery"
- }
-```
-
-### GetCatalogs: Gets the catalog names
-
-### GetSchemas: Gets the schema names
-
-### GetTypeInfo: Gets the supported data types
-
-### GetTableTypes: Gets the supported table types
-
-### GetTables: Gets table descriptions
-
-### GetColumns: Gets column descriptions
-
-### GetTablePrivileges: Gets table privilege descriptions
-
-### GetColumnPrivileges: Gets column privilege descriptions
-
-### GetPrimaryKeys: Gets primary key descriptions
-
-### GetProcedures: Gets procedure descriptions
-
-### GetProcedureColumns: Gets procedure column descriptions

@@ -1,7 +1,6 @@
 ## WebSocket protocol v1 details
 
-WebSocket Protocol v1 requires an Exasol client/server protocol of
-at least v14. It follows the standards IETF as RFC 6455.
+WebSocket Protocol v1 requires an Exasol version of at least 6.0.0. It follows the RFC 6455 document of the IETF.
 
 The Exasol connection server identifies the initial GET request by the client.
 This request contains information about the used protocol version.

@@ -28,6 +28,9 @@ maybe you are even keen to support our community with own developments.
 It would then be nice if you could share your work with us, and 
 we will of course help you by any means. 
 
+## Changes
+* [WebSocket API v2](docs/WebsocketAPIv2.md) support has been added in Exasol 7.0.
+
 ## Supported versions
 | | WebSocket API v1 | WebSocket API v2 |
 | --- | --- | --- |
@@ -37,5 +40,7 @@ we will of course help you by any means.
 | **Exasol 6.0** | :heavy_check_mark: | :x: |
 
 ## Content
-* [API specification of the protocol](WebsocketAPI.md)
-* Several native Exasol driver implementations using the JSON over WebSockets API protocol
+* [WebSocket protocol v1 API specification](docs/WebsocketAPIv1.md)
+* [WebSocket protocol v2 API specification](docs/WebsocketAPIv2.md)
+* [Python native driver implementation](python/README.md)
+* [JavaScript native driver implementation](javascript/README.md)

@@ -1,4 +1,4 @@
-# Exasol JSON over WebSockets API - Introduction
+# Exasol JSON over WebSockets API
 
 ## Why a WebSockets API?
 
@@ -12,8 +12,7 @@ the standardized ways of communicating with a database, such as JDBC,
 ODBC or ADO.NET, which are mostly old and static standards and create
 additional complexity due to the necessary driver managers.
 
-
-## Clients support
+## Client support
 
 Currently a native Python driver using this WebSocket API has been
 implemented. By that you don't need any pyodbc bridge anymore, but 
@@ -27,10 +26,7 @@ maybe you are even keen to support our community with own developments.
 It would then be nice if you could share your work with us, and 
 we will of course help you by any means. 
 
-
-# Exasol JSON over WebSockets API details
-
-## WebSocket Protocol v1
+## WebSocket protocol v1 details
 
 WebSocket Protocol v1 requires an Exasol client/server protocol of
 at least v14. It follows the standards IETF as RFC 6455.
@@ -45,30 +41,42 @@ standard drivers like JDBC or ODBC: The connection server listens to
 incoming messages and forwards the requests to the database. 
 
 ## Command summary
+
+### Connection-related commands
+
+The following commands are used to connect to Exasol, disconnect from Exasol, 
+and query the hosts of an Exasol cluster.
+
 | Command | Description |
 | --- | --- |
+| [disconnect](#disconnect-closes-a-connection-to-exasol) | Closes a connection to Exasol |
+| [enterParallel](#enterparallel-opens-subconnections-for-parallel-execution) | Opens subconnections for parallel execution |
+| [getHosts](#gethosts-gets-the-hosts-in-a-cluster) | Gets the hosts in a cluster |
 | [login](#login-establishes-a-connection-to-exasol) | Establishes a connection to Exasol |
 | [sublogin](#sublogin-establishes-a-subconnection-to-exasol) | Establishes a subconnection to Exasol |
-| [disconnect](#disconnect-closes-a-connection-to-exasol) | Closes a connection to Exasol |
-| [getAttributes](#getattributes-gets-the-session-attribute-values) | Gets the session attribute values |
-| [setAttributes](#setattributes-sets-the-given-session-attribute-values) | Sets the given session attribute values |
-| [createPreparedStatement](#createpreparedstatement-creates-a-prepared-statement) | Creates a prepared statement |
-| [executePreparedStatement](#executepreparedstatement-executes-a-prepared-statement) | Executes a prepared statement |
-| [closePreparedStatement](#closepreparedstatement-closes-a-prepared-statement) | Closes a prepared statement |
-| [execute](#execute-executes-an-sql-statement) | Executes an SQL statement |
-| [fetch](#fetch-retrieves-data-from-a-result-set) | Retrieves data from a result set |
-| [closeResultSet](#closeresultset-closes-a-result-set) | Closes a result set |
-| [getHosts](#gethosts-gets-the-hosts-in-a-cluster) | Gets the hosts in a cluster |
-| [executeBatch](#executebatch-executes-multiple-sql-statements-as-a-batch) | Executes multiple SQL statements as a batch |
-| [enterParallel](#enterparallel-opens-subconnections-for-parallel-execution) | Opens subconnections for parallel execution |
-| [getResultSetHeader](#getresultsetheader-gets-a-result-set-header) | Gets a result set header |
-| [getOffset](#getoffset-gets-the-row-offset-of-a-result-set) | Gets the row offset of a result set |
+
+### Session-related commands
+
+The following commands are used for actions that a user would typically perform after an Exasol 
+session has been established. These commands are responsible for executing queries and statements, 
+reading result sets, and getting and setting session attributes.
+
+| Command | Description |
+| --- | --- |
 | [abortQuery](#abortquery-aborts-a-running-query) | Aborts a running query |
+| [closePreparedStatement](#closepreparedstatement-closes-a-prepared-statement) | Closes a prepared statement |
+| [closeResultSet](#closeresultset-closes-a-result-set) | Closes a result set |
+| [createPreparedStatement](#createpreparedstatement-creates-a-prepared-statement) | Creates a prepared statement |
+| [execute](#execute-executes-an-sql-statement) | Executes an SQL statement |
+| [executeBatch](#executebatch-executes-multiple-sql-statements-as-a-batch) | Executes multiple SQL statements as a batch |
+| [executePreparedStatement](#executepreparedstatement-executes-a-prepared-statement) | Executes a prepared statement |
+| [fetch](#fetch-retrieves-data-from-a-result-set) | Retrieves data from a result set |
+| [getAttributes](#getattributes-gets-the-session-attribute-values) | Gets the session attribute values |
+| [getOffset](#getoffset-gets-the-row-offset-of-a-result-set) | Gets the row offset of a result set |
+| [getResultSetHeader](#getresultsetheader-gets-a-result-set-header) | Gets a result set header |
+| [setAttributes](#setattributes-sets-the-given-session-attribute-values) | Sets the given session attribute values |
 
-
-## Attributes
-
-### Attributes: Session and database properties
+## Attributes: Session and database properties
 
 Attributes can be queried with the GetAttributes command and some of
 them can be modified with the SetAttributes command. Modified
@@ -79,7 +87,7 @@ attributes are included in command replies.
 | autocommit | true \| false | no | no | If true, commit() will be executed automatically after each statement. If false, commit() and rollback() must be executed manually. |
 | compressionEnabled | true \| false | yes | no | If true, the WebSocket data frame payload data is compressed. If false, it is not compressed. |
 | currentSchema | string | no |  yes | Current schema name |
-| dateFormat |  string | yes | yes | Date format |
+| dateFormat | string | yes | yes | Date format |
 | dateLanguage | string | yes | yes | Language used for the day and month of dates. |
 | datetimeFormat | string | yes | yes | Timestamp format |
 | defaultLikeEscapeCharacter | string | yes | yes | Escape character in LIKE expressions. |
@@ -102,9 +110,7 @@ Attribute JSON format
  }
 ```
 
-## Data Types
-
-### Data Types: Type names and properties
+## Data Types: Type names and properties
 
 The following data types and properties can be used to specify column
 types in the executePreparedStatement request.
@@ -149,7 +155,6 @@ field in the login command to true. If compression is enabled during
 login, all messages sent and received after login completion must be
 binary data frames, in which the payload data (i.e., command
 request/response) is zlib-compressed.
-
 
 ## Heartbeat/Feedback Messages
 

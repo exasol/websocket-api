@@ -31,7 +31,7 @@ and query the hosts of an Exasol cluster.
 | [enterParallel](#enterparallel-opens-subconnections-for-parallel-execution) | Opens subconnections for parallel execution |
 | [getHosts](#gethosts-gets-the-hosts-in-a-cluster) | Gets the hosts in a cluster |
 | [login](#login-establishes-a-connection-to-exasol) | Establishes a connection to Exasol |
-| [sublogin](#sublogin-establishes-a-subconnection-to-exasol) | Establishes a subconnection to Exasol |
+| [subLogin](#sublogin-establishes-a-subconnection-to-exasol) | Establishes a subconnection to Exasol |
 
 ### Session-related commands
 

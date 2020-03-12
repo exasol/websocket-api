@@ -42,5 +42,5 @@ we will of course help you by any means.
 ## Content
 * [WebSocket protocol v1 API specification](docs/WebsocketAPIv1.md)
 * [WebSocket protocol v2 API specification](docs/WebsocketAPIv2.md)
-* [Python native driver implementation](python/README.md)
-* [JavaScript native driver implementation](javascript/README.md)
+* [Python native driver implementation](python/)
+* [JavaScript native driver implementation](javascript/)

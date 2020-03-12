@@ -28,6 +28,14 @@ maybe you are even keen to support our community with own developments.
 It would then be nice if you could share your work with us, and 
 we will of course help you by any means. 
 
+## Supported versions
+| | WebSocket API v1 | WebSocket API v2 |
+| --- | --- | --- |
+| **Exasol 7.0** | :heavy_check_mark: | :heavy_check_mark: |
+| **Exasol 6.2** | :heavy_check_mark: | :x: |
+| **Exasol 6.1** | :heavy_check_mark: | :x: |
+| **Exasol 6.0** | :heavy_check_mark: | :x: |
+
 ## Content
 * [API specification of the protocol](WebsocketAPI.md)
 * Several native Exasol driver implementations using the JSON over WebSockets API protocol

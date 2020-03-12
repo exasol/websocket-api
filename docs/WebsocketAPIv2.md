@@ -56,7 +56,7 @@ reading result sets, and getting and setting session attributes.
 
 ### Metadata-related commands
 
-The following commands are used to query metadata from Exasol.
+The following commands are used to query metadata in Exasol. The commands and their behavior are very similar to methods in the JDBC standard.
 
 | Command | Description |
 | --- | --- |

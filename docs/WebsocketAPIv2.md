@@ -95,12 +95,13 @@ types in the executePreparedStatement request.
 
 | Type | Required Properties | Optional Properties |
 | --- | --- | --- |
-| BOOLEAN | |
+| BOOLEAN | | |
 | CHAR | size | |
 | DATE | | |
 | DECIMAL | precision, scale | |
 | DOUBLE | | |
 | GEOMETRY | | |
+| HASHTYPE | | |
 | INTERVAL DAY TO SECOND | precision, fraction | |
 | INTERVAL YEAR TO MONTH | precision | |
 | TIMESTAMP | | withLocalTimeZone |
@@ -119,6 +120,7 @@ types in responses from Exasol.
 | DECIMAL | precision, scale |
 | DOUBLE | |
 | GEOMETRY | size, srid |
+| HASHTYPE | size |
 | INTERVAL DAY TO SECOND | size, precision, fraction |
 | INTERVAL YEAR TO MONTH | size, precision |
 | TIMESTAMP | size, withLocalTimeZone |

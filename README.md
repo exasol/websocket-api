@@ -1,6 +1,6 @@
 # Exasol JSON over WebSockets API
 
-###### Please note that this is an open source project which is officially supported by EXASOL. For any question, you can contact our support team.
+###### Please note that this is an open source project which is officially supported by Exasol. For any question, you can contact our support team.
 
 ## Why a WebSockets API?
 
@@ -30,4 +30,4 @@ we will of course help you by any means.
 
 ## Content
 * [API specification of the protocol](WebsocketAPI.md)
-* Several native EXASOL driver implementations using the JSON over WebSockets API protocol
+* Several native Exasol driver implementations using the JSON over WebSockets API protocol

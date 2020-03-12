@@ -191,426 +191,6 @@ The following is an example of how to create, use, and close subconnections to f
 
 ## Command details
 
-### Disconnect: Closes a connection to Exasol
-
-This command closes the connection between the client and Exasol.
-After the connection is closed, it cannot be used for further
-interaction with Exasol anymore.
-
-Request fields:
-  * command (string) => command name: "disconnect"
-  * attributes (object, optional) => attributes to set for the connection (see below)
-
-Request JSON format
-```javascript
- {
-     "command": "disconnect",
-     "attributes": {
-             // as defined separately
-     }
- }
-```
-
-Response fields:
-  * status (string) => command status: "ok" or "error"
-  * attributes (object, optional) => attributes set for the connection (see below)
-  * exception (object, optional) =>  only present if status is "error"
-    * text (string) => exception message which provides error details
-    * sqlCode (string) => five-character exception code if known, otherwise "00000"
-
-Reponse JSON format
-```javascript
- {
-     "status": <"ok" | "error">,
-     "attributes": {
-             // as defined separately
-     },
-     // if status is "error"
-     "exception": {
-             "text": <string>,
-             "sqlCode": <string>
-     }
- }
-```
-
-### EnterParallel: Opens subconnections for parallel execution
-
-This command opens subconnections, which are additional connections to
-other nodes in the cluster, for the purpose of parallel execution. If
-the requested number of subconnections is 0, all open subconnections
-are closed.
-
-Request fields:
-  * command (string) => command name: "enterParallel"
-  * attributes (object, optional) => attributes to set for the connection (see below)
-  * hostIp (string) => IP address of the Exasol host to which the client is currently connected (i.e., the Exasol host used to create the connection; e.g., ws://\<hostIp\>:8563)
-  * numRequestedConnections (number) => number of subconnections to open. If 0, all open subconnections are closed.
-
-Request JSON format
-```javascript
- {
-     "command": "enterParallel",
-     "attributes": {
-             // as defined separately
-     },
-     "hostIp": <string>,
-     "numRequestedConnections": <number>
- }
-```
-
-Response fields:
-  * status (string) => command status: "ok" or "error"
-  * responseData (object, optional) => only present if status is "ok"
-    * numOpenConnections (number) => number of subconnections actually opened
-    * token (number) => token required for the login of subconnections
-    * nodes (string[]) => IP addresses and ports of the nodes, to which subconnections may be established
-  * exception (object, optional) =>  only present if status is "error"
-    * text (string) => exception message which provides error details
-    * sqlCode (string) => five-character exception code if known, otherwise "00000"
-
-Response JSON format
-```javascript
- {
-     "status": <"ok" | "error">,
-     // in case of "ok"
-     "responseData": {
-             "numOpenConnections": <number>,
-             "token": <number>,
-             "nodes": [
-                     <string>
-             ]
-     },
-     // in case of "error"
-     "exception": {
-             "text": <string>,
-             "sqlCode": <string>
-     }
- }
-```
-
-### GetHosts: Gets the hosts in a cluster
-
-This command gets the number hosts and the IP address of each host in
-an Exasol cluster.
-
-Request fields:
-  * command (string) => command name: "getHosts"
-  * attributes (object, optional) => attributes to set for the connection (see below)
-  * hostIp (string) => IP address of the Exasol host to which the client is currently connected (i.e., the Exasol host used to create the connection; e.g., ws://\<hostIp\>:8563)
-
-Request JSON format
-```javascript
- {
-     "command": "getHosts",
-     "attributes": {
-             // as defined separately
-     },
-     "hostIp": <string>
- }
-```
-
-Response fields:
-  * status (string) => command status: "ok" or "error"
-  * responseData (object, optional) => only present if status is "ok"
-    * numNodes (number) => number of nodes in the cluster
-    * nodes (string[]) => array of cluster node IP addresses
-  * exception (object, optional) =>  only present if status is "error"
-    * text (string) => exception message which provides error
-         details
-    * sqlCode (string) => five-character exception code if known,
-         otherwise "00000"
-
-Response JSON format
-```javascript
- {
-     "status": <"ok" | "error">,
-     // in case of "ok"
-     "responseData": {
-             "numNodes": <number>,
-             "nodes": [
-                     <string>
-             ]
-     },
-     // in case of "error"
-     "exception": {
-             "text": <string>,
-             "sqlCode": <string>
-     }
- }
-```
-
-### Login: Establishes a connection to Exasol
-
-This command invokes the login process which establishes a connection
-between the client and Exasol. As long as the connection is open,
-the user can interact with Exasol using the commands specified
-below.
-
-The login process is composed of four steps:
-
-1. The client sends the login command including the requested protocol 
-   version.
-   
-   Request fields:
-     * command (string) => command name: "login"
-     * protocolVersion (number) => requested WebSocket protocol version, (e.g., 1)
-   
-   Request JSON format
-   ```javascript
-    {
-        "command": "login",
-        "protocolVersion": <number>
-    }
-   ```
-
-2. The server returns a public key which is used to encode the
-   user's password. The public key can be obtained in one of two ways:
-    a. importing the key using the publicKeyPem field
-    b. constructing the key using the publicKeyModulus and publicKeyExponent fields
-
-   Response fields:
-     * status (string) => command status: "ok" or "error"
-     * responseData (object, optional) => only present if status is "ok"
-       * publicKeyPem (string) => PEM-formatted, 1024-bit RSA public key used to encode the user's password (see 3.)
-       * publicKeyModulus (string) => hexadecimal modulus of the 1024-bit RSA public key used to encode the user's password (see 3.)
-       * publicKeyExponent (string) => hexadecimal exponent of the 1024-bit RSA public key used to encode the user's password (see 3.)
-     * exception (object, optional) => only present if status is "error"
-       * text (string) => exception message which provides error details
-       * sqlCode (string) => five-character exception code if known, otherwise "00000"
-   
-   Response JSON format
-   ```javascript
-    {
-        "status": <"ok" | "error">,
-        // if status is "ok"
-        "responseData": {
-                "publicKeyPem": <string>,
-                "publicKeyModulus": <string>,
-                "publicKeyExponent": <string>
-    },
-        // if status is "error"
-        "exception": {
-                "text": <string>,
-                "sqlCode": <string>
-        }
-    }
-   ```
-   
-   
-3. The client sends the username, encrypted password, and optionally
-   other client information.
-   
-   Request fields:
-     * username (string) => Exasol user name to use for the login process
-     * password (string) => user's password, which is encrypted using publicKey (see 2.) and PKCS #1 v1.5 padding, encoded in Base64 format
-     * useCompression (boolean) => use compression for messages during the session (beginning after the login process is completed)
-     * sessionId (number, optional) => requested session ID
-     * clientName (string, optional) => client program name, (e.g., "EXAplus")
-     * driverName (string, optional) => driver name, (e.g., "EXA Python")
-     * clientOs (string, optional) => name and version of the client operating system
-     * clientOsUsername (string, optional) => client's operating system user name
-     * clientLanguage (string, optional) => language setting of the client system
-     * clientVersion (string, optional) => client version number
-     * clientRuntime (string, optional) => name and version of the client runtime
-     * attributes (object, optional) => array of attributes to set for the connection (see below)
-   
-   Request JSON format
-   ```javascript
-    {
-        "username": <string>,
-        "password": <string>,
-        "useCompression": <boolean>,
-        "sessionId": <number>,
-        "clientName": <string>,
-        "driverName": <string>,
-        "clientOs": <string>,
-        "clientOsUsername": <string>,
-        "clientLanguage": <string>,
-        "clientVersion": <string>,
-        "clientRuntime": <string>,
-        "attributes": {
-                // as defined separately
-        }
-    }
-   ```
-   
-   
-4. The server uses username and password (see 3.) to authenticate the
-   user. If successful, the server replies with an "ok" response and a
-   connection is established. If authentication of the user fails, the
-   server sends an "error" response to the client indicating that the login
-   process failed and a connection couldn't be established.
-   
-   Response fields:
-     * status (string) => command status: "ok" or "error"
-     * responseData (object, optional) => only present if status is "ok"
-       * sessionId (number) => current session ID
-       * protocolVersion (number) => WebSocket protocol version of the connection (e.g., 1)
-       * releaseVersion (string) => Exasol version (e.g. "6.0.0")
-       * databaseName (string) => database name (e.g., "productionDB1")
-       * productName (string) => Exasol product name: "EXASolution"
-       * maxDataMessageSize (number) => maximum size of a data message in bytes
-       * maxIdentifierLength (number) => maximum length of identifiers
-       * maxVarcharLength (number) =>  maximum length of VARCHAR values
-       * identifierQuoteString (string) => value of the identifier quote string (e.g., "'")
-       * timeZone (string) => name of the session time zone
-       * timeZoneBehavior (string) => value of the session option "TIME_ZONE_BEHAVIOR"
-     * exception (object, optional) =>  only present if status is "error"
-       * text (string) => exception message which provides error details
-       * sqlCode (string) => five-character exception code if known, otherwise "00000"
-   
-   Response JSON format
-   ```javascript
-    {
-        "status": <"ok" | "error">,
-        // if status is "ok"
-        "responseData": {
-                "sessionId": <number>,
-                "protocolVersion": <number>,
-                "releaseVersion": <string>,
-                "databaseName": <string>,
-                "productName": <string>,
-                "maxDataMessageSize": <number>,
-                "maxIdentifierLength": <number>,
-                "maxVarcharLength": <number>,
-                "identifierQuoteString": <string>,
-                "timeZone": <string>,
-                "timeZoneBehavior": <string>
-        },
-        // if status is "error"
-        "exception": {
-                "text": <string>,
-                "sqlCode": <string>
-        }
-    }
-   ```
-
-### SubLogin: Establishes a subconnection to Exasol
-
-This command invokes the login process, which establishes a
-subconnection between the client and Exasol. Using subconnections,
-the user can interact with Exasol in parallel using the commands
-specified below.
-
-The login process is composed of four steps:
-
-1. The client sends the login command including the requested protocol
-   version.
-   
-   Request fields:
-     * command (string) => command name: "login"
-     * protocolVersion (number) => requested WebSocket protocol version, (e.g., 1)
-   
-   Request JSON format
-   ```javascript
-    {
-        "command": "subLogin",
-        "protocolVersion": <number>
-    }
-   ```
-
-
-2. The server returns a public key which is used to encode the
-   user's password. The public key can be obtained in one of two ways:
-    a. importing the key using the publicKeyPem field
-    b. constructing the key using the publicKeyModulus and publicKeyExponent fields.
-   
-   Response fields:
-     * status (string) => command status: "ok" or "error"
-     * responseData (object, optional) => only present if status is "ok"
-       * publicKeyPem (string) => PEM-formatted, 1024-bit RSA public key used to encode the user's password (see 3.)
-       * publicKeyModulus (string) => hexadecimal modulus of the 1024-bit RSA public key used to encode the user's password (see 3.)
-       * publicKeyExponent (string) => hexadecimal exponent of the 1024-bit RSA public key used to encode the user's password (see 3.)
-     * exception (object, optional) => only present if status is "error"
-       * text (string) => exception message which provides error details
-       * sqlCode (string) => five-character exception code if known, otherwise "00000"
-   
-   Response JSON format
-   ```javascript
-    {
-        "status": <"ok" | "error">,
-        // if status is "ok"
-        "responseData": {
-                "publicKeyPem": <string>,
-                "publicKeyModulus": <string>,
-                "publicKeyExponent": <string>
-        },
-        // if status is "error"
-        "exception": {
-                "text": <string>,
-                "sqlCode": <string>
-        }
-    }
-   ```
-   
-
-3. The client sends the username, encrypted password, and token.
-
-   Request fields:
-     * username (string) => Exasol user name to use for the login process
-     * password (string) => user's password, which is encrypted using publicKey (see 2.) and PKCS #1 v1.5 padding, encoded in Base64 format
-     * token (number) => token required for subconnection logins (see, EnterParallel)
-   
-   Request JSON format
-   ```javascript
-    {
-        "username": <string>,
-        "password": <string>,
-        "token": <number>
-    }
-   ```
-   
-4. The server uses username, password, and token (see 3.) to
-   authenticate the user. If successful, the server replies with an
-   "ok" response and a subconnection is established. If authentication of
-   the user fails, the server sends an "error" response to the client
-   indicating that the login process failed and a subconnection couldn't
-   be established.
-   
-   Response fields:
-     * status (string) => command status: "ok" or "error"
-     * responseData (object, optional) => only present if status is "ok"
-       * sessionId (number) => current session ID
-       * protocolVersion (number) => WebSocket protocol version of the connection (e.g., 1)
-       * releaseVersion (string) => Exasol version (e.g. "6.0.0")
-       * databaseName (string) => database name (e.g., "productionDB1")
-       * productName (string) => Exasol product name: "EXASolution"
-       * maxDataMessageSize (number) => maximum size of a data message in bytes
-       * maxIdentifierLength (number) => maximum length of identifiers
-       * maxVarcharLength (number) =>  maximum length of VARCHAR values
-       * identifierQuoteString (string) => value of the identifier quote string (e.g., "'")
-       * timeZone (string) => name of the session time zone
-       * timeZoneBehavior (string) => value of the session option "TIME_ZONE_BEHAVIOR"
-     * exception (object, optional) =>  only present if status is "error"
-       * text (string) => exception message which provides error details
-       * sqlCode (string) => five-character exception code if known, otherwise "00000"
-   
-   Response JSON format
-   ```javascript
-    {
-        "status": <"ok" | "error">,
-        // if status is "ok"
-        "responseData": {
-                "sessionId": <number>,
-                "protocolVersion": <number>,
-                "releaseVersion": <string>,
-                "databaseName": <string>,
-                "productName": <string>,
-                "maxDataMessageSize": <number>,
-                "maxIdentifierLength": <number>,
-                "maxVarcharLength": <number>,
-                "identifierQuoteString": <string>,
-                "timeZone": <string>,
-                "timeZoneBehavior": <string>
-        },
-        // if status is "error"
-        "exception": {
-                "text": <string>,
-                "sqlCode": <string>
-        }
-    }
-   ```
-   
 ### AbortQuery: Aborts a running query
 
 This command aborts a running query. It does not have a response.
@@ -825,6 +405,103 @@ Response JSON format
      "exception": {
          "text": <string>,
          "sqlCode": <string>
+     }
+ }
+```
+
+### Disconnect: Closes a connection to Exasol
+
+This command closes the connection between the client and Exasol.
+After the connection is closed, it cannot be used for further
+interaction with Exasol anymore.
+
+Request fields:
+  * command (string) => command name: "disconnect"
+  * attributes (object, optional) => attributes to set for the connection (see below)
+
+Request JSON format
+```javascript
+ {
+     "command": "disconnect",
+     "attributes": {
+             // as defined separately
+     }
+ }
+```
+
+Response fields:
+  * status (string) => command status: "ok" or "error"
+  * attributes (object, optional) => attributes set for the connection (see below)
+  * exception (object, optional) =>  only present if status is "error"
+    * text (string) => exception message which provides error details
+    * sqlCode (string) => five-character exception code if known, otherwise "00000"
+
+Reponse JSON format
+```javascript
+ {
+     "status": <"ok" | "error">,
+     "attributes": {
+             // as defined separately
+     },
+     // if status is "error"
+     "exception": {
+             "text": <string>,
+             "sqlCode": <string>
+     }
+ }
+```
+
+### EnterParallel: Opens subconnections for parallel execution
+
+This command opens subconnections, which are additional connections to
+other nodes in the cluster, for the purpose of parallel execution. If
+the requested number of subconnections is 0, all open subconnections
+are closed.
+
+Request fields:
+  * command (string) => command name: "enterParallel"
+  * attributes (object, optional) => attributes to set for the connection (see below)
+  * hostIp (string) => IP address of the Exasol host to which the client is currently connected (i.e., the Exasol host used to create the connection; e.g., ws://\<hostIp\>:8563)
+  * numRequestedConnections (number) => number of subconnections to open. If 0, all open subconnections are closed.
+
+Request JSON format
+```javascript
+ {
+     "command": "enterParallel",
+     "attributes": {
+             // as defined separately
+     },
+     "hostIp": <string>,
+     "numRequestedConnections": <number>
+ }
+```
+
+Response fields:
+  * status (string) => command status: "ok" or "error"
+  * responseData (object, optional) => only present if status is "ok"
+    * numOpenConnections (number) => number of subconnections actually opened
+    * token (number) => token required for the login of subconnections
+    * nodes (string[]) => IP addresses and ports of the nodes, to which subconnections may be established
+  * exception (object, optional) =>  only present if status is "error"
+    * text (string) => exception message which provides error details
+    * sqlCode (string) => five-character exception code if known, otherwise "00000"
+
+Response JSON format
+```javascript
+ {
+     "status": <"ok" | "error">,
+     // in case of "ok"
+     "responseData": {
+             "numOpenConnections": <number>,
+             "token": <number>,
+             "nodes": [
+                     <string>
+             ]
+     },
+     // in case of "error"
+     "exception": {
+             "text": <string>,
+             "sqlCode": <string>
      }
  }
 ```
@@ -1261,6 +938,57 @@ Reponse JSON format
  }
 ```
 
+### GetHosts: Gets the hosts in a cluster
+
+This command gets the number hosts and the IP address of each host in
+an Exasol cluster.
+
+Request fields:
+  * command (string) => command name: "getHosts"
+  * attributes (object, optional) => attributes to set for the connection (see below)
+  * hostIp (string) => IP address of the Exasol host to which the client is currently connected (i.e., the Exasol host used to create the connection; e.g., ws://\<hostIp\>:8563)
+
+Request JSON format
+```javascript
+ {
+     "command": "getHosts",
+     "attributes": {
+             // as defined separately
+     },
+     "hostIp": <string>
+ }
+```
+
+Response fields:
+  * status (string) => command status: "ok" or "error"
+  * responseData (object, optional) => only present if status is "ok"
+    * numNodes (number) => number of nodes in the cluster
+    * nodes (string[]) => array of cluster node IP addresses
+  * exception (object, optional) =>  only present if status is "error"
+    * text (string) => exception message which provides error
+         details
+    * sqlCode (string) => five-character exception code if known,
+         otherwise "00000"
+
+Response JSON format
+```javascript
+ {
+     "status": <"ok" | "error">,
+     // in case of "ok"
+     "responseData": {
+             "numNodes": <number>,
+             "nodes": [
+                     <string>
+             ]
+     },
+     // in case of "error"
+     "exception": {
+             "text": <string>,
+             "sqlCode": <string>
+     }
+ }
+```
+
 ### GetOffset: Gets the row offset of a result set
 
 This command retrieves the row offset of the result set of this
@@ -1398,6 +1126,152 @@ Response JSON format
  }
 ```
 
+### Login: Establishes a connection to Exasol
+
+This command invokes the login process which establishes a connection
+between the client and Exasol. As long as the connection is open,
+the user can interact with Exasol using the commands specified
+below.
+
+The login process is composed of four steps:
+
+1. The client sends the login command including the requested protocol 
+   version.
+   
+   Request fields:
+     * command (string) => command name: "login"
+     * protocolVersion (number) => requested WebSocket protocol version, (e.g., 1)
+   
+   Request JSON format
+   ```javascript
+    {
+        "command": "login",
+        "protocolVersion": <number>
+    }
+   ```
+
+2. The server returns a public key which is used to encode the
+   user's password. The public key can be obtained in one of two ways:
+    a. importing the key using the publicKeyPem field
+    b. constructing the key using the publicKeyModulus and publicKeyExponent fields
+
+   Response fields:
+     * status (string) => command status: "ok" or "error"
+     * responseData (object, optional) => only present if status is "ok"
+       * publicKeyPem (string) => PEM-formatted, 1024-bit RSA public key used to encode the user's password (see 3.)
+       * publicKeyModulus (string) => hexadecimal modulus of the 1024-bit RSA public key used to encode the user's password (see 3.)
+       * publicKeyExponent (string) => hexadecimal exponent of the 1024-bit RSA public key used to encode the user's password (see 3.)
+     * exception (object, optional) => only present if status is "error"
+       * text (string) => exception message which provides error details
+       * sqlCode (string) => five-character exception code if known, otherwise "00000"
+   
+   Response JSON format
+   ```javascript
+    {
+        "status": <"ok" | "error">,
+        // if status is "ok"
+        "responseData": {
+                "publicKeyPem": <string>,
+                "publicKeyModulus": <string>,
+                "publicKeyExponent": <string>
+    },
+        // if status is "error"
+        "exception": {
+                "text": <string>,
+                "sqlCode": <string>
+        }
+    }
+   ```
+   
+   
+3. The client sends the username, encrypted password, and optionally
+   other client information.
+   
+   Request fields:
+     * username (string) => Exasol user name to use for the login process
+     * password (string) => user's password, which is encrypted using publicKey (see 2.) and PKCS #1 v1.5 padding, encoded in Base64 format
+     * useCompression (boolean) => use compression for messages during the session (beginning after the login process is completed)
+     * sessionId (number, optional) => requested session ID
+     * clientName (string, optional) => client program name, (e.g., "EXAplus")
+     * driverName (string, optional) => driver name, (e.g., "EXA Python")
+     * clientOs (string, optional) => name and version of the client operating system
+     * clientOsUsername (string, optional) => client's operating system user name
+     * clientLanguage (string, optional) => language setting of the client system
+     * clientVersion (string, optional) => client version number
+     * clientRuntime (string, optional) => name and version of the client runtime
+     * attributes (object, optional) => array of attributes to set for the connection (see below)
+   
+   Request JSON format
+   ```javascript
+    {
+        "username": <string>,
+        "password": <string>,
+        "useCompression": <boolean>,
+        "sessionId": <number>,
+        "clientName": <string>,
+        "driverName": <string>,
+        "clientOs": <string>,
+        "clientOsUsername": <string>,
+        "clientLanguage": <string>,
+        "clientVersion": <string>,
+        "clientRuntime": <string>,
+        "attributes": {
+                // as defined separately
+        }
+    }
+   ```
+   
+   
+4. The server uses username and password (see 3.) to authenticate the
+   user. If successful, the server replies with an "ok" response and a
+   connection is established. If authentication of the user fails, the
+   server sends an "error" response to the client indicating that the login
+   process failed and a connection couldn't be established.
+   
+   Response fields:
+     * status (string) => command status: "ok" or "error"
+     * responseData (object, optional) => only present if status is "ok"
+       * sessionId (number) => current session ID
+       * protocolVersion (number) => WebSocket protocol version of the connection (e.g., 1)
+       * releaseVersion (string) => Exasol version (e.g. "6.0.0")
+       * databaseName (string) => database name (e.g., "productionDB1")
+       * productName (string) => Exasol product name: "EXASolution"
+       * maxDataMessageSize (number) => maximum size of a data message in bytes
+       * maxIdentifierLength (number) => maximum length of identifiers
+       * maxVarcharLength (number) =>  maximum length of VARCHAR values
+       * identifierQuoteString (string) => value of the identifier quote string (e.g., "'")
+       * timeZone (string) => name of the session time zone
+       * timeZoneBehavior (string) => value of the session option "TIME_ZONE_BEHAVIOR"
+     * exception (object, optional) =>  only present if status is "error"
+       * text (string) => exception message which provides error details
+       * sqlCode (string) => five-character exception code if known, otherwise "00000"
+   
+   Response JSON format
+   ```javascript
+    {
+        "status": <"ok" | "error">,
+        // if status is "ok"
+        "responseData": {
+                "sessionId": <number>,
+                "protocolVersion": <number>,
+                "releaseVersion": <string>,
+                "databaseName": <string>,
+                "productName": <string>,
+                "maxDataMessageSize": <number>,
+                "maxIdentifierLength": <number>,
+                "maxVarcharLength": <number>,
+                "identifierQuoteString": <string>,
+                "timeZone": <string>,
+                "timeZoneBehavior": <string>
+        },
+        // if status is "error"
+        "exception": {
+                "text": <string>,
+                "sqlCode": <string>
+        }
+    }
+   ```
+
 ### SetAttributes: Sets the given session attribute values
 
 This command sets the specified session attribute values.
@@ -1437,3 +1311,129 @@ Response JSON format
      }
  }
 ```
+
+### SubLogin: Establishes a subconnection to Exasol
+
+This command invokes the login process, which establishes a
+subconnection between the client and Exasol. Using subconnections,
+the user can interact with Exasol in parallel using the commands
+specified below.
+
+The login process is composed of four steps:
+
+1. The client sends the login command including the requested protocol
+   version.
+   
+   Request fields:
+     * command (string) => command name: "login"
+     * protocolVersion (number) => requested WebSocket protocol version, (e.g., 1)
+   
+   Request JSON format
+   ```javascript
+    {
+        "command": "subLogin",
+        "protocolVersion": <number>
+    }
+   ```
+
+
+2. The server returns a public key which is used to encode the
+   user's password. The public key can be obtained in one of two ways:
+    a. importing the key using the publicKeyPem field
+    b. constructing the key using the publicKeyModulus and publicKeyExponent fields.
+   
+   Response fields:
+     * status (string) => command status: "ok" or "error"
+     * responseData (object, optional) => only present if status is "ok"
+       * publicKeyPem (string) => PEM-formatted, 1024-bit RSA public key used to encode the user's password (see 3.)
+       * publicKeyModulus (string) => hexadecimal modulus of the 1024-bit RSA public key used to encode the user's password (see 3.)
+       * publicKeyExponent (string) => hexadecimal exponent of the 1024-bit RSA public key used to encode the user's password (see 3.)
+     * exception (object, optional) => only present if status is "error"
+       * text (string) => exception message which provides error details
+       * sqlCode (string) => five-character exception code if known, otherwise "00000"
+   
+   Response JSON format
+   ```javascript
+    {
+        "status": <"ok" | "error">,
+        // if status is "ok"
+        "responseData": {
+                "publicKeyPem": <string>,
+                "publicKeyModulus": <string>,
+                "publicKeyExponent": <string>
+        },
+        // if status is "error"
+        "exception": {
+                "text": <string>,
+                "sqlCode": <string>
+        }
+    }
+   ```
+   
+
+3. The client sends the username, encrypted password, and token.
+
+   Request fields:
+     * username (string) => Exasol user name to use for the login process
+     * password (string) => user's password, which is encrypted using publicKey (see 2.) and PKCS #1 v1.5 padding, encoded in Base64 format
+     * token (number) => token required for subconnection logins (see, EnterParallel)
+   
+   Request JSON format
+   ```javascript
+    {
+        "username": <string>,
+        "password": <string>,
+        "token": <number>
+    }
+   ```
+   
+4. The server uses username, password, and token (see 3.) to
+   authenticate the user. If successful, the server replies with an
+   "ok" response and a subconnection is established. If authentication of
+   the user fails, the server sends an "error" response to the client
+   indicating that the login process failed and a subconnection couldn't
+   be established.
+   
+   Response fields:
+     * status (string) => command status: "ok" or "error"
+     * responseData (object, optional) => only present if status is "ok"
+       * sessionId (number) => current session ID
+       * protocolVersion (number) => WebSocket protocol version of the connection (e.g., 1)
+       * releaseVersion (string) => Exasol version (e.g. "6.0.0")
+       * databaseName (string) => database name (e.g., "productionDB1")
+       * productName (string) => Exasol product name: "EXASolution"
+       * maxDataMessageSize (number) => maximum size of a data message in bytes
+       * maxIdentifierLength (number) => maximum length of identifiers
+       * maxVarcharLength (number) =>  maximum length of VARCHAR values
+       * identifierQuoteString (string) => value of the identifier quote string (e.g., "'")
+       * timeZone (string) => name of the session time zone
+       * timeZoneBehavior (string) => value of the session option "TIME_ZONE_BEHAVIOR"
+     * exception (object, optional) =>  only present if status is "error"
+       * text (string) => exception message which provides error details
+       * sqlCode (string) => five-character exception code if known, otherwise "00000"
+   
+   Response JSON format
+   ```javascript
+    {
+        "status": <"ok" | "error">,
+        // if status is "ok"
+        "responseData": {
+                "sessionId": <number>,
+                "protocolVersion": <number>,
+                "releaseVersion": <string>,
+                "databaseName": <string>,
+                "productName": <string>,
+                "maxDataMessageSize": <number>,
+                "maxIdentifierLength": <number>,
+                "maxVarcharLength": <number>,
+                "identifierQuoteString": <string>,
+                "timeZone": <string>,
+                "timeZoneBehavior": <string>
+        },
+        // if status is "error"
+        "exception": {
+                "text": <string>,
+                "sqlCode": <string>
+        }
+    }
+   ```

@@ -22,10 +22,10 @@ incoming messages and forwards the requests to the database.
 
 ## Changes
 
-| Exasol Version | Change | Issue |
-| --- | --- | --- |
-| 6.2.5<br>6.1.9 | For compatibility reasons, WebSocket logins with a protocol version higher than supported versions will be accepted but automatically downgraded to the latest supported version. | [EXASOL-2614](https://www.exasol.com/support/browse/EXASOL-2614) |
-| 7.0.0 | Columns of type `HASHTYPE` must be specified using the `CHAR` type. | [EXASOL-2643](https://www.exasol.com/support/browse/EXASOL-2643) |
+| Date | Exasol Version | Change | Issue |
+| --- | --- | --- | --- |
+| 2020.03.10 | 7.0.0 | Columns of type `HASHTYPE` must be specified using the `CHAR` type. | [EXASOL-2643](https://www.exasol.com/support/browse/EXASOL-2643) |
+| 2020.01.16 | 6.2.5<br>6.1.9 | For compatibility reasons, WebSocket logins with a protocol version higher than supported versions will be accepted but automatically downgraded to the latest supported version. | [EXASOL-2614](https://www.exasol.com/support/browse/EXASOL-2614) |
 
 ## Command summary
 

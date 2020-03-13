@@ -1,4 +1,4 @@
-### CloseResultSet: Closes a result set
+### closeResultSet: Closes a result set
 
 This command closes result sets.
 

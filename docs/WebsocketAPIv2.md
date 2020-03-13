@@ -69,7 +69,7 @@ The following commands are used to query metadata in Exasol. The commands and th
 
 | Command | Description |
 | --- | --- |
-| [getCatalogs](#getcatalogs-gets-the-catalog-names) | Gets the catalog names |
+| [getCatalogs](commands/getCatalogsV2.md) | Gets the catalog names |
 | [getColumnPrivileges](#getcolumnprivileges-gets-column-privilege-descriptions) | Gets column privilege descriptions |
 | [getColumns](#getcolumns-gets-column-descriptions) | Gets column descriptions |
 | [getPrimaryKeys](#getprimarykeys-gets-primary-key-descriptions) | Gets primary key descriptions |

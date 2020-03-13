@@ -6,7 +6,7 @@ interaction with Exasol.
 
 Request fields:
   * command (string) => command name: "disconnect"
-  * attributes (object, optional) => attributes to set for the connection (see below)
+  * attributes (object, optional) => attributes to set for the connection (see [Attributes](../WebsocketAPIV1.md#attributes-session-and-database-properties))
 
 Request JSON format
 ```javascript

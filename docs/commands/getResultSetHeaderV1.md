@@ -1,4 +1,4 @@
-### GetResultSetHeader: Gets a result set header
+### getResultSetHeader: Gets a result set header
 
 This command retrieves a header (i.e., empty result set) which contains
 the metadata for an open result set.

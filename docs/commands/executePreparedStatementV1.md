@@ -1,4 +1,4 @@
-### ExecutePreparedStatement: Executes a prepared statement
+### executePreparedStatement: Executes a prepared statement
 
 This command executes a prepared statement which has already been
 created.

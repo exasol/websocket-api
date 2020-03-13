@@ -25,7 +25,7 @@ incoming messages and forwards the requests to the database.
 | Date | Exasol Version | Change | Issue |
 | --- | --- | --- | --- |
 | - | 7.0.0 | Metadata commands were added. See [Metadata-related commands](#metadata-related-commands) for details. | [EXASOL-2640](https://www.exasol.com/support/browse/EXASOL-2640) |
-| - | 7.0.0 | Columns of type `HASHTYPE` can be specified using the `HASHTYPE` type. See [Data Types](#data-types-type-names-and-properties) for details. | [EXASOL-2643](https://www.exasol.com/support/browse/EXASOL-2643) |
+| 2020.10.03 | 7.0.0 | Columns of type `HASHTYPE` can be specified using the `HASHTYPE` type. See [Data Types](#data-types-type-names-and-properties) for details. | [EXASOL-2643](https://www.exasol.com/support/browse/EXASOL-2643) |
 
 ## Command summary
 

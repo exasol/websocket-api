@@ -29,7 +29,7 @@ Response JSON format
  {
      "status": <"ok" | "error">,
      // in case of "error"
-     "exception": { // Optional: error
+     "exception": {
              "text": <string>, // Exception text
              "sqlCode": <string> // Five-character exception code if known, otherwise "00000"
      }

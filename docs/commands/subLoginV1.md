@@ -7,11 +7,11 @@ specified below.
 
 The login process is composed of four steps:
 
-1. The client sends the login command including the requested protocol
+1. The client sends the `subLogin` command including the requested protocol
    version.
    
    Request fields:
-     * command (string) => command name: "login"
+     * command (string) => command name: "subLogin"
      * protocolVersion (number) => requested WebSocket protocol version, (e.g., 1)
    
    Request JSON format
@@ -25,8 +25,8 @@ The login process is composed of four steps:
 
 2. The server returns a public key which is used to encode the
    user's password. The public key can be obtained in one of two ways:
-    a. importing the key using the publicKeyPem field
-    b. constructing the key using the publicKeyModulus and publicKeyExponent fields.
+    a. importing the key using the `publicKeyPem` field
+    b. constructing the key using the `publicKeyModulus` and `publicKeyExponent` fields.
    
    Response fields:
      * status (string) => command status: "ok" or "error"
@@ -73,11 +73,11 @@ The login process is composed of four steps:
     }
    ```
    
-4. The server uses username, password, and token (see 3.) to
+4. The server uses `username`, `password`, and `token` (see 3.) to
    authenticate the user. If successful, the server replies with an
    "ok" response and a subconnection is established. If authentication of
    the user fails, the server sends an "error" response to the client
-   indicating that the login process failed and a subconnection couldn't
+   indicating that the login process failed and a subconnection could not
    be established.
    
    Response fields:

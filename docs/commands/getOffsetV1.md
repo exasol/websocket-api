@@ -1,4 +1,4 @@
-### GetOffset: Gets the row offset of a result set
+### getOffset: Gets the row offset of a result set
 
 This command retrieves the row offset of the result set of this
 (sub)connection. This is the row number of the first row of the current

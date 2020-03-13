@@ -17,7 +17,7 @@ incoming messages and forwards the requests to the database.
 * [Attributes: Session and database properties](#attributes-session-and-database-properties)
 * [Data Types: Type names and properties](#data-types-type-names-and-properties)
 * [Compression](#compression)
-* [Heartbeat/Feedback Messages](#heartbeatfeedback-messages)
+* [Heartbeat/Feedback messages](#heartbeatfeedback-messages)
 * [Subconnections](#subconnections)
 
 ## Changes

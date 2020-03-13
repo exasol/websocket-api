@@ -1,4 +1,4 @@
-### SetAttributes: Sets the given session attribute values
+### setAttributes: Sets the given session attribute values
 
 This command sets the specified session attribute values.
 

@@ -1,4 +1,4 @@
-### Fetch: Retrieves data from a result set
+### fetch: Retrieves data from a result set
 
 This command retrieves data from a result set.
 

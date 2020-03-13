@@ -1,4 +1,4 @@
-### Login: Establishes a connection to Exasol
+### login: Establishes a connection to Exasol
 
 This command invokes the login process which establishes a connection
 between the client and Exasol. As long as the connection is open,

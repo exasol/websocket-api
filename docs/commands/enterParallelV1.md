@@ -1,4 +1,4 @@
-### EnterParallel: Opens subconnections for parallel execution
+### enterParallel: Opens subconnections for parallel execution
 
 This command opens subconnections, which are additional connections to
 other nodes in the cluster, for the purpose of parallel execution. If

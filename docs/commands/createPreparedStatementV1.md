@@ -1,4 +1,4 @@
-### CreatePreparedStatement: Creates a prepared statement
+### createPreparedStatement: Creates a prepared statement
 
 This command creates a prepared statement.
 

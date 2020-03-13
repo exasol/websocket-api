@@ -1,4 +1,4 @@
-### Execute: Executes an SQL statement
+### execute: Executes an SQL statement
 
 This command executes an SQL statement.
 

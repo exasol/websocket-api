@@ -3,11 +3,11 @@
 This command executes a prepared statement which has already been
 created.
 
-If the SQL statement returns a result set which has less than 1,000 rows of data, the data will be provided in the data field of resultSet. However if the SQL statement returns a result set which has 1,000 or more rows of data, a result set will be opened whose handle is returned in the resultSetHandle field of resultSet. Using this handle, the data from the result set can be retrieved using the Fetch command. Once the result set is no longer needed, it should be closed using the CloseResultSet command.
+If the command returns a result set which has less than 1,000 rows of data, the data will be provided in the `data` field of `resultSet`. However if the command returns a result set which has 1,000 or more rows of data, a result set will be opened whose handle is returned in the `resultSetHandle` field of `resultSet`. Using this handle, the data from the result set can be retrieved using the `fetch` command. Once the result set is no longer needed, it should be closed using the `closeResultSet` command.
 
 Request fields:
   * command (string) => command name: "executePreparedStatement"
-  * attributes (object, optional) =>   attributes to set for the connection (see below)
+  * attributes (object, optional) =>   attributes to set for the connection (see [Attributes](../WebsocketAPIV1.md#attributes-session-and-database-properties))
   * statementHandle (number) => prepared statement handle
   * numColumns (number) => number of columns in data
   * numRows (number) => number of rows in data

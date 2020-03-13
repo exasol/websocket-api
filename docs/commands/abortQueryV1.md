@@ -1,4 +1,4 @@
-### AbortQuery: Aborts a running query
+### abortQuery: Aborts a running query
 
 This command aborts a running query. It does not have a response.
 

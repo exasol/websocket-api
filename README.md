@@ -29,7 +29,7 @@ It would then be nice if you could share your work with us, and
 we will of course help you by any means. 
 
 ## Changes
-* [WebSocket API v2](docs/WebsocketAPIv2.md) support has been added in Exasol 7.0.
+* [WebSocket API v2](docs/WebsocketAPIV2.md) support has been added in Exasol 7.0.
 
 ## Supported versions
 | | WebSocket API v1 | WebSocket API v2 |
@@ -40,7 +40,7 @@ we will of course help you by any means.
 | **Exasol 6.0** | :heavy_check_mark: | :x: |
 
 ## Content
-* [WebSocket protocol v1 API specification](docs/WebsocketAPIv1.md)
-* [WebSocket protocol v2 API specification](docs/WebsocketAPIv2.md)
+* [WebSocket protocol v1 API specification](docs/WebsocketAPIV1.md)
+* [WebSocket protocol v2 API specification](docs/WebsocketAPIV2.md)
 * [Python native driver implementation](python/)
 * [JavaScript native driver implementation](javascript/)

@@ -1,4 +1,4 @@
-### GetHosts: Gets the hosts in a cluster
+### getHosts: Gets the hosts in a cluster
 
 This command gets the number hosts and the IP address of each host in
 an Exasol cluster.

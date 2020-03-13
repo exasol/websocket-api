@@ -1,4 +1,4 @@
-### ExecuteBatch: Executes multiple SQL statements as a batch
+### executeBatch: Executes multiple SQL statements as a batch
 
 This command executes multiple SQL statements sequentially as a batch.
 

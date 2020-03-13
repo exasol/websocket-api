@@ -44,7 +44,7 @@ Response fields:
             * withLocalTimeZone (true | false, optional) => specifies if a timestamp has a local time zone
             * fraction (number, optional) => fractional part of number
             * srid (number, optional) => spatial reference system identifier
-        * data (array[], optional) => object containing the data for the prepared statement in column-major order
+        * data (array[], optional) => object containing the data in column-major order
   * exception (object, optional) =>  only present if status is "error"
     * text (string) => exception message which provides error details
     * sqlCode (string) => five-character exception code if known, otherwise "00000"

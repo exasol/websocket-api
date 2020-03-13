@@ -11,6 +11,15 @@ After the handshake the process is identical to a connection using the
 standard drivers like JDBC or ODBC: The connection server listens to
 incoming messages and forwards the requests to the database. 
 
+## Table of contents
+* [Changes](#changes)
+* [Command summary](#command-summary)
+* [Attributes: Session and database properties](attributes-session-and-database-properties)
+* [Data Types: Type names and properties](#data-types-type-names-and-properties)
+* [Compression](#compression)
+* [Heartbeat/Feedback Messages](#heartbeatfeedback-messages)
+* [Subconnections](#subconnections)
+
 ## Changes
 
 | Exasol Version | Change | Issue |

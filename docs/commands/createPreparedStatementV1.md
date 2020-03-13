@@ -20,7 +20,7 @@ Request JSON format
 
 Response fields:
   * status (string) => command status: "ok" or "error"
-  * attributes (object, optional) => attributes set for the connection (see below)
+  * attributes (object, optional) => attributes set for the connection (see [Attributes](../WebsocketAPIV1.md#attributes-session-and-database-properties))
   * responseData (object, optional) => only present if status is "ok"
     * statementHandle (number) => prepared statement handle
     * parameterData (object, optional) => prepared statement parameter information

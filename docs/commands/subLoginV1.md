@@ -1,4 +1,4 @@
-### SubLogin: Establishes a subconnection to Exasol
+### subLogin: Establishes a subconnection to Exasol
 
 This command invokes the login process, which establishes a
 subconnection between the client and Exasol. Using subconnections,

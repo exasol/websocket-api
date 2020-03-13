@@ -6,7 +6,7 @@ This command retrieves the row offset of the result set of this
 
 Request fields:
   * command (string) => command name: "getOffset"
-  * attributes (object, optional) => attributes to set for the connection (see below)
+  * attributes (object, optional) => attributes to set for the connection (see [Attributes](../WebsocketAPIV1.md#attributes-session-and-database-properties))
   * resultSetHandle (number) => open result set handle
 
 Request JSON format

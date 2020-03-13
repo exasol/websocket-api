@@ -7,7 +7,7 @@ are closed.
 
 Request fields:
   * command (string) => command name: "enterParallel"
-  * attributes (object, optional) => attributes to set for the connection (see below)
+  * attributes (object, optional) => attributes to set for the connection (see see [Attributes](../WebsocketAPIv1.md#attributes-session-and-database-properties))
   * hostIp (string) => IP address of the Exasol host to which the client is currently connected (i.e., the Exasol host used to create the connection; e.g., ws://\<hostIp\>:8563)
   * numRequestedConnections (number) => number of subconnections to open. If 0, all open subconnections are closed.
 

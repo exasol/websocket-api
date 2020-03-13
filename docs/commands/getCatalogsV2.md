@@ -4,6 +4,11 @@ This commands gets all the catalog names in the database.
 
 If the command returns a result set which has less than 1,000 rows of data, the data will be provided in the `data` field of `resultSet`. However if the command returns a result set which has 1,000 or more rows of data, a result set will be opened whose handle is returned in the `resultSetHandle` field of `resultSet`. Using this handle, the data from the result set can be retrieved using the `fetch` command. Once the result set is no longer needed, it should be closed using the `closeResultSet` command.
 
+The returned result set contains the following columns. In addition to the `name` and `dataType` fields, which are contained in the `columns` field, a short description of each column is also provided.
+| `name` | `dataType` | Description |
+| --- | --- | --- |
+| TABLE_CAT | `type`: "VARCHAR"<br>`size`: 128<br>`characterSet`: "UTF8" | catalog name |
+
 Request fields:
   * command (string) => command name: "getCatalogs"
   * attributes (object) => attributes to set for the connection (see [Attributes](../WebsocketAPIV2.md#attributes-session-and-database-properties))

@@ -21,7 +21,7 @@ Request JSON format
 
 Response fields:
   * status (string) => command status: "ok" or "error"
-  * attributes (object) => attributes set for the connection (see below)
+  * attributes (object) => attributes set for the connection (see [Attributes](../WebsocketAPIV1.md#attributes-session-and-database-properties))
   * exception (object, optional) =>  only present if status is "error"
     * text (string) => exception message which provides error details
     * sqlCode (string) => five-character exception code if known, otherwise "00000"

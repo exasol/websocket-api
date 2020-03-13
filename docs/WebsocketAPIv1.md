@@ -143,7 +143,7 @@ login, all messages sent and received after login completion must be
 binary data frames, in which the payload data (i.e., command
 request/response) is zlib-compressed.
 
-## Heartbeat/Feedback Messages
+## Heartbeat/Feedback messages
 
 The feedbackInterval session attribute specifies how often (in seconds)
 unidirectional heartbeat/feedback messages are sent to the client

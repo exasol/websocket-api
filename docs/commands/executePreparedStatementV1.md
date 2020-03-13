@@ -58,7 +58,7 @@ Request JSON format
 Response fields:
 
   * status (string) => command status: "ok" or "error"
-  * attributes (object, optional) => attributes set for the connection (see below)
+  * attributes (object, optional) => attributes set for the connection (see [Attributes](../WebsocketAPIV1.md#attributes-session-and-database-properties))
   * responseData (object, optional) => only present if status is "ok"
     * numResults (number) => number of result objects
     * results (object[]) => array of result objects

@@ -2,7 +2,7 @@
 
 This command closes the connection between the client and Exasol.
 After the connection is closed, it cannot be used for further
-interaction with Exasol anymore.
+interaction with Exasol.
 
 Request fields:
   * command (string) => command name: "disconnect"

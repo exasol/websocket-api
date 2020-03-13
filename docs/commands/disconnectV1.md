@@ -1,4 +1,4 @@
-### Disconnect: Closes a connection to Exasol
+### disconnect: Closes a connection to Exasol
 
 This command closes the connection between the client and Exasol.
 After the connection is closed, it cannot be used for further

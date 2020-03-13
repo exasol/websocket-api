@@ -1,4 +1,4 @@
-### GetAttributes: Gets the session attribute values
+### getAttributes: Gets the session attribute values
 
 This command retrieves the session attribute values.
 

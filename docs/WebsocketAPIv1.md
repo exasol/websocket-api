@@ -14,7 +14,7 @@ incoming messages and forwards the requests to the database.
 ## Table of contents
 * [Changes](#changes)
 * [Command summary](#command-summary)
-* [Attributes: Session and database properties](attributes-session-and-database-properties)
+* [Attributes: Session and database properties](#attributes-session-and-database-properties)
 * [Data Types: Type names and properties](#data-types-type-names-and-properties)
 * [Compression](#compression)
 * [Heartbeat/Feedback Messages](#heartbeatfeedback-messages)

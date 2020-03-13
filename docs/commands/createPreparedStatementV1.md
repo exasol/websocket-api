@@ -4,7 +4,7 @@ This command creates a prepared statement.
 
 Request fields:
   * command (string) => command name: "createPreparedStatement"
-  * attributes (object, optional) => attributes to set for the connection (see below)
+  * attributes (object, optional) => attributes to set for the connection (see [Attributes](../WebsocketAPIV1.md#attributes-session-and-database-properties))
   * sqlText (string) => SQL statement
 
 Request JSON format

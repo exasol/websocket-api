@@ -1,4 +1,4 @@
-### ClosePreparedStatement: Closes a prepared statement
+### closePreparedStatement: Closes a prepared statement
 
 This command closes a prepared statement which has already been
 created.

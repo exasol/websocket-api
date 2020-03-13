@@ -5,7 +5,7 @@ created.
 
 Request fields:
   * command (string) => command name: "closePreparedStatement"
-  * attributes (object, optional) => attributes to set for the connection (see below)
+  * attributes (object, optional) => attributes to set for the connection (see [Attributes](../WebsocketAPIV1.md#attributes-session-and-database-properties))
   * statementHandle (number) => prepared statement handle
 
 Request JSON format

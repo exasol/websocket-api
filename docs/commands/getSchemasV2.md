@@ -4,6 +4,12 @@ This commands gets the specified schema names in the database.
 
 If the command returns a result set which has less than 1,000 rows of data, the data will be provided in the `data` field of `resultSet`. However if the command returns a result set which has 1,000 or more rows of data, a result set will be opened whose handle is returned in the `resultSetHandle` field of `resultSet`. Using this handle, the data from the result set can be retrieved using the `fetch` command. Once the result set is no longer needed, it should be closed using the `closeResultSet` command.
 
+Result set columns:
+| Name | Data Type | Description |
+| --- | --- | --- |
+| TABLE_SCHEM | string| schema name |
+| TABLE_CATALOG | string| catalog name |
+
 Request fields:
   * command (string) => command name: "getSchemas"
   * attributes (object) => attributes to set for the connection (see [Attributes](../WebsocketAPIV2.md#attributes-session-and-database-properties))
@@ -21,12 +27,6 @@ Request JSON format
      "schema": <string>
  }
 ```
-
-Result set columns:
-| Name | Data Type | Description |
-| --- | --- | --- |
-| TABLE_SCHEM | string| schema name |
-| TABLE_CATALOG | string| catalog name |
 
 Response fields:
   * status (string) => command status: "ok" or "error"

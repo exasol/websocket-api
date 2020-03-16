@@ -2,7 +2,7 @@
 
 This commands gets the specified schema names in the database.
 
-Result set columns:
+Result set columns: Ordered by `TABLE_CATALOG`, `TABLE_SCHEM`.
 | Name | Data Type | Description |
 | --- | --- | --- |
 | TABLE_SCHEM | string| schema name |

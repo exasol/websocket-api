@@ -2,7 +2,7 @@
 
 This commands gets all the catalog names in the database.
 
-Result set columns:
+Result set columns: Ordered by `TABLE_CAT`.
 | Name | Data Type | Description |
 | --- | --- | --- |
 | TABLE_CAT | string| catalog name |

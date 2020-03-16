@@ -11,9 +11,9 @@ Result set columns: Ordered by `DATA_TYPE`.
 | LITERAL_PREFIX | string | literal quote prefix |
 | LITERAL_SUFFIX | string | literal quote suffix |
 | CREATE_PARAMS | string | type creation parameters |
-| NULLABLE | number | can be NULL |
+| NULLABLE | number | can be NULL (1 = nullable) |
 | CASE_SENSITIVE | boolean | is case sensitive |
-| SEARCHABLE | number | can use `WHERE` with this type |
+| SEARCHABLE | number | can use `WHERE` with this type (3 = fully supported) |
 | UNSIGNED_ATTRIBUTE | boolean | is unsigned |
 | FIXED_PREC_SCALE | boolean | can be a monetary value |
 | AUTO_INCREMENT | boolean | can be auto-incremented |

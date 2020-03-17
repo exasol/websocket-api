@@ -1,4 +1,4 @@
-### getSchemas: Gets the schemas names
+### getSchemas: Gets the schema names
 
 This commands gets the specified schema names in the database.
 

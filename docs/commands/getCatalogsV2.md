@@ -11,7 +11,7 @@ If the command returns a result set which has less than 1,000 rows of data, the 
 
 Request fields:
   * command (string) => command name: "getCatalogs"
-  * attributes (object) => attributes to set for the connection (see [Attributes](../WebsocketAPIV2.md#attributes-session-and-database-properties))
+  * attributes (object, optional) => attributes to set for the connection (see [Attributes](../WebsocketAPIV2.md#attributes-session-and-database-properties))
 
 Request JSON format
 ```javascript

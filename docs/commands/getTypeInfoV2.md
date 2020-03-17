@@ -1,6 +1,6 @@
 ### getTypeInfo: Gets the data types
 
-This commands gets the data types supported by the database.
+This command gets the data types supported by the database.
 
 Result set columns: Ordered by `DATA_TYPE`.
 | Name | Data Type | Description |

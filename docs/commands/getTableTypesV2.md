@@ -1,6 +1,6 @@
 ### getTableTypes: Gets the table types
 
-This commands gets the table types supported by the database.
+This command gets the table types supported by the database.
 
 Result set columns: Ordered by `TABLE_TYPE`.
 | Name | Data Type | Description |

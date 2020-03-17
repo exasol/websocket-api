@@ -23,7 +23,7 @@ Request fields:
   * attributes (object, optional) => attributes to set for the connection (see [Attributes](../WebsocketAPIV2.md#attributes-session-and-database-properties))
   * catalog (string, optional) => catalog name (i.e. "EXA_DB"). `""` means no catalog, `null` means all catalogs.
   * schema (string, optional) => schema name search criteria in SQL `LIKE` format. `""` means no schema, `null` means all schemas.
-  * table (string, optional) => table name search criteria in SQL `LIKE` format. `""` means no table, `null` means all table.
+  * table (string, optional) => table name search criteria in SQL `LIKE` format. `""` means no table, `null` means all tables.
   * tableTypes (string[], optional) => array of table types (supported values are "SYSTEM TABLE", "TABLE", "VIEW"). `null` means all table types.
 
 Request JSON format

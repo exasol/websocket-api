@@ -1,6 +1,6 @@
 ### getSchemas: Gets the schema names
 
-This commands gets the specified schema names in the database.
+This command gets the specified schema names in the database.
 
 Result set columns: Ordered by `TABLE_CATALOG`, `TABLE_SCHEM`.
 | Name | Data Type | Description |

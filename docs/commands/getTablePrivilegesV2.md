@@ -1,6 +1,6 @@
 ### getTablePrivileges: Gets the table privilege descriptions
 
-This commands gets the specified table privilege descriptions in the database.
+This command gets the specified table privilege descriptions in the database.
 
 Result set columns: Ordered by `TABLE_CAT`, `TABLE_SCHEM`, `TABLE_NAME`, `PRIVILEGE`.
 | Name | Data Type | Description |

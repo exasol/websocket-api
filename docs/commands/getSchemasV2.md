@@ -12,9 +12,9 @@ If the command returns a result set which has less than 1,000 rows of data, the 
 
 Request fields:
   * command (string) => command name: "getSchemas"
-  * attributes (object) => attributes to set for the connection (see [Attributes](../WebsocketAPIV2.md#attributes-session-and-database-properties))
-  * catalog (string) => catalog name search criteria (i.e. "EXA_DB"). `""` means no catalog, `null` means all catalogs.
-  * schema (string) => schema name search criteria. `""` means no schema, `null` means all schemas.
+  * attributes (object, optional) => attributes to set for the connection (see [Attributes](../WebsocketAPIV2.md#attributes-session-and-database-properties))
+  * catalog (string, optional) => catalog name search criteria (i.e. "EXA_DB"). `""` means no catalog, `null` means all catalogs.
+  * schema (string, optional) => schema name search criteria. `""` means no schema, `null` means all schemas.
 
 Request JSON format
 ```javascript

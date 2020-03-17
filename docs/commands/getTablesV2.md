@@ -1,6 +1,6 @@
 ### getTables: Gets the table descriptions
 
-This commands gets the specified table descriptions in the database.
+This command gets the specified table descriptions in the database.
 
 Result set columns: Ordered by `TABLE_TYPE`, `TABLE_CAT`, `TABLE_SCHEM`, `TABLE_NAME`.
 | Name | Data Type | Description |

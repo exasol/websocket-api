@@ -70,16 +70,16 @@ The following commands are used to query metadata in Exasol. The commands and th
 | Command | Description |
 | --- | --- |
 | [getCatalogs](commands/getCatalogsV2.md) | Gets the catalog names |
-| [getColumnPrivileges](#getcolumnprivileges-gets-column-privilege-descriptions) | Gets column privilege descriptions |
-| [getColumns](#getcolumns-gets-column-descriptions) | Gets column descriptions |
-| [getPrimaryKeys](#getprimarykeys-gets-primary-key-descriptions) | Gets primary key descriptions |
-| [getProcedureColumns](#getprocedurecolumns-gets-procedure-column-descriptions) | Gets procedure column descriptions |
-| [getProcedures](#getprocedures-gets-procedure-descriptions) | Gets procedure descriptions |
-| [getSchemas](#getschemas-gets-the-schema-names) | Gets the schema names |
-| [getTablePrivileges](#gettableprivileges-gets-table-privilege-descriptions) | Gets table privilege descriptions |
-| [getTables](#gettables-gets-table-descriptions) | Gets table descriptions |
-| [getTableTypes](#gettabletypes-gets-the-supported-table-types) | Gets the supported table types |
-| [getTypeInfo](#gettypeinfo-gets-the-supported-data-types) | Gets the supported data types |
+| [getColumnPrivileges](commands/getColumnPrivilegesV2.md) | Gets column privilege descriptions |
+| [getColumns](commands/getColumnsV2.md) | Gets column descriptions |
+| [getPrimaryKeys](commands/getPrimaryKeysV2.md) | Gets primary key descriptions |
+| [getProcedureColumns](commands/getProcedureColumnsV2.md) | Gets procedure column descriptions |
+| [getProcedures](commands/getProceduresV2.md) | Gets procedure descriptions |
+| [getSchemas](commands/getSchemasV2.md) | Gets the schema names |
+| [getTablePrivileges](commands/getTablePrivilegesV2.md) | Gets table privilege descriptions |
+| [getTables](commands/getTablesV2.md) | Gets table descriptions |
+| [getTableTypes](commands/getTableTypesV2.md) | Gets the supported table types |
+| [getTypeInfo](commands/getTypeInfoV2.md) | Gets the supported data types |
 
 ## Attributes: Session and database properties
 

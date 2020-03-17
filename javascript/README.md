@@ -1,10 +1,10 @@
 # Introduction
 
-This is a protoype implementation of a web client for EXASOL which uses the EXASOL WebSocket protocol API with JSON as the serialization format.
+This is a protoype implementation of a web client for Exasol which uses the Exasol WebSocket protocol API with JSON as the serialization format.
 
 # Web Interface Usage
 
-A recent or similar version of this code is already included with EXASOL 6.0. It may be updated from time to time in future versions.
+A recent or similar version of this code is already included with Exasol 6.0. It may be updated from time to time in future versions.
 
 To access the web interface, simply enter the following URL into the web browser: `http://<exa-host>:8563/console.html`.
 

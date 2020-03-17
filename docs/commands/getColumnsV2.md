@@ -1,6 +1,6 @@
 ### getColumns: Gets the column descriptions
 
-This commands gets the specified columns descriptions in the database.
+This command gets the specified columns descriptions in the database.
 
 Result set columns: Ordered by `TABLE_CAT`, `TABLE_SCHEM`, `TABLE_NAME`, `ORDINAL_POSITION`.
 | Name | Data Type | Description |

@@ -1,6 +1,6 @@
 ### getCatalogs: Gets the catalog names
 
-This commands gets all the catalog names in the database.
+This command gets all the catalog names in the database.
 
 Result set columns: Ordered by `TABLE_CAT`.
 | Name | Data Type | Description |

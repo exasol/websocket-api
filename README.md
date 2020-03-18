@@ -39,8 +39,10 @@ we will of course help you by any means.
 | **Exasol 6.1** | :heavy_check_mark: | :x: |
 | **Exasol 6.0** | :heavy_check_mark: | :x: |
 
-## Content
-* [WebSocket protocol v1 API specification](docs/WebsocketAPIV1.md)
+## Protocol Specifications
 * [WebSocket protocol v2 API specification](docs/WebsocketAPIV2.md)
+* [WebSocket protocol v1 API specification](docs/WebsocketAPIV1.md)
+
+## Provided Implementations
 * [Python native driver implementation](python/)
 * [JavaScript native driver implementation](javascript/)

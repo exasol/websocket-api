@@ -22,6 +22,8 @@ class EXASOLTest(unittest.TestCase):
         self.ws = None
 
 class EXASOLSpecialTests(EXASOLTest):
+    @unittest.skipIf('TRAVIS' in os.environ,
+                     "not supported in travis")
     def test_000_reconnect(self):
         with self.ws.cursor() as c:
             c.columnar_mode = True
@@ -41,6 +43,8 @@ class EXASOLDataTypeTests(EXASOLTest):
 
 
 class EXASOLEngineDBTest(EXASOLTest):
+    @unittest.skipIf('TRAVIS' in os.environ,
+                     "not supported in travis")
     def test_000_open_schema(self):
         with self.ws.cursor() as c:
             self.ws.columnar_mode = True
@@ -60,6 +64,8 @@ class EXASOLEngineDBTest(EXASOLTest):
             self.assertEqual(c.execute('SELECT * FROM ENGINETABLE WHERE INT_INDEX > ? AND INT_INDEX < ? ORDER BY INT_INDEX', 0, 10), 9)
             self.assertEqual(c.fetchall()[0], [1, 2, 3, 4, 5, 6, 7, 8, 9])
 
+    @unittest.skipIf('TRAVIS' in os.environ,
+                     "not supported in travis")
     def test_003_fetchall_big(self):
         with self.ws.cursor() as c:
             self.ws.columnar_mode = True
@@ -68,6 +74,8 @@ class EXASOLEngineDBTest(EXASOLTest):
             self.assertEqual(intindex[:9], [1, 2, 3, 4, 5, 6, 7, 8, 9])
             self.assertEqual(intindex[-9:], [3991, 3992, 3993, 3994, 3995, 3996, 3997, 3998, 3999])
 
+    @unittest.skipIf('TRAVIS' in os.environ,
+                     "not supported in travis")
     def test_004_fetchall_big_parameters(self):
         with self.ws.cursor() as c:
             self.ws.columnar_mode = True
@@ -88,6 +96,8 @@ class EXASOLEngineDBTest(EXASOLTest):
             self.assertEqual(c.execute('SELECT * FROM ENGINETABLE WHERE INT_INDEX > ? AND INT_INDEX < ? ORDER BY INT_INDEX', 0, 10), 9)
             self.assertEqual(c.fetchmany(size = 5)[0], [1, 2, 3, 4, 5])
 
+    @unittest.skipIf('TRAVIS' in os.environ,
+                     "not supported in travis")
     def test_007_fetchmany_big(self):
         with self.ws.cursor() as c:
             self.ws.columnar_mode = True
@@ -96,6 +106,8 @@ class EXASOLEngineDBTest(EXASOLTest):
             self.assertEqual(intindex[:9], [1, 2, 3, 4, 5, 6, 7, 8, 9])
             self.assertEqual(intindex[-9:], [2989, 2990, 2991, 2992, 2993, 2994, 2995, 2996, 2997])
 
+    @unittest.skipIf('TRAVIS' in os.environ,
+                     "not supported in travis")
     def test_008_fetchmany_big_parameters(self):
         with self.ws.cursor() as c:
             self.ws.columnar_mode = True
@@ -120,6 +132,8 @@ class EXASOLEngineDBTest(EXASOLTest):
             self.assertEqual(data[0], (1, '42856.814', '-26939.136', -5741, 14966, 8, -241360270, 4.827728e-28, 123.456, 'O', None, 'TEST                          ', 'z5uaaoai;HrakuxYr2;Zi.sp', 'LqZbuT0uC4vQ._6cG5uLpZdTZW;dfZ', '1943-05-23', '1982-11-01'))
             self.assertEqual(data[-1], (9, '-0.001', '-5.385', 4662, -4748, -770164835, 137587790, -802185.79, 23.855287999999998, 'o', '046144224708798261336938866   ', '0718052103665962291399302     ', 'ABCDE', 'PohjJC2DXjA9gxQv', '1980-12-03', '1972-04-18'))
 
+    @unittest.skipIf('TRAVIS' in os.environ,
+                     "not supported in travis")
     def test_011_fetchall_bigl_rows(self):
         with self.ws.cursor() as c:
             self.ws.columnar_mode = False
@@ -130,6 +144,8 @@ class EXASOLEngineDBTest(EXASOLTest):
             self.assertEqual(intindex[-1][:9], (3999, '1', '41376.633', 4166, 5040, 781567016, -529930594, 1.4209716e-23, 8.953642e-34))
             self.assertEqual(intindex[-1][-9:], (1.4209716e-23, 8.953642e-34, 'D', '77trU,p                       ', 'TEST                          ', 'PTJ_7lDlI9,v7hU3oUjSwuQwN', 'jQMIV2zFP;QkDxprL', '1942-12-07', '2000-06-05'))
 
+    @unittest.skipIf('TRAVIS' in os.environ,
+                     "not supported in travis")
     def test_012_fetchall_big_parametersl_rows(self):
         with self.ws.cursor() as c:
             self.ws.columnar_mode = False
@@ -158,6 +174,8 @@ class EXASOLEngineDBTest(EXASOLTest):
             self.assertEqual(data[0], (1, '42856.814', '-26939.136', -5741, 14966, 8, -241360270, 4.827728e-28, 123.456, 'O', None, 'TEST                          ', 'z5uaaoai;HrakuxYr2;Zi.sp', 'LqZbuT0uC4vQ._6cG5uLpZdTZW;dfZ', '1943-05-23', '1982-11-01'))
             self.assertEqual(data[-1], (5, '-44807.806', '-8.752', 16146, -8, -826950668, None, -357886640000000, 4.810994e+20, 'j', 'pmsB9ayzLfESkw                ', 'br8,yshVLHklywIX9NWfh         ', 'TEST', 'TEST', '1992-08-05', '1949-07-12'))
 
+    @unittest.skipIf('TRAVIS' in os.environ,
+                     "not supported in travis")
     def test_015_fetchmany_bigl_rows(self):
         with self.ws.cursor() as c:
             self.ws.columnar_mode = False
@@ -168,6 +186,8 @@ class EXASOLEngineDBTest(EXASOLTest):
             self.assertEqual(intindex[-1][:9], (2997, '24009.895', '5.877', 15927, 6056, 241109333, -46335780, 0.017249234000000002, -0.7224116970000001))
             self.assertEqual(intindex[-1][-9:], (0.017249234000000002, -0.7224116970000001, 'q', 'ndNoPjisbFsiLFTjuD1p2ePYO     ', None, 'TEST', '34491219476324761945', '1975-08-09', '1965-08-21'))
 
+    @unittest.skipIf('TRAVIS' in os.environ,
+                     "not supported in travis")
     def test_016_fetchmany_big_parametersl_rows(self):
         with self.ws.cursor() as c:
             self.ws.columnar_mode = False
@@ -178,7 +198,8 @@ class EXASOLEngineDBTest(EXASOLTest):
             self.assertEqual(intindex[-1][:9], (2997, '24009.895', '5.877', 15927, 6056, 241109333, -46335780, 0.017249234000000002, -0.7224116970000001))
             self.assertEqual(intindex[-1][-9:], (0.017249234000000002, -0.7224116970000001, 'q', 'ndNoPjisbFsiLFTjuD1p2ePYO     ', None, 'TEST', '34491219476324761945', '1975-08-09', '1965-08-21'))
 
-
+@unittest.skipIf('TRAVIS' in os.environ,
+                     "not supported in travis")
 class EXASOLODBCTest(EXASOLTest):
     @classmethod
     def setUpClass(self):
@@ -188,7 +209,11 @@ class EXASOLODBCTest(EXASOLTest):
             c.execute('OPEN SCHEMA test')
 
         import pyodbc
-        self.od = pyodbc.connect(DSN='LL')
+        self.od = pyodbc.connect(
+                Driver = '/downloads/ODBC/lib/linux/x86_64/libexaodbc-uo2214lv2.so',
+                EXAHOST = 'db_container_test:8888',
+                EXAUID = 'sys',
+                EXAPWD = 'exasol')
         c = self.od.cursor()
         c.execute('OPEN SCHEMA test')
 

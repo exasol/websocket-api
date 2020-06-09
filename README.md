@@ -8,7 +8,7 @@ The JSON over WebSockets client-server protocol allows customers to
 implement their own drivers for all kinds of platforms using a 
 connection-based web protocol. 
 
-The main advantages are flexibility regarding the programming languages 
+The main advantages are performance improvements from lock-free metadata calls, flexibility regarding the programming languages 
 you want to integrate Exasol into, and a more native access compared to 
 the standardized ways of communicating with a database, such as JDBC, 
 ODBC or ADO.NET, which are mostly old and static standards and create

@@ -2,27 +2,28 @@
 
 This command gets the data types supported by the database.
 
-Result set columns: Ordered by `DATA_TYPE`.
+Result set columns: Ordered by `TYPE_ID`.
 | Name | Data Type | Description |
 | --- | --- | --- |
 | TYPE_NAME | string | type name |
-| DATA_TYPE | number | data type from java.sql.Types |
+| TYPE_ID | number | data type ID |
 | PRECISION | number | precision |
 | LITERAL_PREFIX | string | literal quote prefix |
 | LITERAL_SUFFIX | string | literal quote suffix |
 | CREATE_PARAMS | string | type creation parameters |
-| NULLABLE | number | can be NULL (1 = nullable) |
+| IS_NULLABLE | boolean | NULL values are allowed |
 | CASE_SENSITIVE | boolean | is case sensitive |
-| SEARCHABLE | number | can use `WHERE` with this type (3 = fully supported) |
+| SEARCHABLE | number | how the type can be used in a WHERE clause:<br>0: cannot be searched<br>1: can only be searched with WHERE .. LIKE<br>2: cannot be searched with WHERE .. LIKE<br>3: can be searched with any WHERE clause |
 | UNSIGNED_ATTRIBUTE | boolean | is unsigned |
-| FIXED_PREC_SCALE | boolean | can be a monetary value |
-| AUTO_INCREMENT | boolean | can be auto-incremented |
+| FIXED_PREC_SCALE | boolean | type has fixed representation |
+| AUTO_INCREMENT | boolean | type is an automatically incremented type |
 | LOCAL_TYPE_NAME | string | localized type name |
 | MINIMUM_SCALE | number | minimum scale |
 | MAXIMUM_SCALE | number | maximum scale |
 | SQL_DATA_TYPE | number | SQL data type |
 | SQL_DATETIME_SUB | number | datetime and interval subtype |
 | NUM_PREC_RADIX | number | number base |
+| INTERVAL_PRECISION | number | interval precision |
 
 If the command returns a result set which has less than 1,000 rows of data, the data will be provided in the `data` field of `resultSet`. However if the command returns a result set which has 1,000 or more rows of data, a result set will be opened whose handle is returned in the `resultSetHandle` field of `resultSet`. Using this handle, the data from the result set can be retrieved using the `fetch` command. Once the result set is no longer needed, it should be closed using the `closeResultSet` command.
 

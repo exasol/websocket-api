@@ -2,33 +2,26 @@
 
 This command gets the specified columns descriptions in the database.
 
-Result set columns: Ordered by `TABLE_CAT`, `TABLE_SCHEM`, `TABLE_NAME`, `ORDINAL_POSITION`.
+Result set columns: Ordered by `SCHEMA`, `TABLE`, `ORDINAL_POSITION`.
 | Name | Data Type | Description |
 | --- | --- | --- |
-| TABLE_CAT | string | catalog name |
-| TABLE_SCHEM | string | schema name |
-| TABLE_NAME | string | table name |
-| COLUMN_NAME | string | column name |
-| DATA_TYPE | number | data type from java.sql.Types |
-| TYPE_NAME | string | type name |
-| COLUMN_SIZE | number | column size |
-| BUFFER_LENGTH | number | unused |
-| DECIMAL_DIGITS | number | number of fractional digits |
-| NUM_PREC_RADIX | number | number base |
-| NULLABLE | number | is nullable (0 = not nullable, 1 = nullable, 2 = unknown) |
-| REMARKS | string | column comment |
-| COLUMN_DEF | string | default value |
-| SQL_DATA_TYPE | number | unused |
-| SQL_DATETIME_SUB | number | unused |
-| CHAR_OCTET_LENGTH | number | maximum size |
-| ORDINAL_POSITION | number | column number in the table (starting at 1) |
-| IS_NULLABLE | string | is nullable ("NO" = not nullable, "YES" = nullable, "" = unknown) |
-| SCOPE_CATALOG | string | unused |
-| SCOPE_SCHEMA | string | unused |
-| SCOPE_TABLE | string | unused |
-| SOURCE_DATA_TYPE | number | unused |
-| IS_AUTOINCREMENT | string | is auto incremented (i.e. identity column) ("NO" = not auto incremented, "YES" = auto incremented, "" = unknown) |
-| IS_GENERATEDCOLUMN | string | is generated (i.e. identity column) ("NO" = not generated, "YES" = generated, "" = unknown) |
+| SCHEMA | string | schema name |
+| TABLE | string | table name |
+| NAME | string | column name |
+| TYPE | string | data type |
+| TYPE_ID | number | data type ID |
+| MAXSIZE | number | maximum number of characters for strings |
+| NUM_PREC | number | precision for numeric values |
+| NUM_SCALE | number | scale for numeric values |
+| ORDINAL_POSITION | number | column position in the table (beginning with 1) |
+| IS_VIRTUAL | boolean | is part of a virtual table |
+| IS_NULLABLE | boolean | are NULL values allowed (value is NULL for views) |
+| IS_DISTRIBUTION_KEY | boolean | column is part of the distribution key |
+| PARTITION_KEY_ORDINAL_POSITION | number | column position (beginning with 1) in the table's composite partition key, NULL for columns which are not part of it |
+| DEFAULT | string | default value |
+| IDENTITY | number | current value of the identity number generator, if this column has the identity attribute |
+| OWNER | string | owner name |
+| COMMENT | string | column comment |
 
 If the command returns a result set which has less than 1,000 rows of data, the data will be provided in the `data` field of `resultSet`. However if the command returns a result set which has 1,000 or more rows of data, a result set will be opened whose handle is returned in the `resultSetHandle` field of `resultSet`. Using this handle, the data from the result set can be retrieved using the `fetch` command. Once the result set is no longer needed, it should be closed using the `closeResultSet` command.
 
@@ -47,7 +40,6 @@ Request JSON format
      "attributes": {
              // as defined separately
      },
-     "catalog": <string>,
      "schema": <string>,
      "table": <string>,
      "column": <string>

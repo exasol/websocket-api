@@ -15,8 +15,8 @@ Result set columns: Ordered by `TYPE_ID`.
 | CASE_SENSITIVE | boolean | is case sensitive |
 | SEARCHABLE | number | how the type can be used in a WHERE clause:<br>0: cannot be searched<br>1: can only be searched with WHERE .. LIKE<br>2: cannot be searched with WHERE .. LIKE<br>3: can be searched with any WHERE clause |
 | UNSIGNED_ATTRIBUTE | boolean | is unsigned |
-| FIXED_PREC_SCALE | boolean | type has fixed representation |
-| AUTO_INCREMENT | boolean | type is an automatically incremented type |
+| FIXED_PREC_SCALE | boolean | has fixed representation |
+| AUTO_INCREMENT | boolean | is an automatically incremented type |
 | LOCAL_TYPE_NAME | string | localized type name |
 | MINIMUM_SCALE | number | minimum scale |
 | MAXIMUM_SCALE | number | maximum scale |

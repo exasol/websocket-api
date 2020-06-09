@@ -2,18 +2,19 @@
 
 This command gets the specified schema names in the database.
 
-Result set columns: Ordered by `TABLE_CATALOG`, `TABLE_SCHEM`.
+Result set columns: Ordered by `NAME`.
 | Name | Data Type | Description |
 | --- | --- | --- |
-| TABLE_SCHEM | string| schema name |
-| TABLE_CATALOG | string| catalog name |
+| NAME | string | schema name |
+| OWNER | string | owner name |
+| IS_VIRTUAL | <true \| false> | schema is a virtual schema |
+| COMMENT | string | schema comment |
 
 If the command returns a result set which has less than 1,000 rows of data, the data will be provided in the `data` field of `resultSet`. However if the command returns a result set which has 1,000 or more rows of data, a result set will be opened whose handle is returned in the `resultSetHandle` field of `resultSet`. Using this handle, the data from the result set can be retrieved using the `fetch` command. Once the result set is no longer needed, it should be closed using the `closeResultSet` command.
 
 Request fields:
   * command (string) => command name: "getSchemas"
   * attributes (object, optional) => attributes to set for the connection (see [Attributes](../WebsocketAPIV2.md#attributes-session-and-database-properties))
-  * catalog (string, optional) => catalog name (i.e. "EXA_DB"). `""` means no catalog, `null` means all catalogs.
   * schema (string, optional) => schema name search criteria in SQL `LIKE` format. `""` means no schema, `null` means all schemas.
 
 Request JSON format
@@ -23,7 +24,6 @@ Request JSON format
      "attributes": {
              // as defined separately
      },
-     "catalog": <string>,
      "schema": <string>
  }
 ```

@@ -5,7 +5,7 @@ This command gets the data types supported by the database.
 Result set columns: Ordered by `TYPE_ID`.
 | Name | Data Type | Description |
 | --- | --- | --- |
-| TYPE_NAME | string | type name |
+| NAME | string | type name |
 | TYPE_ID | number | data type ID |
 | PRECISION | number | precision |
 | LITERAL_PREFIX | string | literal quote prefix |

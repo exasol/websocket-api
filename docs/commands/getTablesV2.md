@@ -2,26 +2,23 @@
 
 This command gets the specified table descriptions in the database.
 
-Result set columns: Ordered by `TABLE_TYPE`, `TABLE_CAT`, `TABLE_SCHEM`, `TABLE_NAME`.
+Result set columns: Ordered by `TABLE_TYPE`, `SCHEMA`, `NAME`.
 | Name | Data Type | Description |
 | --- | --- | --- |
-| TABLE_CAT | string | catalog name |
-| TABLE_SCHEM | string | schema name |
-| TABLE_NAME | string | table name |
+| SCHEMA | string | schema name |
+| NAME | string | table name |
+| OWNER | string | owner name |
 | TABLE_TYPE | string | table type (supported values are "SYSTEM TABLE", "TABLE", "VIEW") |
-| REMARKS | string | table comment |
-| TYPE_CAT | string | unused |
-| TYPE_SCHEM | string | unused |
-| TYPE_NAME | string | unused |
-| SELF_REFERENCING_COL_NAME | string | unused |
-| REF_GENERATION | string | unused |
+| IS_VIRTUAL | boolean | table is a virtual table |
+| HAS_DISTRIBUTION_KEY | boolean | table is explicitly distributed |
+| HAS_PARTITION_KEY | boolean | table is partitioned |
+| COMMENT | string | table comment |
 
 If the command returns a result set which has less than 1,000 rows of data, the data will be provided in the `data` field of `resultSet`. However if the command returns a result set which has 1,000 or more rows of data, a result set will be opened whose handle is returned in the `resultSetHandle` field of `resultSet`. Using this handle, the data from the result set can be retrieved using the `fetch` command. Once the result set is no longer needed, it should be closed using the `closeResultSet` command.
 
 Request fields:
   * command (string) => command name: "getTables"
   * attributes (object, optional) => attributes to set for the connection (see [Attributes](../WebsocketAPIV2.md#attributes-session-and-database-properties))
-  * catalog (string, optional) => catalog name (i.e. "EXA_DB"). `""` means no catalog, `null` means all catalogs.
   * schema (string, optional) => schema name search criteria in SQL `LIKE` format. `""` means no schema, `null` means all schemas.
   * table (string, optional) => table name search criteria in SQL `LIKE` format. `""` means no table, `null` means all tables.
   * tableTypes (string[], optional) => array of table types (supported values are "SYSTEM TABLE", "TABLE", "VIEW"). `null` means all table types.
@@ -33,7 +30,6 @@ Request JSON format
      "attributes": {
              // as defined separately
      },
-     "catalog": <string>,
      "schema": <string>,
      "table": <string>,
      "tableTypes": [

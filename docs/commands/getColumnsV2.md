@@ -19,7 +19,7 @@ Result set columns: Ordered by `SCHEMA`, `TABLE`, `ORDINAL_POSITION`.
 | IS_DISTRIBUTION_KEY | boolean | column is part of the distribution key |
 | PARTITION_KEY_ORDINAL_POSITION | number | column position (beginning with 1) in the table's composite partition key, NULL for columns which are not part of it |
 | DEFAULT | string | default value |
-| IDENTITY | number | current value of the identity number generator, if this column has the identity attribute |
+| IS_IDENTITY | boolean | has the identity attribute |
 | OWNER | string | owner name |
 | COMMENT | string | column comment |
 
@@ -28,7 +28,6 @@ If the command returns a result set which has less than 1,000 rows of data, the 
 Request fields:
   * command (string) => command name: "getColumns"
   * attributes (object, optional) => attributes to set for the connection (see [Attributes](../WebsocketAPIV2.md#attributes-session-and-database-properties))
-  * catalog (string, optional) => catalog name (i.e. "EXA_DB"). `""` means no catalog, `null` means all catalogs.
   * schema (string, optional) => schema name search criteria in SQL `LIKE` format. `""` means no schema, `null` means all schemas.
   * table (string, optional) => table name search criteria in SQL `LIKE` format. `""` means no table, `null` means all tables.
   * column (string, optional) => column name search criteria in SQL `LIKE` format. `""` means no column, `null` means all columns.

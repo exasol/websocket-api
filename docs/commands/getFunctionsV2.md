@@ -1,28 +1,22 @@
-### getProcedures: Gets the procedure descriptions
+### getFunctions: Gets the function descriptions
 
-This command gets the specified procedure descriptions in the database.
+This command gets the specified function descriptions in the database.
 
-Result set columns: Ordered by `PROCEDURE_CAT`, `PROCEDURE_SCHEM`, `PROCEDURE_NAME`, `SPECIFIC_ NAME`.
+Result set columns: Ordered by `SCHEMA`, `NAME`.
 | Name | Data Type | Description |
 | --- | --- | --- |
-| PROCEDURE_CAT | string | catalog name |
-| PROCEDURE_SCHEM | string | schema name |
-| PROCEDURE_NAME | string | procedure name |
-| NUM_INPUT_PARAMS | number | number of input paramters (-1 = unknown) |
-| NUM_OUTPUT_PARAMS | number | number of output parameters (-1 = unknown) |
-| NUM_RESULT_SETS | number | number of result sets (-1 = unknown) |
-| REMARKS | string | procedure comment |
-| PROCEDURE_TYPE | number | procedure returns a value (0 = unknown) |
-| SPECIFIC_NAME | string | procedure name |
+| SCHEMA | string | schema name |
+| NAME | string | function name |
+| OWNER | string | owner name |
+| COMMENT | string | function comment |
 
 If the command returns a result set which has less than 1,000 rows of data, the data will be provided in the `data` field of `resultSet`. However if the command returns a result set which has 1,000 or more rows of data, a result set will be opened whose handle is returned in the `resultSetHandle` field of `resultSet`. Using this handle, the data from the result set can be retrieved using the `fetch` command. Once the result set is no longer needed, it should be closed using the `closeResultSet` command.
 
 Request fields:
-  * command (string) => command name: "getProcedures"
+  * command (string) => command name: "getFunctions"
   * attributes (object, optional) => attributes to set for the connection (see [Attributes](../WebsocketAPIV2.md#attributes-session-and-database-properties))
-  * catalog (string, optional) => catalog name (i.e. "EXA_DB"). `""` means no catalog, `null` means all catalogs.
   * schema (string, optional) => schema name search criteria in SQL `LIKE` format. `""` means no schema, `null` means all schemas.
-  * procedure (string, optional) => procedure name search criteria in SQL `LIKE` format. `""` means no procedure, `null` means all procedures.
+  * function (string, optional) => function name search criteria in SQL `LIKE` format. `""` means no procedure, `null` means all procedures.
 
 Request JSON format
 ```javascript
@@ -31,9 +25,8 @@ Request JSON format
      "attributes": {
              // as defined separately
      },
-     "catalog": <string>,
      "schema": <string>,
-     "procedure": <string>
+     "function": <string>
  }
 ```
 

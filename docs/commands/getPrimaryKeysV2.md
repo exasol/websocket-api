@@ -5,19 +5,18 @@ This command gets the specified primary key descriptions in the database.
 Result set columns: Ordered by `COLUMN_NAME`.
 | Name | Data Type | Description |
 | --- | --- | --- |
-| TABLE_CAT | string | catalog name |
-| TABLE_SCHEM | string | schema name |
-| TABLE_NAME | string | table name |
+| SCHEMA | string | schema name |
+| TABLE | string | table name |
+| NAME | string | primary key name |
+| OWNER | string | owner name |
+| ORDINAL_POSITION | number | column position in the table (beginning with 1) |
 | COLUMN_NAME | string | column name |
-| KEY_SEQ | number | column sequence number within the primary key (starting at 1) |
-| PK_NAME | string | primary key name |
 
 If the command returns a result set which has less than 1,000 rows of data, the data will be provided in the `data` field of `resultSet`. However if the command returns a result set which has 1,000 or more rows of data, a result set will be opened whose handle is returned in the `resultSetHandle` field of `resultSet`. Using this handle, the data from the result set can be retrieved using the `fetch` command. Once the result set is no longer needed, it should be closed using the `closeResultSet` command.
 
 Request fields:
   * command (string) => command name: "getPrimaryKeys"
   * attributes (object, optional) => attributes to set for the connection (see [Attributes](../WebsocketAPIV2.md#attributes-session-and-database-properties))
-  * catalog (string, optional) => catalog name (i.e. "EXA_DB"). `""` means no catalog, `null` means all catalogs.
   * schema (string, optional) => schema name. `""` means no schema, `null` means all schemas.
   * table (string, optional) => table name. `""` means no table, `null` means all tables.
 
@@ -28,7 +27,6 @@ Request JSON format
      "attributes": {
              // as defined separately
      },
-     "catalog": <string>,
      "schema": <string>,
      "table": <string>
  }

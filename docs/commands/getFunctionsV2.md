@@ -16,12 +16,12 @@ Request fields:
   * command (string) => command name: "getFunctions"
   * attributes (object, optional) => attributes to set for the connection (see [Attributes](../WebsocketAPIV2.md#attributes-session-and-database-properties))
   * schema (string, optional) => schema name search criteria in SQL `LIKE` format. `""` means no schema, `null` means all schemas.
-  * function (string, optional) => function name search criteria in SQL `LIKE` format. `""` means no procedure, `null` means all procedures.
+  * function (string, optional) => function name search criteria in SQL `LIKE` format. `""` means no function, `null` means all functions.
 
 Request JSON format
 ```javascript
  {
-     "command": "getProcedures",
+     "command": "getFunctions",
      "attributes": {
              // as defined separately
      },

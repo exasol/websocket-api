@@ -69,17 +69,21 @@ The following commands are used to query metadata in Exasol. The commands and th
 
 | Command | Description |
 | --- | --- |
-| [getCatalogs](commands/getCatalogsV2.md) | Gets the catalog names |
 | [getColumnPrivileges](commands/getColumnPrivilegesV2.md) | Gets column privilege descriptions |
 | [getColumns](commands/getColumnsV2.md) | Gets column descriptions |
+| [getConnections](commands/getConnectionsV2.md) | Gets connection descriptions |
+| [getDbMetadata](commands/getDbMetadataV2.md) | Gets database properties |
+| [getFunctions](commands/getFunctionsV2.md) | Gets function descriptions |
+| [getKeywords](commands/getKeywordsV2.md) | Gets SQL keywords |
 | [getPrimaryKeys](commands/getPrimaryKeysV2.md) | Gets primary key descriptions |
-| [getProcedureColumns](commands/getProcedureColumnsV2.md) | Gets procedure column descriptions |
-| [getProcedures](commands/getProceduresV2.md) | Gets procedure descriptions |
-| [getSchemas](commands/getSchemasV2.md) | Gets the schema names |
+| [getRoles](commands/getRolesV2.md) | Gets role descriptions |
+| [getSchemas](commands/getSchemasV2.md) | Gets schema descriptions |
+| [getScripts](commands/getScriptsV2.md) | Gets script descriptions |
 | [getTablePrivileges](commands/getTablePrivilegesV2.md) | Gets table privilege descriptions |
 | [getTables](commands/getTablesV2.md) | Gets table descriptions |
-| [getTableTypes](commands/getTableTypesV2.md) | Gets the supported table types |
-| [getTypeInfo](commands/getTypeInfoV2.md) | Gets the supported data types |
+| [getTableTypes](commands/getTableTypesV2.md) | Gets supported table types |
+| [getTypeInfo](commands/getTypeInfoV2.md) | Gets supported data types |
+| [getUsers](commands/getUsersV2.md) | Gets user descriptions |
 
 ## Attributes: Session and database properties
 

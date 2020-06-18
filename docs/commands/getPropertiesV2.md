@@ -1,4 +1,4 @@
-### getDbMetadata: Gets the database properties
+### getProperties: Gets the database properties
 
 This command gets the specified properties of the database.
 
@@ -11,14 +11,14 @@ Result set columns: Ordered by `NAME`.
 If the command returns a result set which has less than 1,000 rows of data, the data will be provided in the `data` field of `resultSet`. However if the command returns a result set which has 1,000 or more rows of data, a result set will be opened whose handle is returned in the `resultSetHandle` field of `resultSet`. Using this handle, the data from the result set can be retrieved using the `fetch` command. Once the result set is no longer needed, it should be closed using the `closeResultSet` command.
 
 Request fields:
-  * command (string) => command name: "getDbMetadata"
+  * command (string) => command name: "getProperties"
   * attributes (object, optional) => attributes to set for the connection (see [Attributes](../WebsocketAPIV2.md#attributes-session-and-database-properties))
   * name (string, optional) => property name. "" means no property, null means all properties.
 
 Request JSON format
 ```javascript
  {
-     "command": "getDbMetadata",
+     "command": "getProperties",
      "attributes": {
              // as defined separately
      },

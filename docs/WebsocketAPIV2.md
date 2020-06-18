@@ -72,10 +72,10 @@ The following commands are used to query metadata in Exasol. The commands and th
 | [getColumnPrivileges](commands/getColumnPrivilegesV2.md) | Gets column privilege descriptions |
 | [getColumns](commands/getColumnsV2.md) | Gets column descriptions |
 | [getConnections](commands/getConnectionsV2.md) | Gets connection descriptions |
-| [getDbMetadata](commands/getDbMetadataV2.md) | Gets database properties |
 | [getFunctions](commands/getFunctionsV2.md) | Gets function descriptions |
 | [getKeywords](commands/getKeywordsV2.md) | Gets SQL keywords |
 | [getPrimaryKeys](commands/getPrimaryKeysV2.md) | Gets primary key descriptions |
+| [getProperties](commands/getPropertiesV2.md) | Gets database properties |
 | [getRoles](commands/getRolesV2.md) | Gets role descriptions |
 | [getSchemas](commands/getSchemasV2.md) | Gets schema descriptions |
 | [getScripts](commands/getScriptsV2.md) | Gets script descriptions |

@@ -8,6 +8,7 @@ Result set columns: Ordered by `SCHEMA`, `TABLE`, `ORDINAL_POSITION`.
 | SCHEMA | string | schema name |
 | TABLE | string | table name |
 | NAME | string | column name |
+| TABLE_TYPE | string | table type (supported values are "SYSTEM TABLE", "TABLE", "VIEW") |
 | TYPE | string | data type |
 | TYPE_ID | number | data type ID |
 | MAXSIZE | number | maximum number of characters for strings |
@@ -31,6 +32,7 @@ Request fields:
   * schema (string, optional) => schema name search criteria in SQL `LIKE` format. `""` means no schema, `null` means all schemas.
   * table (string, optional) => table name search criteria in SQL `LIKE` format. `""` means no table, `null` means all tables.
   * column (string, optional) => column name search criteria in SQL `LIKE` format. `""` means no column, `null` means all columns.
+  * tableTypes (string[], optional) => array of table types (supported values are "SYSTEM TABLE", "TABLE", "VIEW"). `null` means all table types.
 
 Request JSON format
 ```javascript
@@ -41,7 +43,10 @@ Request JSON format
      },
      "schema": <string>,
      "table": <string>,
-     "column": <string>
+     "column": <string>,
+     "tableTypes": [
+                  <string>
+     ]
  }
 ```
 

@@ -24,7 +24,8 @@ incoming messages and forwards the requests to the database.
 
 | Date | Exasol Version | Change | Issue |
 | --- | --- | --- | --- |
-| - | 7.0.0 | Metadata commands were added. See [Metadata-related commands](#metadata-related-commands) for details. | [EXASOL-2640](https://www.exasol.com/support/browse/EXASOL-2640) |
+| 2020.08.13 | 7.0.0 | The `resultSetMaxRows` attribute was added. See [Attributes](#attributes-session-and-database-properties) for details. | [EXASOL-2734](https://www.exasol.com/support/browse/EXASOL-2734) |
+| 2020.05.05 | 7.0.0 | Metadata commands were added. See [Metadata-related commands](#metadata-related-commands) for details. | [EXASOL-2640](https://www.exasol.com/support/browse/EXASOL-2640) |
 | 2020.10.03 | 7.0.0 | Columns of type `HASHTYPE` can be specified using the `HASHTYPE` type. See [Data Types](#data-types-type-names-and-properties) for details. | [EXASOL-2643](https://www.exasol.com/support/browse/EXASOL-2643) |
 
 ## Command summary
@@ -104,6 +105,7 @@ attributes are included in command replies.
 | numericCharacters | string | no | yes | Characters specifying the group and decimal separators (NLS_NUMERIC_CHARACTERS). For example, ",." would result in "123,456,789.123". |
 | openTransaction | true \| false | yes | no | If true, a transaction is open. If false, a transaction is not open. 
 | queryTimeout | number | no | yes | Query timeout value (in seconds). If a query runs longer than the specified time, it will be aborted. |
+| resultSetMaxRows | number | no | no | Maximum number of result set rows returned, 0 (default) means no limit. Only applicable to `execute`, `executeBatch` and `executePreparedStatement`. |
 | snapshotTransactionsEnabled | true \| false | no | no | If true, snapshot transactions will be used. If false, they will not be used. |
 | timestampUtcEnabled | true \| false | no | no | If true, timestamps will be converted to UTC. If false, UTC will not be used. |
 | timezone | string | yes | yes | Timezone of the session. |

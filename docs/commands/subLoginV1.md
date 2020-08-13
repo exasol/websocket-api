@@ -25,8 +25,8 @@ The login process is composed of four steps:
 
 2. The server returns a public key which is used to encode the
    user's password. The public key can be obtained in one of two ways:
-    a. importing the key using the `publicKeyPem` field
-    b. constructing the key using the `publicKeyModulus` and `publicKeyExponent` fields.
+   - importing the key using the `publicKeyPem` field, or
+   - constructing the key using the `publicKeyModulus` and `publicKeyExponent` fields.
    
    Response fields:
      * status (string) => command status: "ok" or "error"

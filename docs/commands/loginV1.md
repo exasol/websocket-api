@@ -46,7 +46,7 @@ The login process is composed of four steps:
                 "publicKeyPem": <string>,
                 "publicKeyModulus": <string>,
                 "publicKeyExponent": <string>
-    },
+        },
         // if status is "error"
         "exception": {
                 "text": <string>,

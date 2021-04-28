@@ -25,8 +25,8 @@ The login process is composed of four steps:
    ```
 
 2. The server responds with either
-  * "ok", in which case the login process continues in step 3, or
-  * "error", in which case the login process is aborted.
+     * "ok", in which case the login process continues in step 3, or
+     * "error", in which case the login process is aborted.
 
    Response fields:
      * status (string) => command status: "ok" or "error"

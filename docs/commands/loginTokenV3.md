@@ -47,7 +47,7 @@ The login process is composed of four steps:
    ```
    
    
-3. The client sends either an OpenID `accessToken` or a `refreshToken`, and optionally
+3. The client sends either an OpenID `accessToken` or a `refreshToken` and optionally
    other client information.
    
    Request fields:

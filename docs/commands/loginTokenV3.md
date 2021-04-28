@@ -1,38 +1,35 @@
-### login: Establishes a connection to Exasol
+### loginToken: Establishes a connection to Exasol using an OpenID token
 
 This command invokes the login process which establishes a connection
 between the client and Exasol. As long as the connection is open,
 the user can interact with Exasol using the commands specified
 below.
 
+:warning: This command requires a TLS connection (i.e., `wss://...`).
+
 The login process is composed of four steps:
 
-1. The client sends the `login` command including the requested protocol 
+1. The client sends the `loginToken` command including the requested protocol 
    version.
    
    Request fields:
-     * command (string) => command name: "login"
-     * protocolVersion (number) => requested WebSocket protocol version, (e.g., 1)
+     * command (string) => command name: "loginToken"
+     * protocolVersion (number) => requested WebSocket protocol version, (e.g., 3)
    
    Request JSON format
    ```javascript
     {
-        "command": "login",
+        "command": "loginToken",
         "protocolVersion": <number>
     }
    ```
 
-2. The server returns a public key which is used to encode the
-   user's password. The public key can be obtained in one of two ways:
-    - importing the key using the `publicKeyPem` field, or
-    - constructing the key using the `publicKeyModulus` and `publicKeyExponent` fields.
+2. The server responds with either
+  * "ok", in which case the login process continues in step 3, or
+  * "error", in which case the login process is aborted.
 
    Response fields:
      * status (string) => command status: "ok" or "error"
-     * responseData (object, optional) => only present if status is "ok"
-       * publicKeyPem (string) => PEM-formatted, 1024-bit RSA public key used to encode the user's password (see 3.)
-       * publicKeyModulus (string) => hexadecimal modulus of the 1024-bit RSA public key used to encode the user's password (see 3.)
-       * publicKeyExponent (string) => hexadecimal exponent of the 1024-bit RSA public key used to encode the user's password (see 3.)
      * exception (object, optional) => only present if status is "error"
        * text (string) => exception message which provides error details
        * sqlCode (string) => five-character exception code if known, otherwise "00000"
@@ -41,12 +38,6 @@ The login process is composed of four steps:
    ```javascript
     {
         "status": <"ok" | "error">,
-        // if status is "ok"
-        "responseData": {
-                "publicKeyPem": <string>,
-                "publicKeyModulus": <string>,
-                "publicKeyExponent": <string>
-        },
         // if status is "error"
         "exception": {
                 "text": <string>,
@@ -56,12 +47,12 @@ The login process is composed of four steps:
    ```
    
    
-3. The client sends the username, encrypted password, and optionally
+3. The client sends either an OpenID `accessToken` or a `refreshToken`, and optionally
    other client information.
    
    Request fields:
-     * username (string) => Exasol user name to use for the login process
-     * password (string) => user's password, which is encrypted using publicKey (see 2.) and PKCS #1 v1.5 padding, encoded in Base64 format
+     * accessToken (string, optional) => OpenID access token to use for the login process
+     * refreshToken (string, optional) => OpenID refresh token to use for the login process
      * useCompression (boolean) => use compression for messages during the session (beginning after the login process is completed)
      * sessionId (number, optional) => requested session ID
      * clientName (string, optional) => client program name, (e.g., "EXAplus")
@@ -76,8 +67,8 @@ The login process is composed of four steps:
    Request JSON format
    ```javascript
     {
-        "username": <string>,
-        "password": <string>,
+        "accessToken": <string>,
+        "refreshToken": <string>,
         "useCompression": <boolean>,
         "sessionId": <number>,
         "clientName": <string>,
@@ -94,7 +85,7 @@ The login process is composed of four steps:
    ```
    
    
-4. The server uses `username` and `password` (see 3.) to authenticate the
+4. The server uses either `accessToken` or `refreshToken` (see 3.) to authenticate the
    user. If successful, the server replies with an "ok" response and a
    connection is established. If authentication of the user fails, the
    server sends an "error" response to the client indicating that the login

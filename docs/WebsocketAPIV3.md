@@ -24,9 +24,6 @@ incoming messages and forwards the requests to the database.
 
 | Date | Exasol Version | Change | Issue |
 | --- | --- | --- | --- |
-| 2020.08.13 | 7.0.0 | The `resultSetMaxRows` attribute was added. See [Attributes](#attributes-session-and-database-properties) for details. | [EXASOL-2734](https://www.exasol.com/support/browse/EXASOL-2734) |
-| 2020.05.05 | 7.0.0 | Metadata commands were added. See [Metadata-related commands](#metadata-related-commands) for details. | [EXASOL-2640](https://www.exasol.com/support/browse/EXASOL-2640) |
-| 2020.10.03 | 7.0.0 | Columns of type `HASHTYPE` can be specified using the `HASHTYPE` type. See [Data Types](#data-types-type-names-and-properties) for details. | [EXASOL-2643](https://www.exasol.com/support/browse/EXASOL-2643) |
 
 ## Command summary
 
@@ -41,7 +38,9 @@ and query the hosts of an Exasol cluster.
 | [enterParallel](commands/enterParallelV1.md) | Opens subconnections for parallel execution |
 | [getHosts](commands/getHostsV1.md) | Gets the hosts in a cluster |
 | [login](commands/loginV1.md) | Establishes a connection to Exasol |
+| [loginToken](commands/loginTokenV3.md) | Establishes a connection to Exasol using an OpenID token |
 | [subLogin](commands/subLoginV1.md) | Establishes a subconnection to Exasol |
+| [subLoginToken](commands/subLoginTokenV3.md) | Establishes a subconnection to Exasol using an OpenID token |
 
 ### Session-related commands
 

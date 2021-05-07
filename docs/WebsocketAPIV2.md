@@ -105,7 +105,7 @@ attributes are included in command replies.
 | numericCharacters | string | no | yes | Characters specifying the group and decimal separators (NLS_NUMERIC_CHARACTERS). For example, ",." would result in "123,456,789.123". |
 | openTransaction | true \| false | yes | no | If true, a transaction is open. If false, a transaction is not open. 
 | queryTimeout | number | no | yes | Query timeout value (in seconds). If a query runs longer than the specified time, it will be aborted. |
-| resultSetMaxRows | number | no | no | Maximum number of result set rows returned, 0 (default) means no limit. Only applicable to `execute`, `executeBatch` and `executePreparedStatement`. |
+| resultSetMaxRows | number | no | no | Maximum number of result set rows returned, 0 (default) means no limit. Only applicable to [execute](commands/executeV1.md), [executeBatch](commands/executeBatchV1.md) and [executePreparedStatement](commands/executePreparedStatementV1.md). |
 | snapshotTransactionsEnabled | true \| false | no | no | If true, snapshot transactions will be used. If false, they will not be used. |
 | timestampUtcEnabled | true \| false | no | no | If true, timestamps will be converted to UTC. If false, UTC will not be used. |
 | timezone | string | yes | yes | Timezone of the session. |

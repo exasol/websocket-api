@@ -5,7 +5,7 @@ between the client and Exasol. As long as the connection is open,
 the user can interact with Exasol using the commands specified
 below.
 
-ℹ️ A compatibility mode has been added to enable logins using OpenID refresh tokens if using `loginToken` is not possible. For details, see step 3.
+ℹ️ A compatibility mode has been added to enable logins using OpenID refresh tokens if using [loginToken](loginTokenV3.md) is not possible. For details, see step 3.
 
 The login process is composed of four steps:
 

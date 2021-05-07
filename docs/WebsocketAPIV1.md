@@ -137,7 +137,7 @@ types in responses from Exasol.
 ## Compression
 
 The data in the WebSocket data frames may be compressed using zlib. In
-order to enable compression, the client must set the useCompression
+order to enable compression, the client must set the `useCompression`
 field in the login command to true. If compression is enabled during
 login, all messages sent and received after login completion must be
 binary data frames, in which the payload data (i.e., command
@@ -145,7 +145,7 @@ request/response) is zlib-compressed.
 
 ## Heartbeat/Feedback messages
 
-The feedbackInterval session attribute specifies how often (in seconds)
+The `feedbackInterval` session attribute specifies how often (in seconds)
 unidirectional heartbeat/feedback messages are sent to the client
 during query execution. These messages are sent using Pong WebSocket
 control frames (see RFC 6455), and thus a response is not expected.

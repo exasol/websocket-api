@@ -202,30 +202,30 @@ Please note that subconnections are only useful for multi-node Exasol clusters. 
 
 ### How to create and use subconnections
 
-Subconnections are created using the enterParallel command. The number of requested subconnections can be specified by the user, and the number of subconnections actually opened is given in the enterParallel response. Please note that the maximum number of subconnections is equal to the number of nodes in the Exasol cluster. For example, if the user has an eight-node cluster and requests 1,000 subconnections, only eight subconnections will be opened. As a general rule, the number of subconnections should usually be equal to the number of nodes in the Exasol cluster, which ensures one subconnection per node. After the subconnections have been created, the subLogin command should be used to login to each subconnection. Note: Failing to login to all subconnections will cause the login to hang. After this, they are ready for use.
+Subconnections are created using the [enterParallel](commands/enterParallelV1.md) command. The number of requested subconnections can be specified by the user, and the number of subconnections actually opened is given in the [enterParallel](commands/enterParallelV1.md) response. Please note that the maximum number of subconnections is equal to the number of nodes in the Exasol cluster. For example, if the user has an eight-node cluster and requests 1,000 subconnections, only eight subconnections will be opened. As a general rule, the number of subconnections should usually be equal to the number of nodes in the Exasol cluster, which ensures one subconnection per node. After the subconnections have been created, the [subLogin](commands/subLoginV1.md) command should be used to login to each subconnection. Note: Failing to login to all subconnections will cause the login to hang. After this, they are ready for use.
 
-Any command can be executed on subconnections; however, there is a significant difference in *how* they can be executed. The only two commands which can be executed ansynchronously on subconnections (i.e., not executed on all subconnections at the same time) are fetch and executePrepared. All other commands are synchronous, meaning the same command must be executed on all subconnections at the same time. For example, if the execute command is not called on all subconnections, the call will hang and eventually fail because of a time out.
+Any command can be executed on subconnections; however, there is a significant difference in *how* they can be executed. The only two commands which can be executed ansynchronously on subconnections (i.e., not executed on all subconnections at the same time) are [fetch](commands/fetchV1.md) and [executePreparedStatement](commands/executePreparedStatementV1.md). All other commands are synchronous, meaning the same command must be executed on all subconnections at the same time. For example, if the [execute](commands/executeV1.md) command is not called on all subconnections, the call will hang and eventually fail because of a time out.
 
-After a subconnection is no longer needed, the disconnect command should be called and the WebSocket for it closed as normal. Please note that subconnections can be reused for multiple statements.
+After a subconnection is no longer needed, the [disconnect](commands/disconnectV1.md) command should be called and the WebSocket for it closed as normal. Please note that subconnections can be reused for multiple statements.
 
 ### Example
 
-The following is an example of how to create, use, and close subconnections to fetch a result set from an executed prepared statement. If subconnections have already been created or are needed afterwards, the enterParallel, subLogin, and disconnect commands may be ignored.
+The following is an example of how to create, use, and close subconnections to fetch a result set from an executed prepared statement. If subconnections have already been created or are needed afterwards, the [enterParallel](commands/enterParallelV1.md), [subLogin](commands/subLoginV1.md), and [disconnect](commands/disconnectV1.md) commands may be ignored.
 
 1. On main connection:
-   * Create subconnections (enterParallel)
+   * Create subconnections ([enterParallel](commands/enterParallelV1.md))
 
 2. On subconnections:
-   * Login to subconnection (subLogin)
+   * Login to subconnection ([subLogin](commands/subLoginV1.md))
 
 3. On main connection:
-   * Execute prepared statement (executePreparedStatement)
+   * Execute prepared statement ([executePreparedStatement](commands/executePreparedStatementV1.md))
 
 4. On subconnections:
-   * Get result set offset (getOffset)
-   * Fetch result set data using the offset (fetch)
-   * Close result set (closeResultSet)
-   * Disconnect (disconnect)
+   * Get result set offset ([getOffset](commands/getOffsetV1.md))
+   * Fetch result set data using the offset ([fetch](commands/fetchV1.md))
+   * Close result set ([closeResultSet](commands/closeResultSetV1.md))
+   * Disconnect ([disconnect](commands/disconnectV1.md))
 
 5. On main connection:
-   * Close result set (closeResultSet)
+   * Close result set ([closeResultSet](commands/closeResultSetV1.md))

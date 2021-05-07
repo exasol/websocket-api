@@ -29,17 +29,18 @@ It would then be nice if you could share your work with us, and
 we will of course help you by any means. 
 
 ## Changes
+* [WebSocket API v3](docs/WebsocketAPIV3.md) support has been added in Exasol 7.1.
 * [WebSocket API v2](docs/WebsocketAPIV2.md) support has been added in Exasol 7.0.
 
 ## Supported versions
-| | WebSocket API v1 | WebSocket API v2 |
-| --- | --- | --- |
-| **Exasol 7.0** | :heavy_check_mark: | :heavy_check_mark: |
-| **Exasol 6.2** | :heavy_check_mark: | :x: |
-| **Exasol 6.1** | :heavy_check_mark: | :x: |
-| **Exasol 6.0** | :heavy_check_mark: | :x: |
+| | WebSocket API v1 | WebSocket API v2 | WebSocket API v3 |
+| --- | --- | --- | --- |
+| **Exasol 7.1** | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+| **Exasol 7.0** | :heavy_check_mark: | :heavy_check_mark: | :x: |
+| **Exasol 6.2** | :heavy_check_mark: | :x: | :x: |
 
 ## Protocol Specifications
+* [WebSocket protocol v3 API specification](docs/WebsocketAPIV3.md)
 * [WebSocket protocol v2 API specification](docs/WebsocketAPIV2.md)
 * [WebSocket protocol v1 API specification](docs/WebsocketAPIV1.md)
 

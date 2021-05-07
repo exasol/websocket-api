@@ -186,19 +186,25 @@ Exasol will not send Ping frames to the client.
 
 ### Introduction
 
-Subconnections are additional connections to Exasol cluster nodes which can be created by the client. The main reason to create and use subconnections, as opposed to simply using the existing main connection, is to parallelize fetching/inserting data from/into Exasol.
+Subconnections are additional connections to Exasol cluster nodes which can be created by the client. There are two main reasons to create and use subconnections.
+1. Read a result set in parallel: [fetch](commands/fetchV1.md) can be called in parallel by each of the subconnections to read a result set.
+2. `INSERT` data in parallel: [executePreparedStatement](commands/executePreparedStatementV1.md) can be called in parallel on each of the subconnections to `INSERT` various data. Please note that the same prepared statement (see [createPreparedStatement](commands/createPreparedStatementV1.md)) must be executed on all subconnections.
 
-For example, fetching a result set from Exasol can be done easily using the main connection. In this scenario, the Exasol cluster nodes will automatically send their data to the node which is connected to the client. This node then sends the combined data as a single result set. Thus, the client does not need to be aware of any data sharing/communication among the Exasol cluster nodes.
+ℹ️ Here, parallel refers to the node-wise reading/inserting of data. For example, if there is a subconnection for each node (i.e., the number of subconnections equals the number of cluster nodes), then each subconnection will read/insert data locally from/into its node.
 
-However, for performance-critical scenarios, a significant performance gain can be acheived by using subconnections to fetch/insert data directly from/into multiple Exasol cluster nodes in parallel. Thus, instead of all the data going through the single main connection, the data can flow through multiple subconnections to different Exasol nodes in parallel.
+Fetching a result set from Exasol can be done easily using the main connection. In this scenario, the Exasol cluster nodes will automatically send their data to the node which is connected to the client. This node then sends the combined data as a single result set. Thus, the client does not need to be aware of any data sharing/communication among the Exasol cluster nodes.
+
+However, for performance-critical scenarios, a significant performance gain can be acheived by using subconnections to fetch/insert data directly from/into multiple Exasol cluster nodes in parallel. Thus, instead of all the data going through the single main connection, the data can flow through multiple subconnections from/to different Exasol nodes in parallel.
 
 Please note that subconnections are only useful for multi-node Exasol clusters. With a single-node Exasol instance, the subconnection would basically be a duplicate of the main connection.
+
+⚠️ Please note that different statements cannot be run in parallel using subconnections.
 
 ### How to create and use subconnections
 
 Subconnections are created using the enterParallel command. The number of requested subconnections can be specified by the user, and the number of subconnections actually opened is given in the enterParallel response. Please note that the maximum number of subconnections is equal to the number of nodes in the Exasol cluster. For example, if the user has an eight-node cluster and requests 1,000 subconnections, only eight subconnections will be opened. As a general rule, the number of subconnections should usually be equal to the number of nodes in the Exasol cluster, which ensures one subconnection per node. After the subconnections have been created, the subLogin command should be used to login to each subconnection. Note: Failing to login to all subconnections will cause the login to hang. After this, they are ready for use.
 
-:warning: Any command can be executed on subconnections; however, there is a significant difference in *how* they can be executed. The only two commands which can be executed ansynchronously on subconnections (i.e., not executed on all subconnections at the same time) are fetch and executePrepared. All other commands are synchronous, meaning the same command must be executed on all subconnections at the same time. For example, if the execute command is not called on all subconnections, the call will hang and eventually fail because of a time out.
+Any command can be executed on subconnections; however, there is a significant difference in *how* they can be executed. The only two commands which can be executed ansynchronously on subconnections (i.e., not executed on all subconnections at the same time) are fetch and executePrepared. All other commands are synchronous, meaning the same command must be executed on all subconnections at the same time. For example, if the execute command is not called on all subconnections, the call will hang and eventually fail because of a time out.
 
 After a subconnection is no longer needed, the disconnect command should be called and the WebSocket for it closed as normal. Please note that subconnections can be reused for multiple statements.
 

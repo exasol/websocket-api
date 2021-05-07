@@ -5,6 +5,8 @@ between the client and Exasol. As long as the connection is open,
 the user can interact with Exasol using the commands specified
 below.
 
+ℹ️ A compatibility mode has been added to enable logins using OpenID refresh tokens if using `loginToken` is not possible. For details, see step 3.
+
 The login process is composed of four steps:
 
 1. The client sends the `login` command including the requested protocol 
@@ -56,12 +58,14 @@ The login process is composed of four steps:
    ```
    
    
-3. The client sends the username, encrypted password, and optionally
+3. The client sends the username, encrypted password or OpenID refresh token, and optionally
    other client information.
+   
+   To use OpenID compatibility mode, substitute the OpenID refresh token for the password.
    
    Request fields:
      * username (string) => Exasol user name to use for the login process
-     * password (string) => user's password, which is encrypted using publicKey (see 2.) and PKCS #1 v1.5 padding, encoded in Base64 format
+     * password (string) => user's password or OpenID refresh token, which is encrypted using publicKey (see 2.) and PKCS #1 v1.5 padding, encoded in Base64 format
      * useCompression (boolean) => use compression for messages during the session (beginning after the login process is completed)
      * sessionId (number, optional) => requested session ID
      * clientName (string, optional) => client program name, (e.g., "EXAplus")

@@ -24,7 +24,7 @@ incoming messages and forwards the requests to the database.
 
 | Date | Exasol Version | Change | Issue |
 | --- | --- | --- | --- |
-|  | 7.1.0 | OpenID Connect support was added as a login option. See [loginToken](commands/loginTokenV3.md) and [subLoginToken](commands/subLoginTokenV3.md) for details. | [EXASOL-2867](https://www.exasol.com/support/browse/EXASOL-2867) |
+|  | 7.1.0 | OpenID Connect support was added as a login option. See [loginToken](commands/loginTokenV3.md) and [subLoginToken](commands/subLoginTokenV3.md) for details.<br />To login using compatibility mode, see [login](commands/loginV3.md) and [subLogin](commands/subLoginV3.md). | [EXASOL-2867](https://www.exasol.com/support/browse/EXASOL-2867) |
 
 ## Command summary
 

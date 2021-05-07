@@ -65,8 +65,8 @@ reading result sets, and getting and setting session attributes.
 
 ## Attributes: Session and database properties
 
-Attributes can be queried with the GetAttributes command and some of
-them can be modified with the SetAttributes command. Modified
+Attributes can be queried with the [getAttributes](commands/getAttributesV1.md) command and some of
+them can be modified with the [setAttributes](commands/setAttributesV1.md) command. Modified
 attributes are included in command replies.
 
 | Name | JSON value | Read-only | Committable | Description |

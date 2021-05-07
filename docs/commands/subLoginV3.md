@@ -5,7 +5,7 @@ subconnection between the client and Exasol. Using subconnections,
 the user can interact with Exasol in parallel using the commands
 specified below.
 
-ℹ️ A compatibility mode has been added to enable logins using OpenID refresh tokens if using `subLoginToken` is not possible. For details, see step 3.
+ℹ️ A compatibility mode has been added to enable logins using OpenID refresh tokens if using [subLoginToken](subLoginTokenV3.md) is not possible. For details, see step 3.
 
 The login process is composed of four steps:
 
@@ -66,7 +66,7 @@ The login process is composed of four steps:
    Request fields:
      * username (string) => Exasol user name to use for the login process
      * password (string) => user's password or OpenID refresh token, which is encrypted using publicKey (see 2.) and PKCS #1 v1.5 padding, encoded in Base64 format
-     * token (number) => token required for subconnection logins (see, EnterParallel)
+     * token (number) => token required for subconnection logins (see, [EnterParallel](enterParallelV1.md))
    
    Request JSON format
    ```javascript

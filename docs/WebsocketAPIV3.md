@@ -1,6 +1,6 @@
-## WebSocket protocol v1 details
+## WebSocket protocol v3 details
 
-WebSocket Protocol v1 requires an Exasol version of at least 6.0.0. It follows the RFC 6455 document of the IETF.
+WebSocket Protocol v3 requires an Exasol version of at least 7.1.0. It follows the RFC 6455 document of the IETF.
 
 The Exasol connection server identifies the initial GET request by the client.
 This request contains information about the used protocol version.
@@ -24,8 +24,7 @@ incoming messages and forwards the requests to the database.
 
 | Date | Exasol Version | Change | Issue |
 | --- | --- | --- | --- |
-| 2020.03.10 | 7.0.0 | Columns of type `HASHTYPE` must be specified using the `CHAR` type. | [EXASOL-2643](https://www.exasol.com/support/browse/EXASOL-2643) |
-| 2020.01.16 | 6.2.5<br>6.1.9 | For compatibility reasons, WebSocket logins with a protocol version higher than supported versions will be accepted but automatically downgraded to the latest supported version. | [EXASOL-2614](https://www.exasol.com/support/browse/EXASOL-2614) |
+|  | 7.1.0 | OpenID Connect support was added as a login option. See [loginToken](commands/loginTokenV3.md) and [subLoginToken](commands/subLoginTokenV3.md) for details.<br />To login using an OpenID refresh token in compatibility mode, see [login](commands/loginV3.md) and [subLogin](commands/subLoginV3.md). | [EXASOL-2867](https://www.exasol.com/support/browse/EXASOL-2867) |
 
 ## Command summary
 
@@ -39,8 +38,10 @@ and query the hosts of an Exasol cluster.
 | [disconnect](commands/disconnectV1.md) | Closes a connection to Exasol |
 | [enterParallel](commands/enterParallelV1.md) | Opens subconnections for parallel execution |
 | [getHosts](commands/getHostsV1.md) | Gets the hosts in a cluster |
-| [login](commands/loginV1.md) | Establishes a connection to Exasol |
-| [subLogin](commands/subLoginV1.md) | Establishes a subconnection to Exasol |
+| [login](commands/loginV3.md) | Establishes a connection to Exasol |
+| [loginToken](commands/loginTokenV3.md) | Establishes a connection to Exasol using an OpenID token |
+| [subLogin](commands/subLoginV3.md) | Establishes a subconnection to Exasol |
+| [subLoginToken](commands/subLoginTokenV3.md) | Establishes a subconnection to Exasol using an OpenID token |
 
 ### Session-related commands
 
@@ -63,6 +64,28 @@ reading result sets, and getting and setting session attributes.
 | [getResultSetHeader](commands/getResultSetHeaderV1.md) | Gets a result set header |
 | [setAttributes](commands/setAttributesV1.md) | Sets the given session attribute values |
 
+### Metadata-related commands
+
+The following commands are used to query metadata in Exasol. The commands and their behavior are very similar to methods in the JDBC standard.
+
+| Command | Description |
+| --- | --- |
+| [getColumnPrivileges](commands/getColumnPrivilegesV2.md) | Gets column privilege descriptions |
+| [getColumns](commands/getColumnsV2.md) | Gets column descriptions |
+| [getConnections](commands/getConnectionsV2.md) | Gets connection descriptions |
+| [getFunctions](commands/getFunctionsV2.md) | Gets function descriptions |
+| [getKeywords](commands/getKeywordsV2.md) | Gets SQL keywords |
+| [getPrimaryKeys](commands/getPrimaryKeysV2.md) | Gets primary key descriptions |
+| [getProperties](commands/getPropertiesV2.md) | Gets database properties |
+| [getRoles](commands/getRolesV2.md) | Gets role descriptions |
+| [getSchemas](commands/getSchemasV2.md) | Gets schema descriptions |
+| [getScripts](commands/getScriptsV2.md) | Gets script descriptions |
+| [getTablePrivileges](commands/getTablePrivilegesV2.md) | Gets table privilege descriptions |
+| [getTables](commands/getTablesV2.md) | Gets table descriptions |
+| [getTableTypes](commands/getTableTypesV2.md) | Gets supported table types |
+| [getTypeInfo](commands/getTypeInfoV2.md) | Gets supported data types |
+| [getUsers](commands/getUsersV2.md) | Gets user descriptions |
+
 ## Attributes: Session and database properties
 
 Attributes can be queried with the [getAttributes](commands/getAttributesV1.md) command and some of
@@ -82,6 +105,7 @@ attributes are included in command replies.
 | numericCharacters | string | no | yes | Characters specifying the group and decimal separators (NLS_NUMERIC_CHARACTERS). For example, ",." would result in "123,456,789.123". |
 | openTransaction | true \| false | yes | no | If true, a transaction is open. If false, a transaction is not open. 
 | queryTimeout | number | no | yes | Query timeout value (in seconds). If a query runs longer than the specified time, it will be aborted. |
+| resultSetMaxRows | number | no | no | Maximum number of result set rows returned, 0 (default) means no limit. Only applicable to [execute](commands/executeV1.md), [executeBatch](commands/executeBatchV1.md) and [executePreparedStatement](commands/executePreparedStatementV1.md). |
 | snapshotTransactionsEnabled | true \| false | no | no | If true, snapshot transactions will be used. If false, they will not be used. |
 | timestampUtcEnabled | true \| false | no | no | If true, timestamps will be converted to UTC. If false, UTC will not be used. |
 | timezone | string | yes | yes | Timezone of the session. |
@@ -104,12 +128,13 @@ types in the executePreparedStatement request.
 
 | Type | Required Properties | Optional Properties |
 | --- | --- | --- |
-| BOOLEAN | |
+| BOOLEAN | | |
 | CHAR | size | |
 | DATE | | |
 | DECIMAL | precision, scale | |
 | DOUBLE | | |
 | GEOMETRY | | |
+| HASHTYPE | | |
 | INTERVAL DAY TO SECOND | precision, fraction | |
 | INTERVAL YEAR TO MONTH | precision | |
 | TIMESTAMP | | withLocalTimeZone |
@@ -128,6 +153,7 @@ types in responses from Exasol.
 | DECIMAL | precision, scale |
 | DOUBLE | |
 | GEOMETRY | size, srid |
+| HASHTYPE | size |
 | INTERVAL DAY TO SECOND | size, precision, fraction |
 | INTERVAL YEAR TO MONTH | size, precision |
 | TIMESTAMP | size, withLocalTimeZone |
@@ -176,7 +202,7 @@ Please note that subconnections are only useful for multi-node Exasol clusters. 
 
 ### How to create and use subconnections
 
-Subconnections are created using the [enterParallel](commands/enterParallelV1.md) command. The number of requested subconnections can be specified by the user, and the number of subconnections actually opened is given in the [enterParallel](commands/enterParallelV1.md) response. Please note that the maximum number of subconnections is equal to the number of nodes in the Exasol cluster. For example, if the user has an eight-node cluster and requests 1,000 subconnections, only eight subconnections will be opened. As a general rule, the number of subconnections should usually be equal to the number of nodes in the Exasol cluster, which ensures one subconnection per node. After the subconnections have been created, the [subLogin](commands/subLoginV1.md) command should be used to login to each subconnection. Note: Failing to login to all subconnections will cause the login to hang. After this, they are ready for use.
+Subconnections are created using the [enterParallel](commands/enterParallelV1.md) command. The number of requested subconnections can be specified by the user, and the number of subconnections actually opened is given in the [enterParallel](commands/enterParallelV1.md) response. Please note that the maximum number of subconnections is equal to the number of nodes in the Exasol cluster. For example, if the user has an eight-node cluster and requests 1,000 subconnections, only eight subconnections will be opened. As a general rule, the number of subconnections should usually be equal to the number of nodes in the Exasol cluster, which ensures one subconnection per node. After the subconnections have been created, the [subLogin](commands/subLoginV3.md) or [subLoginToken](commands/subLoginTokenV3.md) command should be used to login to each subconnection. Note: Failing to login to all subconnections will cause the login to hang. After this, they are ready for use.
 
 Any command can be executed on subconnections; however, there is a significant difference in *how* they can be executed. The only two commands which can be executed ansynchronously on subconnections (i.e., not executed on all subconnections at the same time) are [fetch](commands/fetchV1.md) and [executePreparedStatement](commands/executePreparedStatementV1.md). All other commands are synchronous, meaning the same command must be executed on all subconnections at the same time. For example, if the [execute](commands/executeV1.md) command is not called on all subconnections, the call will hang and eventually fail because of a time out.
 
@@ -184,13 +210,13 @@ After a subconnection is no longer needed, the [disconnect](commands/disconnectV
 
 ### Example
 
-The following is an example of how to create, use, and close subconnections to fetch a result set from an executed prepared statement. If subconnections have already been created or are needed afterwards, the [enterParallel](commands/enterParallelV1.md), [subLogin](commands/subLoginV1.md), and [disconnect](commands/disconnectV1.md) commands may be ignored.
+The following is an example of how to create, use, and close subconnections to fetch a result set from an executed prepared statement. If subconnections have already been created or are needed afterwards, the [enterParallel](commands/enterParallelV1.md), [subLogin](commands/subLoginV3.md), and [disconnect](commands/disconnectV1.md) commands may be ignored.
 
 1. On main connection:
    * Create subconnections ([enterParallel](commands/enterParallelV1.md))
 
 2. On subconnections:
-   * Login to subconnection ([subLogin](commands/subLoginV1.md))
+   * Login to subconnection ([subLogin](commands/subLoginV3.md))
 
 3. On main connection:
    * Execute prepared statement ([executePreparedStatement](commands/executePreparedStatementV1.md))

@@ -88,8 +88,8 @@ The following commands are used to query metadata in Exasol. The commands and th
 
 ## Attributes: Session and database properties
 
-Attributes can be queried with the GetAttributes command and some of
-them can be modified with the SetAttributes command. Modified
+Attributes can be queried with the [getAttributes](commands/getAttributesV1.md) command and some of
+them can be modified with the [setAttributes](commands/setAttributesV1.md) command. Modified
 attributes are included in command replies.
 
 | Name | JSON value | Read-only | Committable | Description |
@@ -105,7 +105,7 @@ attributes are included in command replies.
 | numericCharacters | string | no | yes | Characters specifying the group and decimal separators (NLS_NUMERIC_CHARACTERS). For example, ",." would result in "123,456,789.123". |
 | openTransaction | true \| false | yes | no | If true, a transaction is open. If false, a transaction is not open. 
 | queryTimeout | number | no | yes | Query timeout value (in seconds). If a query runs longer than the specified time, it will be aborted. |
-| resultSetMaxRows | number | no | no | Maximum number of result set rows returned, 0 (default) means no limit. Only applicable to `execute`, `executeBatch` and `executePreparedStatement`. |
+| resultSetMaxRows | number | no | no | Maximum number of result set rows returned, 0 (default) means no limit. Only applicable to [execute](commands/executeV1.md), [executeBatch](commands/executeBatchV1.md) and [executePreparedStatement](commands/executePreparedStatementV1.md). |
 | snapshotTransactionsEnabled | true \| false | no | no | If true, snapshot transactions will be used. If false, they will not be used. |
 | timestampUtcEnabled | true \| false | no | no | If true, timestamps will be converted to UTC. If false, UTC will not be used. |
 | timezone | string | yes | yes | Timezone of the session. |
@@ -163,7 +163,7 @@ types in responses from Exasol.
 ## Compression
 
 The data in the WebSocket data frames may be compressed using zlib. In
-order to enable compression, the client must set the useCompression
+order to enable compression, the client must set the `useCompression`
 field in the login command to true. If compression is enabled during
 login, all messages sent and received after login completion must be
 binary data frames, in which the payload data (i.e., command
@@ -171,7 +171,7 @@ request/response) is zlib-compressed.
 
 ## Heartbeat/Feedback messages
 
-The feedbackInterval session attribute specifies how often (in seconds)
+The `feedbackInterval` session attribute specifies how often (in seconds)
 unidirectional heartbeat/feedback messages are sent to the client
 during query execution. These messages are sent using Pong WebSocket
 control frames (see RFC 6455), and thus a response is not expected.
@@ -186,40 +186,46 @@ Exasol will not send Ping frames to the client.
 
 ### Introduction
 
-Subconnections are additional connections to Exasol cluster nodes which can be created by the client. The main reason to create and use subconnections, as opposed to simply using the existing main connection, is to parallelize fetching/inserting data from/into Exasol.
+Subconnections are additional connections to Exasol cluster nodes which can be created by the client. There are two main reasons to create and use subconnections.
+1. Read a result set in parallel: [fetch](commands/fetchV1.md) can be called in parallel by each of the subconnections to read a result set.
+2. `INSERT` data in parallel: [executePreparedStatement](commands/executePreparedStatementV1.md) can be called in parallel on each of the subconnections to `INSERT` various data. Please note that the same prepared statement (see [createPreparedStatement](commands/createPreparedStatementV1.md)) must be executed on all subconnections.
 
-For example, fetching a result set from Exasol can be done easily using the main connection. In this scenario, the Exasol cluster nodes will automatically send their data to the node which is connected to the client. This node then sends the combined data as a single result set. Thus, the client does not need to be aware of any data sharing/communication among the Exasol cluster nodes.
+ℹ️ Here, parallel refers to the node-wise reading/inserting of data. For example, if there is a subconnection for each node (i.e., the number of subconnections equals the number of cluster nodes), then each subconnection will read/insert data locally from/into its node.
 
-However, for performance-critical scenarios, a significant performance gain can be acheived by using subconnections to fetch/insert data directly from/into multiple Exasol cluster nodes in parallel. Thus, instead of all the data going through the single main connection, the data can flow through multiple subconnections to different Exasol nodes in parallel.
+Fetching a result set from Exasol can be done easily using the main connection. In this scenario, the Exasol cluster nodes will automatically send their data to the node which is connected to the client. This node then sends the combined data as a single result set. Thus, the client does not need to be aware of any data sharing/communication among the Exasol cluster nodes.
+
+However, for performance-critical scenarios, a significant performance gain can be acheived by using subconnections to fetch/insert data directly from/into multiple Exasol cluster nodes in parallel. Thus, instead of all the data going through the single main connection, the data can flow through multiple subconnections from/to different Exasol nodes in parallel.
 
 Please note that subconnections are only useful for multi-node Exasol clusters. With a single-node Exasol instance, the subconnection would basically be a duplicate of the main connection.
 
+⚠️ Please note that different statements cannot be run in parallel using subconnections.
+
 ### How to create and use subconnections
 
-Subconnections are created using the enterParallel command. The number of requested subconnections can be specified by the user, and the number of subconnections actually opened is given in the enterParallel response. Please note that the maximum number of subconnections is equal to the number of nodes in the Exasol cluster. For example, if the user has an eight-node cluster and requests 1,000 subconnections, only eight subconnections will be opened. As a general rule, the number of subconnections should usually be equal to the number of nodes in the Exasol cluster, which ensures one subconnection per node. After the subconnections have been created, the subLogin command should be used to login to each subconnection. Note: Failing to login to all subconnections will cause the login to hang. After this, they are ready for use.
+Subconnections are created using the [enterParallel](commands/enterParallelV1.md) command. The number of requested subconnections can be specified by the user, and the number of subconnections actually opened is given in the [enterParallel](commands/enterParallelV1.md) response. Please note that the maximum number of subconnections is equal to the number of nodes in the Exasol cluster. For example, if the user has an eight-node cluster and requests 1,000 subconnections, only eight subconnections will be opened. As a general rule, the number of subconnections should usually be equal to the number of nodes in the Exasol cluster, which ensures one subconnection per node. After the subconnections have been created, the [subLogin](commands/subLoginV1.md) command should be used to login to each subconnection. Note: Failing to login to all subconnections will cause the login to hang. After this, they are ready for use.
 
-:warning: Any command can be executed on subconnections; however, there is a significant difference in *how* they can be executed. The only two commands which can be executed ansynchronously on subconnections (i.e., not executed on all subconnections at the same time) are fetch and executePrepared. All other commands are synchronous, meaning the same command must be executed on all subconnections at the same time. For example, if the execute command is not called on all subconnections, the call will hang and eventually fail because of a time out.
+Any command can be executed on subconnections; however, there is a significant difference in *how* they can be executed. The only two commands which can be executed ansynchronously on subconnections (i.e., not executed on all subconnections at the same time) are [fetch](commands/fetchV1.md) and [executePreparedStatement](commands/executePreparedStatementV1.md). All other commands are synchronous, meaning the same command must be executed on all subconnections at the same time. For example, if the [execute](commands/executeV1.md) command is not called on all subconnections, the call will hang and eventually fail because of a time out.
 
-After a subconnection is no longer needed, the disconnect command should be called and the WebSocket for it closed as normal. Please note that subconnections can be reused for multiple statements.
+After a subconnection is no longer needed, the [disconnect](commands/disconnectV1.md) command should be called and the WebSocket for it closed as normal. Please note that subconnections can be reused for multiple statements.
 
 ### Example
 
-The following is an example of how to create, use, and close subconnections to fetch a result set from an executed prepared statement. If subconnections have already been created or are needed afterwards, the enterParallel, subLogin, and disconnect commands may be ignored.
+The following is an example of how to create, use, and close subconnections to fetch a result set from an executed prepared statement. If subconnections have already been created or are needed afterwards, the [enterParallel](commands/enterParallelV1.md), [subLogin](commands/subLoginV1.md), and [disconnect](commands/disconnectV1.md) commands may be ignored.
 
 1. On main connection:
-   * Create subconnections (enterParallel)
+   * Create subconnections ([enterParallel](commands/enterParallelV1.md))
 
 2. On subconnections:
-   * Login to subconnection (subLogin)
+   * Login to subconnection ([subLogin](commands/subLoginV1.md))
 
 3. On main connection:
-   * Execute prepared statement (executePreparedStatement)
+   * Execute prepared statement ([executePreparedStatement](commands/executePreparedStatementV1.md))
 
 4. On subconnections:
-   * Get result set offset (getOffset)
-   * Fetch result set data using the offset (fetch)
-   * Close result set (closeResultSet)
-   * Disconnect (disconnect)
+   * Get result set offset ([getOffset](commands/getOffsetV1.md))
+   * Fetch result set data using the offset ([fetch](commands/fetchV1.md))
+   * Close result set ([closeResultSet](commands/closeResultSetV1.md))
+   * Disconnect ([disconnect](commands/disconnectV1.md))
 
 5. On main connection:
-   * Close result set (closeResultSet)
+   * Close result set ([closeResultSet](commands/closeResultSetV1.md))

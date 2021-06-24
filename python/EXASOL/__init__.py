@@ -60,19 +60,19 @@ class timer:
         self._ws = ws
         self._name = name
     def __enter__(self):
-        self._t, self._c = time.time(), time.clock()
+        self._t, self._c = time.time(), time.process_time()
         self._pti, self._pci = 0, 0
         return self
     def __exit__(self, type, value, traceback):
-        t, c = time.time(), time.clock()
+        t, c = time.time(), time.process_time()
         x, y = self._ws._timers.get(self._name, (0, 0))
         self._ws._timers[self._name] = (x + (t - self._t - self._pti), y + (c - self._c - self._pci))
     def pausing(self):
         return timerpause(self)
     def pause(self):
-        self._pt, self._pc = time.time(), time.clock()
+        self._pt, self._pc = time.time(), time.process_time()
     def resume(self):
-        pt, pc = time.time(), time.clock()
+        pt, pc = time.time(), time.process_time()
         self._pti += pt - self._pt
         self._pci += pc - self._pc
 

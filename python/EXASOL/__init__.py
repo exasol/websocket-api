@@ -303,7 +303,7 @@ class connect(object):
                           # and fetchmany returns list of columns instead list of rows
 
     def __init__(self, url, username, password,
-                 autocommit = False,
+                 autocommit = True,
                  queryTimeout = 60,
                  useCompression = False,
                  typeMapper = defaultTypeMapper,

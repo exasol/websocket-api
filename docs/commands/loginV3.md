@@ -74,7 +74,7 @@ The login process is composed of four steps:
      * clientLanguage (string, optional) => language setting of the client system
      * clientVersion (string, optional) => client version number
      * clientRuntime (string, optional) => name and version of the client runtime
-     * attributes (object, optional) => array of attributes to set for the connection (see [Attributes](WebsocketAPIV3.md#attributes-session-and-database-properties))
+     * attributes (object, optional) => array of attributes to set for the connection (see [Attributes](../WebsocketAPIV3.md#attributes-session-and-database-properties))
    
    Request JSON format
    ```javascript

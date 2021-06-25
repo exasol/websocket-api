@@ -24,8 +24,8 @@ incoming messages and forwards the requests to the database.
 
 | Date | Exasol Version | Change | Issue |
 | --- | --- | --- | --- |
-|  | 7.1.0 | Autocommit is enabled by default for sessions in Exasol 7.1+. See [Attributes](#attributes-session-and-database-properties) for details.<br />Autocommit can be disabled in order to restore the previous behavior. Please see the driver's documentation on how to do this. | [EXASOL-2908](https://www.exasol.com/support/browse/EXASOL-2908) |
-|  | 7.1.0 | OpenID Connect support was added as a login option. See [loginToken](commands/loginTokenV3.md) and [subLoginToken](commands/subLoginTokenV3.md) for details.<br />To login using an OpenID refresh token in compatibility mode, see [login](commands/loginV3.md) and [subLogin](commands/subLoginV3.md). | [EXASOL-2867](https://www.exasol.com/support/browse/EXASOL-2867) |
+| 2021.06.22 | 7.1.0 | Autocommit is enabled by default for sessions in Exasol 7.1+. See [Attributes](#attributes-session-and-database-properties) for details.<br />Autocommit can be disabled in order to restore the previous behavior. Please see the driver's documentation on how to do this. | [EXASOL-2908](https://www.exasol.com/support/browse/EXASOL-2908) |
+| 2021.05.18 | 7.1.0 | OpenID Connect support was added as a login option. See [loginToken](commands/loginTokenV3.md) and [subLoginToken](commands/subLoginTokenV3.md) for details.<br />To login using an OpenID refresh token in compatibility mode, see [login](commands/loginV3.md) and [subLogin](commands/subLoginV3.md). | [EXASOL-2867](https://www.exasol.com/support/browse/EXASOL-2867) |
 
 ## Command summary
 

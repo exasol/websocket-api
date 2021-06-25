@@ -24,7 +24,7 @@ incoming messages and forwards the requests to the database.
 
 | Date | Exasol Version | Change | Issue |
 | --- | --- | --- | --- |
-| 2021.06.22 | 7.1.0 | Autocommit is enabled by default for sessions in Exasol 7.1+. See [Attributes](#attributes-session-and-database-properties) for details.<br />Autocommit can be disabled in order to restore the previous behavior. Please see the driver's documentation on how to do this. | [EXASOL-2908](https://www.exasol.com/support/browse/EXASOL-2908) |
+| 2021.06.22 | 7.1.0 | Autocommit was enabled by default for sessions in Exasol 7.1+. See [Attributes](#attributes-session-and-database-properties) for details.<br />Autocommit can be disabled in order to restore the previous behavior. Please see the driver's documentation on how to do this. | [EXASOL-2908](https://www.exasol.com/support/browse/EXASOL-2908) |
 | 2020.08.13 | 7.0.0 | The `resultSetMaxRows` attribute was added. See [Attributes](#attributes-session-and-database-properties) for details. | [EXASOL-2734](https://www.exasol.com/support/browse/EXASOL-2734) |
 | 2020.05.05 | 7.0.0 | Metadata commands were added. See [Metadata-related commands](#metadata-related-commands) for details. | [EXASOL-2640](https://www.exasol.com/support/browse/EXASOL-2640) |
 | 2020.10.03 | 7.0.0 | Columns of type `HASHTYPE` can be specified using the `HASHTYPE` type. See [Data Types](#data-types-type-names-and-properties) for details. | [EXASOL-2643](https://www.exasol.com/support/browse/EXASOL-2643) |

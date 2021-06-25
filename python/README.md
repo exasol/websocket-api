@@ -35,11 +35,14 @@ https://www.python.org/dev/peps/pep-0249/
 
 To create a secure WebSocket connection, simply specify `wss://` instead of `ws://` in the URL.
 ```python
-with EXASOL.connect('wss://10.10.1.1:8563', 'user', 'pwd') as connection:
-     with connection.cursor() as cursor:
-          cursor.execute('SELECT * FROM someschema.sometable')
-          for row in cursor:
-              print(row)
+EXASOL.connect('wss://10.10.1.1:8563', 'user', 'pwd')
+```
+
+### Autocommit
+
+Autocommit is enabled by default. To disable it during login, simply specify `autocommit = False`.
+```python
+EXASOL.connect('wss://10.10.1.1:8563', 'user', 'pwd', autocommit = False)
 ```
 
 ### Specification of connection options

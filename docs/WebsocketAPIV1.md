@@ -24,6 +24,7 @@ incoming messages and forwards the requests to the database.
 
 | Date | Exasol Version | Change | Issue |
 | --- | --- | --- | --- |
+| 2021.06.22 | 7.1.0 | Autocommit is enabled by default for sessions in Exasol 7.1+. See [Attributes](#attributes-session-and-database-properties) for details.<br />Autocommit can be disabled in order to restore the previous behavior. Please see the driver's documentation on how to do this. | [EXASOL-2908](https://www.exasol.com/support/browse/EXASOL-2908) |
 | 2020.03.10 | 7.0.0 | Columns of type `HASHTYPE` must be specified using the `CHAR` type. | [EXASOL-2643](https://www.exasol.com/support/browse/EXASOL-2643) |
 | 2020.01.16 | 6.2.5<br>6.1.9 | For compatibility reasons, WebSocket logins with a protocol version higher than supported versions will be accepted but automatically downgraded to the latest supported version. | [EXASOL-2614](https://www.exasol.com/support/browse/EXASOL-2614) |
 

@@ -199,13 +199,15 @@ However, for performance-critical scenarios, a significant performance gain can 
 
 Please note that subconnections are only useful for multi-node Exasol clusters. With a single-node Exasol instance, the subconnection would basically be a duplicate of the main connection.
 
-⚠️ Please note that different statements cannot be run in parallel using subconnections.
-
 ### How to create and use subconnections
 
 Subconnections are created using the [enterParallel](commands/enterParallelV1.md) command. The number of requested subconnections can be specified by the user, and the number of subconnections actually opened is given in the [enterParallel](commands/enterParallelV1.md) response. Please note that the maximum number of subconnections is equal to the number of nodes in the Exasol cluster. For example, if the user has an eight-node cluster and requests 1,000 subconnections, only eight subconnections will be opened. As a general rule, the number of subconnections should usually be equal to the number of nodes in the Exasol cluster, which ensures one subconnection per node. After the subconnections have been created, the [subLogin](commands/subLoginV1.md) command should be used to login to each subconnection. Note: Failing to login to all subconnections will cause the login to hang. After this, they are ready for use.
 
+⚠️ Please note: autocommit should be disabled before opening any subconnections. After closing the subconnections, it can be re-enabled.
+
 Any command can be executed on subconnections; however, there is a significant difference in *how* they can be executed. The only two commands which can be executed ansynchronously on subconnections (i.e., not executed on all subconnections at the same time) are [fetch](commands/fetchV1.md) and [executePreparedStatement](commands/executePreparedStatementV1.md). All other commands are synchronous, meaning the same command must be executed on all subconnections at the same time. For example, if the [execute](commands/executeV1.md) command is not called on all subconnections, the call will hang and eventually fail because of a time out.
+
+⚠️ Please note: different statements cannot be run in parallel using subconnections.
 
 After a subconnection is no longer needed, the [disconnect](commands/disconnectV1.md) command should be called and the WebSocket for it closed as normal. Please note that subconnections can be reused for multiple statements.
 

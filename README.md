@@ -47,3 +47,4 @@ we will of course help you by any means.
 ## Provided Implementations
 * [Python native driver implementation](python/)
 * [JavaScript native driver implementation](javascript/)
+* [Go native driver implementation](https://github.com/exasol/exasol-driver-go)

@@ -303,7 +303,7 @@ class connect(object):
                           # and fetchmany returns list of columns instead list of rows
 
     def __init__(self, url, username, password,
-                 autocommit = False,
+                 autocommit = True,
                  queryTimeout = 60,
                  useCompression = False,
                  typeMapper = defaultTypeMapper,
@@ -423,7 +423,7 @@ class connect(object):
                 self.__ws = create_connection(self._url, **self._options)
                 self._ws_send = self.__ws.send
                 self._ws_recv = self.__ws.recv
-                ret = self._req(command = 'login', protocolVersion = 1)
+                ret = self._req(command = 'login', protocolVersion = 3)
                 if CRYPTO_LIB == 'rsa':
                     if sys.version_info.major >= 3:
                         pk = rsa.PublicKey.load_pkcs1(bytes(ret['publicKeyPem'], 'utf-8'))

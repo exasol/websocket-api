@@ -78,7 +78,7 @@ Response JSON format
                          "precision": <number>,
                          "scale": <number>,
                          "size": <number>,
-                         "characterSet": <number>,
+                         "characterSet": <string>,
                          "withLocalTimeZone": <true | false>,
                          "fraction": <number>,
                          "srid": <number>

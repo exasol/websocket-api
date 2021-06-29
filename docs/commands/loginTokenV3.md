@@ -2,8 +2,7 @@
 
 This command invokes the login process which establishes a connection
 between the client and Exasol. As long as the connection is open,
-the user can interact with Exasol using the commands specified
-below.
+the user can interact with Exasol using various commands.
 
 :warning: This command requires a TLS connection (i.e., `wss://...`).
 
@@ -62,7 +61,7 @@ The login process is composed of four steps:
      * clientLanguage (string, optional) => language setting of the client system
      * clientVersion (string, optional) => client version number
      * clientRuntime (string, optional) => name and version of the client runtime
-     * attributes (object, optional) => array of attributes to set for the connection (see below)
+     * attributes (object, optional) => array of attributes to set for the connection (see [Attributes](../WebsocketAPIV3.md#attributes-session-and-database-properties))
    
    Request JSON format
    ```javascript

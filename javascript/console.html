@@ -70,6 +70,19 @@
     </style>
 
     <script>
+        function sanitize(string) {
+            const map = {
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#x27;',
+                "/": '&#x2F;',
+            };
+            const reg = /[&<>"'/]/ig;
+            return string.replace(reg, (match)=>(map[match]));
+        }
+
         function showLoading() {
             $('#loading').append('<div id="loading-image"><img src="jquery/images/FhHRx.gif" alt="Loading..." /></div>');
         }
@@ -96,7 +109,7 @@
                         user = $( "#exauser" ).val();
                         pass = $( "#exapass" ).val();
                         $(this).find('form')[0].reset();
-                        document.getElementById("connInfo.User").innerHTML = "user: <b>" + user + "</b>";
+                        document.getElementById("connInfo.User").innerHTML = "user: <b>" + sanitize(user) + "</b>";
                         $( this ).dialog( "close" );
                         addTab(true);
                         tabs.tabs({active: 0});
@@ -130,8 +143,10 @@
                 var id = "tabs-" + tabCounter;
                 var url = window.location.href;
                 var wsurl = url.startsWith("file://") ? "localhost:8563" : url.split("/")[2];
+                var wsscheme = (location.protocol == "https:") ? "wss://" : "ws://";
+                var autocommit = true;
 
-                var exa = new Exasol("ws://" + wsurl, user, pass,
+                var exa = new Exasol(wsscheme + wsurl, user, pass, autocommit,
                     function (context) {
 
                         const label = "SID: " + context.sessionId;
@@ -349,7 +364,7 @@
                     function(err) {
                         user = "";
                         pass = "";
-                        document.getElementById("connInfo.User").innerHTML = "user: <b>" + user + "</b>";
+                        document.getElementById("connInfo.User").innerHTML = "user: <b>" + sanitize(user) + "</b>";
                         hideLoading();
                         $( "#add_session" ).button("enable");
                         window.alert(err);
@@ -398,7 +413,7 @@
           <label for="exauser">Username:</label>
           <input type="text" name="exauser" id="exauser" value="" class="ui-widget-content ui-corner-all">
           <label for="exapass">Password:</label>
-          <input type="text" name="exapass" id="exapass" value="" class="ui-widget-content ui-corner-all">
+          <input type="password" name="exapass" id="exapass" value="" class="ui-widget-content ui-corner-all">
         </fieldset>
       </form>
     </div>
@@ -409,7 +424,7 @@
             <td width=5></td>
             <td width=150><button id="add_session">New Session</button></td>
             <td width=50><div id="loading"></div></td>
-            <td width=85%>&nbsp;Hints:<i>Enter</i> - execute current line or selected multiline statement; <i>Shift-Enter</i> - inserts new line; Note that <i>AUTOCOMMIT</i> is off!</td>
+            <td width=85%>&nbsp;Hints:<i>Enter</i> - execute current line or selected multiline statement; <i>Shift-Enter</i> - inserts new line.</td>
             <td id="connInfo.User" align="left">user: <b>___</b></td>
             <td width=5></td>
         </tr>

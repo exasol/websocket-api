@@ -79,7 +79,7 @@ Response JSON format
                          "precision": <number>,
                          "scale": <number>,
                          "size": <number>,
-                         "characterSet": <number>
+                         "characterSet": <string>
                      }
                  } ],
                  "data": [

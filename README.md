@@ -29,6 +29,7 @@ It would then be nice if you could share your work with us, and
 we will of course help you by any means. 
 
 ## Changes
+* Autocommit was enabled by default for sessions in Exasol 7.1+.
 * [WebSocket API v3](docs/WebsocketAPIV3.md) support has been added in Exasol 7.1.
 * [WebSocket API v2](docs/WebsocketAPIV2.md) support has been added in Exasol 7.0.
 

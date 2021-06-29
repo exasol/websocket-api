@@ -2,8 +2,7 @@
 
 This command invokes the login process, which establishes a
 subconnection between the client and Exasol. Using subconnections,
-the user can interact with Exasol in parallel using the commands
-specified below.
+the user can interact with Exasol in parallel using various commands.
 
 :warning: This command requires a TLS connection (i.e., `wss://...`).
 

@@ -10,10 +10,10 @@ To access the web interface, simply enter the following URL into the web browser
 
 # Code Usage
 
-To connect, use the `Exasol` object with the connection string, user name and password as the first three arguments. The fourth argument is a function, which is called after the connection has been successfully established. The fifth argument is a function which is called on connection error and on errors related to the usage of this object.
+To connect, use the `Exasol` object with the connection string, user name and password as the first three arguments. The fourth argument specifies if autocommit should be enabled or disabled; the default value is enabled. The fifth argument is a function, which is called after the connection has been successfully established. The sixth argument is a function which is called on connection error and on errors related to the usage of this object.
 
 ```
-var exa = new Exasol("wss://127.0.0.1:8563", "sys", "exasol",
+var exa = new Exasol("wss://127.0.0.1:8563", "sys", "exasol", true,
                      function (context) {
                          console.log('Connected: ' + context);
                      },

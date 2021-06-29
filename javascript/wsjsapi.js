@@ -294,7 +294,7 @@ var json_parse = (function () {
     };
 }());
 
-var Exasol = function(url, user, pass, onconnect, onerror) {
+var Exasol = function(url, user, pass, autocommit, onconnect, onerror) {
     var context = this;
     context.onerror = onerror;
     context.sessionId = "-1";
@@ -479,7 +479,7 @@ var Exasol = function(url, user, pass, onconnect, onerror) {
     context.inwork = false;
     context.connection = new WebSocket(url);
     context.connection.onopen = function () {
-        context.com({"command": "login", "protocolVersion": 1},
+        context.com({"command": "login", "protocolVersion": 3},
                     function(response) {
                         var pw = pw_encode(pass,
                                            response['publicKeyExponent'],
@@ -493,7 +493,8 @@ var Exasol = function(url, user, pass, onconnect, onerror) {
                                      "clientOs": "Browser",
                                      "clientOsUsername": "N/A",
                                      "clientVersion": "0.1",
-                                     "clientRuntime": "Browser"},
+                                     "clientRuntime": "Browser",
+                                     "attributes": {"autocommit": autocommit}},
                                     function(response) {
                                         context.sessionId = response['sessionId'];
                                         onconnect(context);

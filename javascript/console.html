@@ -144,8 +144,9 @@
                 var url = window.location.href;
                 var wsurl = url.startsWith("file://") ? "localhost:8563" : url.split("/")[2];
                 var wsscheme = (location.protocol == "https:") ? "wss://" : "ws://";
+                var autocommit = true;
 
-                var exa = new Exasol(wsscheme + wsurl, user, pass,
+                var exa = new Exasol(wsscheme + wsurl, user, pass, autocommit,
                     function (context) {
 
                         const label = "SID: " + context.sessionId;
@@ -423,7 +424,7 @@
             <td width=5></td>
             <td width=150><button id="add_session">New Session</button></td>
             <td width=50><div id="loading"></div></td>
-            <td width=85%>&nbsp;Hints:<i>Enter</i> - execute current line or selected multiline statement; <i>Shift-Enter</i> - inserts new line; Note that <i>AUTOCOMMIT</i> is off!</td>
+            <td width=85%>&nbsp;Hints:<i>Enter</i> - execute current line or selected multiline statement; <i>Shift-Enter</i> - inserts new line.</td>
             <td id="connInfo.User" align="left">user: <b>___</b></td>
             <td width=5></td>
         </tr>

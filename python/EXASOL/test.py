@@ -351,6 +351,11 @@ class EXASOLBugTest(EXASOLTest):
             c.columnar_mode = False
             c.execute("create or replace table test_002_issue_15_keyerror_executemany_with_parameter_multiple_rows (t  VARCHAR(60))")
             r=c.executemany("insert into test_002_issue_15_keyerror_executemany_with_parameter_multiple_rows values (?)",[["ab"],["cd"]])
+            c.execute("select * from test_002_issue_15_keyerror_executemany_with_parameter_multiple_rows;")
+            r = c.fetchall()
+            self.assertEqual(r, [("ab",),("cd",)])
+
+
 
 if __name__ == '__main__':
     unittest.main()

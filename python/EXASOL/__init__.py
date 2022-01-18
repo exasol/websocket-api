@@ -346,8 +346,11 @@ class connect(object):
 
     def close(self):
         """Close the connection"""
-        self._req(command = 'disconnect')
-        self.__ws = None
+        try:
+            self._req(command = 'disconnect')
+        finally:
+            self.__ws.close()
+            self.__ws = None
 
     def commit(self):
         """Send a COMMIT command"""

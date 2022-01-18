@@ -128,12 +128,23 @@ class cursor(object):
                 numrows = len(seq_of_parameters)
                 seq_of_parameters = list(zip(*seq_of_parameters))
             else: numrows = len(seq_of_parameters[0])
+            if 'parameterData' in rep:
+                numColumns=rep['parameterData']['numColumns']
+                columns=rep['parameterData']['columns']
+                data=seq_of_parameters
+            else:
+                numColumns=0
+                columns=[]
+                data=[]
+                if numrows>1:
+                    raise NotSupportedError("Feature not supported: Executing query without parameter for multiple rows. Possible workarround: Add a where clause with a parameter which is always true.")
+
             exp = self.connection._req(command = 'executePreparedStatement',
                                        statementHandle = rep['statementHandle'],
-                                       numColumns = rep['parameterData']['numColumns'],
+                                       numColumns = numColumns,
                                        numRows = numrows,
-                                       columns = rep['parameterData']['columns'],
-                                       data = seq_of_parameters)
+                                       columns = columns,
+                                       data = data)
             return self._execute_simple(None, rep = exp)
         finally:
             self.connection._req(command = 'closePreparedStatement',
@@ -335,8 +346,11 @@ class connect(object):
 
     def close(self):
         """Close the connection"""
-        self._req(command = 'disconnect')
-        self.__ws = None
+        try:
+            self._req(command = 'disconnect')
+        finally:
+            self.__ws.close()
+            self.__ws = None
 
     def commit(self):
         """Send a COMMIT command"""

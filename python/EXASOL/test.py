@@ -3,6 +3,8 @@ import cProfile, pstats
 import EXASOL
 from pprint import pprint as pp
 
+# For running tests please have a look at SPOT-13907
+
 PROFILE_OUTPUT = False
 DB_URL = os.environ.get('DB_URL', "ws://localhost:8563")
 
@@ -308,6 +310,33 @@ class EXASOLODBCTest(EXASOLTest):
         finally:
             gc.enable()
         
+
+class EXASOLBugTest(EXASOLTest):
+    def test_000_issue_15_keyerror_executemany_without_parameter(self):
+        with self.ws.cursor() as c:
+            c.columnar_mode = False
+            c.executemany("SELECT CAST('test plain returns' AS VARCHAR(60)) AS anon_1 FROM DUAL",[])
+
+    def test_001_issue_15_keyerror_executemany_without_parameter_multiple_rows(self):
+        with self.ws.cursor() as c:
+            c.columnar_mode = False
+            with self.assertRaises(EXASOL.NotSupportedError):
+                c.executemany("SELECT CAST('test plain returns' AS VARCHAR(60)) AS anon_1 FROM DUAL",[[],[]])
+
+    def test_002_issue_15_keyerror_executemany_with_parameter_multiple_rows(self):
+        with self.ws.cursor() as c:
+            try:
+                c.columnar_mode = False
+                c.execute("create or replace table test_002_issue_15_keyerror_executemany_with_parameter_multiple_rows (t  VARCHAR(60))")
+                r=c.executemany("insert into test_002_issue_15_keyerror_executemany_with_parameter_multiple_rows values (?)",[["ab"],["cd"]])
+                c.execute("select * from test_002_issue_15_keyerror_executemany_with_parameter_multiple_rows;")
+                r = c.fetchall()
+                self.assertEqual(r, [("ab",),("cd",)])
+            finally:
+                c.execute("drop table test_002_issue_15_keyerror_executemany_with_parameter_multiple_rows;")
+
+
+
 
 if __name__ == '__main__':
     unittest.main()

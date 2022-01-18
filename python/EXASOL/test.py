@@ -3,6 +3,8 @@ import cProfile, pstats
 import EXASOL
 from pprint import pprint as pp
 
+# For running tests please have a look at SPOT-13907
+
 PROFILE_OUTPUT = False
 DB_URL = os.environ.get('DB_URL', "ws://localhost:8563")
 

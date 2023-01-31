@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "exasol-websocket-api"
+version = "0.1.0"
+description = ""
+authors = ["Nicola Coretti <nicola.coretti@exasol.com>"]
+readme = "README.md"
+packages = [{include = "python/EXASOL"}]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+websocket-client = "^1.5.0"
+rsa = "^4.9"
+
+
+[tool.poetry.group.dev.dependencies]
+mkdocs = "^1.4.2"
+mkdocs-material = "^9.0.9"
+invoke = "^2.0.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

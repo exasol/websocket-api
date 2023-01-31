@@ -1,0 +1,87 @@
+site_name: Websocket API
+site_url: https://exasol.github.io/websocket-api/
+repo_name: websocket-api
+repo_url: https://github.com/exasol/websocket-api
+
+nav:
+  - "index.md"
+  - "WebsocketAPIV1.md"
+  - "WebsocketAPIV2.md"
+  - "WebsocketAPIV3.md"
+  - Commands:
+    - "commands/abortQueryV1.md"
+    - "commands/closePreparedStatementV1.md"
+    - "commands/closeResultSetV1.md"
+    - "commands/createPreparedStatementV1.md"
+    - "commands/disconnectV1.md"
+    - "commands/enterParallelV1.md"
+    - "commands/executeBatchV1.md"
+    - "commands/executePreparedStatementV1.md"
+    - "commands/executeV1.md"
+    - "commands/fetchV1.md"
+    - "commands/getAttributesV1.md"
+    - "commands/getColumnPrivilegesV2.md"
+    - "commands/getColumnsV2.md"
+    - "commands/getConnectionsV2.md"
+    - "commands/getFunctionsV2.md"
+    - "commands/getHostsV1.md"
+    - "commands/getKeywordsV2.md"
+    - "commands/getOffsetV1.md"
+    - "commands/getPrimaryKeysV2.md"
+    - "commands/getPropertiesV2.md"
+    - "commands/getResultSetHeaderV1.md"
+    - "commands/getRolesV2.md"
+    - "commands/getSchemasV2.md"
+    - "commands/getScriptsV2.md"
+    - "commands/getTablePrivilegesV2.md"
+    - "commands/getTablesV2.md"
+    - "commands/getTableTypesV2.md"
+    - "commands/getTypeInfoV2.md"
+    - "commands/getUsersV2.md"
+    - "commands/loginTokenV3.md"
+    - "commands/loginV1.md"
+    - "commands/loginV3.md"
+    - "commands/setAttributesV1.md"
+    - "commands/subLoginTokenV3.md"
+    - "commands/subLoginV1.md"
+    - "commands/subLoginV3.md"
+theme:
+  name: material
+  logo: "dark-exasol-logo.svg"
+  favicon: "favicon-32x32.png"
+  icon:
+    repo: fontawesome/brands/github
+  palette:
+    - media: '(prefers-color-scheme: light)'
+      scheme: default
+      primary: green
+      accent: black
+      toggle:
+        icon: material/toggle-switch
+        name: Switch to light mode
+    - media: '(prefers-color-scheme: dark)'
+      scheme: slate
+      primary: green
+      accent: black
+      toggle:
+        icon: material/toggle-switch-off-outline
+        name: Switch to dark mode
+  features:
+    - search.suggest
+    - search.highlight
+    - content.tabs.link
+  font: false
+copyright: >
+  Copyright &copy; 2023 Exasol AG
+markdown_extensions:
+  - admonition
+  - pymdownx.highlight:
+      use_pygments: true
+  - pymdownx.superfences
+  - attr_list
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true

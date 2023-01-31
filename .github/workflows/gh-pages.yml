@@ -1,0 +1,33 @@
+name: Publish Documentation
+
+on:
+  push:
+    - 'main'
+    - 'master'
+
+jobs:
+
+  documentation-job:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: SCM Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Python & Poetry Environment
+        uses: exasol/python-toolbox/.github/actions/python-environment@0.3.0
+        with:
+          python-version: "3.10"
+
+      - name: Build Documentation
+        run: |
+          poetry run mkdocs build -c -s -d .html-documentation -f mkdocs.yml
+          touch .html-documentation/.nojekyll
+
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@v4.4.1
+        with:
+          branch: gh-pages
+          folder: .html-documentation
+          git-config-name: Github Action
+          git-config-email: opensource@exasol.com

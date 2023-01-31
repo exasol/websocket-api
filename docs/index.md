@@ -1,6 +1,8 @@
 # Exasol WebSockets API
 
-###### Please note that this is an open source project which is officially supported by Exasol. For any question, you can contact our support team.
+**:information_source: Info**
+
+Please note that this is an open source project which is officially supported by Exasol. For any question, you can contact our support team.
 
 ## Why a WebSockets API?
 
@@ -30,22 +32,29 @@ we will of course help you by any means.
 
 ## Changes
 * Autocommit was enabled by default for sessions in Exasol 7.1+.
-* [WebSocket API v3](docs/WebsocketAPIV3.md) support has been added in Exasol 7.1.
-* [WebSocket API v2](docs/WebsocketAPIV2.md) support has been added in Exasol 7.0.
+* [WebSocket API v3](WebsocketAPIV3.md) support has been added in Exasol 7.1.
+* [WebSocket API v2](WebsocketAPIV2.md) support has been added in Exasol 7.0.
 
 ## Supported versions
 | | WebSocket API v1   | WebSocket API v2   | WebSocket API v3   |
-| --- |--------------------|--------------------|--------------------|
+| --- |:------------------:|:------------------:|:------------------:|
 | **Exasol 7.1** | :white_check_mark: | :white_check_mark: | :white_check_mark: |
 | **Exasol 7.0** | :white_check_mark: | :white_check_mark: | :x:                |
 | **Exasol 6.2** | :white_check_mark: | :x:                | :x:                |
 
 ## Protocol Specifications
-* [WebSocket protocol v3 API specification](docs/WebsocketAPIV3.md)
-* [WebSocket protocol v2 API specification](docs/WebsocketAPIV2.md)
-* [WebSocket protocol v1 API specification](docs/WebsocketAPIV1.md)
+* [WebSocket protocol v3 API specification](WebsocketAPIV3.md)
+* [WebSocket protocol v2 API specification](WebsocketAPIV2.md)
+* [WebSocket protocol v1 API specification](WebsocketAPIV1.md)
 
-## Provided Implementations
-* [Python native driver implementation](python/)
-* [JavaScript native driver implementation](javascript/)
+## Officially Supported Implementations
+
+## Python
+* [exasol-websocket-api](https://github.com/exasol/websocket-api/tree/master/python)
+* [Pyexasol](https://github.com/exasol/pyexasol)
+
+## Javascript
+* [exasol-websocket-api](https://github.com/exasol/websocket-api/tree/master/javascript)
+
+## Go
 * [Go native driver implementation](https://github.com/exasol/exasol-driver-go)

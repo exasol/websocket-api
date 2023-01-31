@@ -70,6 +70,7 @@ theme:
     - search.suggest
     - search.highlight
     - content.tabs.link
+    - content.code.copy
   font: false
 copyright: >
   Copyright &copy; 2023 Exasol AG

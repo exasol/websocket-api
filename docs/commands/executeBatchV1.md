@@ -5,6 +5,7 @@ This command executes multiple SQL statements sequentially as a batch.
 If the command returns a result set which has less than 1,000 rows of data, the data will be provided in the `data` field of `resultSet`. However if the command returns a result set which has 1,000 or more rows of data, a result set will be opened whose handle is returned in the `resultSetHandle` field of `resultSet`. Using this handle, the data from the result set can be retrieved using the `fetch` command. Once the result set is no longer needed, it should be closed using the `closeResultSet` command.
 
 Request fields:
+
   * command (string) => command name: "executeBatch"
   * attributes (object, optional) => attributes to set for the connection (see [Attributes](../WebsocketAPIV1.md#attributes-session-and-database-properties))
   * sqlTexts (string[]) => array of SQL statement to execute
@@ -23,6 +24,7 @@ Request JSON format
 ```
 
 Response fields:
+
   * status (string) => command status: "ok" or "error"
   * attributes (object, optional) => attributes set for the connection (see [Attributes](../WebsocketAPIV1.md#attributes-session-and-database-properties))
   * responseData (object, optional) => only present if status is "ok"

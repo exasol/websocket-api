@@ -4,6 +4,7 @@ This command gets the number hosts and the IP address of each host in
 an Exasol cluster.
 
 Request fields:
+
   * command (string) => command name: "getHosts"
   * attributes (object, optional) => attributes to set for the connection (see [Attributes](../WebsocketAPIV1.md#attributes-session-and-database-properties))
   * hostIp (string) => IP address of the Exasol host to which the client is currently connected (i.e., the Exasol host used to create the connection; e.g., ws://\<hostIp\>:8563)
@@ -20,6 +21,7 @@ Request JSON format
 ```
 
 Response fields:
+
   * status (string) => command status: "ok" or "error"
   * responseData (object, optional) => only present if status is "ok"
     * numNodes (number) => number of nodes in the cluster

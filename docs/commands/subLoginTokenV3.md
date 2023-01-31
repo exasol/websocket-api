@@ -11,57 +11,61 @@ The login process is composed of four steps:
 1. The client sends the `subLoginToken` command including the requested protocol
    version.
    
-   Request fields:
+     Request fields:
+
      * command (string) => command name: "subLoginToken"
      * protocolVersion (number) => requested WebSocket protocol version, (e.g., 3)
-   
-   Request JSON format
-   ```javascript
-    {
-        "command": "subLoginToken",
-        "protocolVersion": <number>
-    }
-   ```
+     
+     Request JSON format
+     ```javascript
+      {
+          "command": "subLoginToken",
+          "protocolVersion": <number>
+      }
+     ```
 
 
 2. The server responds with either
+
      * "ok", in which case the login process continues in step 3, or
      * "error", in which case the login process is aborted.
 
-   Response fields:
+     Response fields:
+
      * status (string) => command status: "ok" or "error"
      * exception (object, optional) => only present if status is "error"
        * text (string) => exception message which provides error details
        * sqlCode (string) => five-character exception code if known, otherwise "00000"
-   
-   Response JSON format
-   ```javascript
-    {
-        "status": <"ok" | "error">,
-        // if status is "error"
-        "exception": {
-                "text": <string>,
-                "sqlCode": <string>
-        }
-    }
-   ```
+     
+     Response JSON format
+     ```javascript
+      {
+          "status": <"ok" | "error">,
+          // if status is "error"
+          "exception": {
+                  "text": <string>,
+                  "sqlCode": <string>
+          }
+      }
+     ```
    
 
 3. The client sends either an OpenID `accessToken` or a `refreshToken` and optionally other client information.
 
-   Request fields:
+     Request fields:
+
      * accessToken (string, optional) => OpenID access token to use for the login process
      * refreshToken (string, optional) => OpenID refresh token to use for the login process
      * token (number) => token required for subconnection logins (see, EnterParallel)
-   
-   Request JSON format
-   ```javascript
-    {
-        "accessToken": <string>,
-        "refreshToken": <string>,
-        "token": <number>
-    }
-   ```
+     
+     Request JSON format
+     ```javascript
+      {
+          "accessToken": <string>,
+          "refreshToken": <string>,
+          "token": <number>
+      }
+     ```
    
 4. The server uses either `accessToken` or `refreshToken` (see 3.) to authenticate the
    user. If successful, the server replies with an
@@ -70,7 +74,8 @@ The login process is composed of four steps:
    indicating that the login process failed and a subconnection could not
    be established.
    
-   Response fields:
+     Response fields:
+
      * status (string) => command status: "ok" or "error"
      * responseData (object, optional) => only present if status is "ok"
        * sessionId (number) => current session ID
@@ -87,29 +92,29 @@ The login process is composed of four steps:
      * exception (object, optional) =>  only present if status is "error"
        * text (string) => exception message which provides error details
        * sqlCode (string) => five-character exception code if known, otherwise "00000"
-   
-   Response JSON format
-   ```javascript
-    {
-        "status": <"ok" | "error">,
-        // if status is "ok"
-        "responseData": {
-                "sessionId": <number>,
-                "protocolVersion": <number>,
-                "releaseVersion": <string>,
-                "databaseName": <string>,
-                "productName": <string>,
-                "maxDataMessageSize": <number>,
-                "maxIdentifierLength": <number>,
-                "maxVarcharLength": <number>,
-                "identifierQuoteString": <string>,
-                "timeZone": <string>,
-                "timeZoneBehavior": <string>
-        },
-        // if status is "error"
-        "exception": {
-                "text": <string>,
-                "sqlCode": <string>
-        }
-    }
-   ```
+     
+     Response JSON format
+     ```javascript
+      {
+          "status": <"ok" | "error">,
+          // if status is "ok"
+          "responseData": {
+                  "sessionId": <number>,
+                  "protocolVersion": <number>,
+                  "releaseVersion": <string>,
+                  "databaseName": <string>,
+                  "productName": <string>,
+                  "maxDataMessageSize": <number>,
+                  "maxIdentifierLength": <number>,
+                  "maxVarcharLength": <number>,
+                  "identifierQuoteString": <string>,
+                  "timeZone": <string>,
+                  "timeZoneBehavior": <string>
+          },
+          // if status is "error"
+          "exception": {
+                  "text": <string>,
+                  "sqlCode": <string>
+          }
+      }
+     ```

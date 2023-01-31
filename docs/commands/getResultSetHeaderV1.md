@@ -4,6 +4,7 @@ This command retrieves a header (i.e., empty result set) which contains
 the metadata for an open result set.
 
 Request fields:
+
   * command (string) => command name: "getResultSetHeader"
   * attributes (object, optional) => attributes to set for the connection (see [Attributes](../WebsocketAPIV1.md#attributes-session-and-database-properties))
   * resultSetHandles (number[]) => array of open result set handles
@@ -22,6 +23,7 @@ Request JSON format
 ```
 
 Response fields:
+
   * status (string) => command status: "ok" or "error"
   * attributes (object, optional) => attributes set for the connection (see [Attributes](../WebsocketAPIV1.md#attributes-session-and-database-properties))
   * responseData (object, optional) => only present if status is "ok"

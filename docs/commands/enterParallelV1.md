@@ -6,6 +6,7 @@ the requested number of subconnections is 0, all open subconnections
 are closed.
 
 Request fields:
+
   * command (string) => command name: "enterParallel"
   * attributes (object, optional) => attributes to set for the connection (see see [Attributes](../WebsocketAPIV1.md#attributes-session-and-database-properties))
   * hostIp (string) => IP address of the Exasol host to which the client is currently connected (i.e., the Exasol host used to create the connection; e.g., ws://\<hostIp\>:8563)
@@ -24,6 +25,7 @@ Request JSON format
 ```
 
 Response fields:
+
   * status (string) => command status: "ok" or "error"
   * responseData (object, optional) => only present if status is "ok"
     * numOpenConnections (number) => number of subconnections actually opened

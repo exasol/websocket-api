@@ -4,6 +4,7 @@ This command closes a prepared statement which has already been
 created.
 
 Request fields:
+
   * command (string) => command name: "closePreparedStatement"
   * attributes (object, optional) => attributes to set for the connection (see [Attributes](../WebsocketAPIV1.md#attributes-session-and-database-properties))
   * statementHandle (number) => prepared statement handle
@@ -20,6 +21,7 @@ Request JSON format
 ```
 
 Response fields:
+
   * status (string) => command status: "ok" or "error"
   * attributes (object) => attributes set for the connection (see [Attributes](../WebsocketAPIV1.md#attributes-session-and-database-properties))
   * exception (object, optional) =>  only present if status is "error"

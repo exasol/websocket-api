@@ -11,25 +11,27 @@ The login process is composed of four steps:
 1. The client sends the `subLogin` command including the requested protocol
    version.
    
-   Request fields:
+     Request fields:
      * command (string) => command name: "subLogin"
      * protocolVersion (number) => requested WebSocket protocol version, (e.g., 1)
-   
-   Request JSON format
-   ```javascript
-    {
-        "command": "subLogin",
-        "protocolVersion": <number>
-    }
-   ```
+     
+     Request JSON format
+     ```javascript
+      {
+          "command": "subLogin",
+          "protocolVersion": <number>
+      }
+     ```
 
 
 2. The server returns a public key which is used to encode the
    user's password. The public key can be obtained in one of two ways:
-   - importing the key using the `publicKeyPem` field, or
-   - constructing the key using the `publicKeyModulus` and `publicKeyExponent` fields.
-   
-   Response fields:
+
+     - importing the key using the `publicKeyPem` field, or
+     - constructing the key using the `publicKeyModulus` and `publicKeyExponent` fields.
+     
+     Response fields:
+
      * status (string) => command status: "ok" or "error"
      * responseData (object, optional) => only present if status is "ok"
        * publicKeyPem (string) => PEM-formatted, 1024-bit RSA public key used to encode the user's password (see 3.)
@@ -38,43 +40,44 @@ The login process is composed of four steps:
      * exception (object, optional) => only present if status is "error"
        * text (string) => exception message which provides error details
        * sqlCode (string) => five-character exception code if known, otherwise "00000"
-   
-   Response JSON format
-   ```javascript
-    {
-        "status": <"ok" | "error">,
-        // if status is "ok"
-        "responseData": {
-                "publicKeyPem": <string>,
-                "publicKeyModulus": <string>,
-                "publicKeyExponent": <string>
-        },
-        // if status is "error"
-        "exception": {
-                "text": <string>,
-                "sqlCode": <string>
-        }
-    }
-   ```
+     
+     Response JSON format
+     ```javascript
+      {
+          "status": <"ok" | "error">,
+          // if status is "ok"
+          "responseData": {
+                  "publicKeyPem": <string>,
+                  "publicKeyModulus": <string>,
+                  "publicKeyExponent": <string>
+          },
+          // if status is "error"
+          "exception": {
+                  "text": <string>,
+                  "sqlCode": <string>
+          }
+      }
+     ```
    
 
 3. The client sends the username, encrypted password or OpenID refresh token, and token.
 
-   To use OpenID compatibility mode, substitute the OpenID refresh token for the password.
+     To use OpenID compatibility mode, substitute the OpenID refresh token for the password.
 
-   Request fields:
+     Request fields:
+
      * username (string) => Exasol user name to use for the login process
      * password (string) => user's password or OpenID refresh token, which is encrypted using publicKey (see 2.) and PKCS #1 v1.5 padding, encoded in Base64 format
      * token (number) => token required for subconnection logins (see, [EnterParallel](enterParallelV1.md))
-   
-   Request JSON format
-   ```javascript
-    {
-        "username": <string>,
-        "password": <string>,
-        "token": <number>
-    }
-   ```
+     
+     Request JSON format
+     ```javascript
+      {
+          "username": <string>,
+          "password": <string>,
+          "token": <number>
+      }
+     ```
    
 4. The server uses `username`, `password`, and `token` (see 3.) to
    authenticate the user. If successful, the server replies with an
@@ -83,7 +86,8 @@ The login process is composed of four steps:
    indicating that the login process failed and a subconnection could not
    be established.
    
-   Response fields:
+     Response fields:
+
      * status (string) => command status: "ok" or "error"
      * responseData (object, optional) => only present if status is "ok"
        * sessionId (number) => current session ID
@@ -100,29 +104,29 @@ The login process is composed of four steps:
      * exception (object, optional) =>  only present if status is "error"
        * text (string) => exception message which provides error details
        * sqlCode (string) => five-character exception code if known, otherwise "00000"
-   
-   Response JSON format
-   ```javascript
-    {
-        "status": <"ok" | "error">,
-        // if status is "ok"
-        "responseData": {
-                "sessionId": <number>,
-                "protocolVersion": <number>,
-                "releaseVersion": <string>,
-                "databaseName": <string>,
-                "productName": <string>,
-                "maxDataMessageSize": <number>,
-                "maxIdentifierLength": <number>,
-                "maxVarcharLength": <number>,
-                "identifierQuoteString": <string>,
-                "timeZone": <string>,
-                "timeZoneBehavior": <string>
-        },
-        // if status is "error"
-        "exception": {
-                "text": <string>,
-                "sqlCode": <string>
-        }
-    }
-   ```
+     
+     Response JSON format
+     ```javascript
+      {
+          "status": <"ok" | "error">,
+          // if status is "ok"
+          "responseData": {
+                  "sessionId": <number>,
+                  "protocolVersion": <number>,
+                  "releaseVersion": <string>,
+                  "databaseName": <string>,
+                  "productName": <string>,
+                  "maxDataMessageSize": <number>,
+                  "maxIdentifierLength": <number>,
+                  "maxVarcharLength": <number>,
+                  "identifierQuoteString": <string>,
+                  "timeZone": <string>,
+                  "timeZoneBehavior": <string>
+          },
+          // if status is "error"
+          "exception": {
+                  "text": <string>,
+                  "sqlCode": <string>
+          }
+      }
+     ```

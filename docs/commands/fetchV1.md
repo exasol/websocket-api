@@ -3,6 +3,7 @@
 This command retrieves data from a result set.
 
 Request fields:
+
   * command (string) => command name: "fetch"
   * attributes (object, optional) =>  attributes to set for the connection (see [Attributes](../WebsocketAPIV1.md#attributes-session-and-database-properties))
   * resultSetHandle (number) => result set handle
@@ -23,6 +24,7 @@ Request JSON format
 ```
 
 Response fields:
+
   * status (string) => command status: "ok" or "error"
   * responseData (object, optional) => only present if status is "ok"
     * numRows (number) => number of rows fetched from the result set

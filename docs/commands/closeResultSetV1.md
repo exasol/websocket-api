@@ -3,7 +3,8 @@
 This command closes result sets.
 
 Request fields:
-  * command (string) => command name: "closeResultSet"
+
+  * command (string) => command name: "closeResultSet"`
   * attributes (object, optional) => attributes to set for the connection (see [Attributes](../WebsocketAPIV1.md#attributes-session-and-database-properties))
   * resultSetHandles (number[]) => array of result set handles
 
@@ -19,6 +20,7 @@ Request JSON format
 ```
 
 Response fields:
+
   * status (string) => command status: "ok" or "error"
   * exception (object, optional) =>  only present if status is "error"
     * text (string) => exception message which provides error details

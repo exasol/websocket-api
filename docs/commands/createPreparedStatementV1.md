@@ -3,6 +3,7 @@
 This command creates a prepared statement.
 
 Request fields:
+
   * command (string) => command name: "createPreparedStatement"
   * attributes (object, optional) => attributes to set for the connection (see [Attributes](../WebsocketAPIV1.md#attributes-session-and-database-properties))
   * sqlText (string) => SQL statement
@@ -19,6 +20,7 @@ Request JSON format
 ```
 
 Response fields:
+
   * status (string) => command status: "ok" or "error"
   * attributes (object, optional) => attributes set for the connection (see [Attributes](../WebsocketAPIV1.md#attributes-session-and-database-properties))
   * responseData (object, optional) => only present if status is "ok"

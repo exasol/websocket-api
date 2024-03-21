@@ -22,7 +22,7 @@ additional complexity due to the necessary driver managers.
 ## Supported versions
 | | WebSocket API v1 | WebSocket API v2 | WebSocket API v3 |
 | --- | --- | --- | --- |
-| **Exasol V8** | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+| **Exasol 8** | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 | **Exasol 7.1** | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 | **Exasol 7.0** | :heavy_check_mark: | :heavy_check_mark: | :x: |
 | **Exasol 6.2** | :heavy_check_mark: | :x: | :x: |
@@ -36,6 +36,6 @@ additional complexity due to the necessary driver managers.
 * [Python native driver implementation](python/)
 * [JavaScript native driver implementation](javascript/)
 
-### Official Supported WebSocket Drivers
+### Officially Supported WebSocket Drivers
 * [Python native driver implementation](https://github.com/exasol/pyexasol)
 * [Go native driver implementation](https://github.com/exasol/exasol-driver-go)

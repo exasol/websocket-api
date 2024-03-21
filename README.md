@@ -32,11 +32,10 @@ additional complexity due to the necessary driver managers.
 * [WebSocket protocol v2 API specification](docs/WebsocketAPIV2.md)
 * [WebSocket protocol v1 API specification](docs/WebsocketAPIV1.md)
 
-## Existing Official Supported WebSocket Drivers
-* [Python native driver implementation](https://github.com/exasol/pyexasol)
-* [Go native driver implementation](https://github.com/exasol/exasol-driver-go)
-
-## Example Driver Implementations
+### Example Driver Implementations
 * [Python native driver implementation](python/)
 * [JavaScript native driver implementation](javascript/)
 
+### Official Supported WebSocket Drivers
+* [Python native driver implementation](https://github.com/exasol/pyexasol)
+* [Go native driver implementation](https://github.com/exasol/exasol-driver-go)

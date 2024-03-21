@@ -9,7 +9,7 @@ except ImportError:
     from distutils.core import setup
 
 setup(
-    name='EXASOL DB API',
+    name='EXASOL-DB-API',
     version="6.0.0",
     license="MIT",
     maintainer="Oleksandr Kozachuk",

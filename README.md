@@ -1,6 +1,6 @@
 # Exasol JSON over WebSockets API
 
-###### Please note that this is an open source project which is officially supported by Exasol. For any question, you can contact our support team.
+###### This repository is dedicated solely to protocol documentation and does not provide any WebSocket drivers or driver support. However, it includes some implementation examples and a list of officially supported drivers at the bottom of the page.
 
 ## Why a WebSockets API?
 
@@ -14,20 +14,6 @@ the standardized ways of communicating with a database, such as JDBC,
 ODBC or ADO.NET, which are mostly old and static standards and create
 additional complexity due to the necessary driver managers.
 
-## Client support
-
-Currently a native Python driver using this WebSocket API has been
-implemented. By that you don't need any pyodbc bridge anymore, but 
-can connect your Python directly with Exasol. PyODBC is not ideal due
-to the need for an ODBC driver manager and certain restrictions in 
-data type conversions.
-
-Further languages will be added in the future, and we encourage you
-to provide us feedback what languages you are interested in, and 
-maybe you are even keen to support our community with own developments. 
-It would then be nice if you could share your work with us, and 
-we will of course help you by any means. 
-
 ## Changes
 * Autocommit was enabled by default for sessions in Exasol 7.1+.
 * [WebSocket API v3](docs/WebsocketAPIV3.md) support has been added in Exasol 7.1.
@@ -36,6 +22,7 @@ we will of course help you by any means.
 ## Supported versions
 | | WebSocket API v1 | WebSocket API v2 | WebSocket API v3 |
 | --- | --- | --- | --- |
+| **Exasol 8** | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 | **Exasol 7.1** | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 | **Exasol 7.0** | :heavy_check_mark: | :heavy_check_mark: | :x: |
 | **Exasol 6.2** | :heavy_check_mark: | :x: | :x: |
@@ -45,7 +32,10 @@ we will of course help you by any means.
 * [WebSocket protocol v2 API specification](docs/WebsocketAPIV2.md)
 * [WebSocket protocol v1 API specification](docs/WebsocketAPIV1.md)
 
-## Provided Implementations
+### Example Driver Implementations
 * [Python native driver implementation](python/)
 * [JavaScript native driver implementation](javascript/)
+
+### Officially Supported WebSocket Drivers
+* [Python native driver implementation](https://github.com/exasol/pyexasol)
 * [Go native driver implementation](https://github.com/exasol/exasol-driver-go)

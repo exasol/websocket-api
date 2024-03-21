@@ -1,6 +1,6 @@
 # Exasol JSON over WebSockets API
 
-###### This repository is dedicated solely to protocol documentation and does not provide any WebSocket drivers or driver support. However, it includes some implementation examples and a list of officially supported drivers at the bottom of the page. This content will be integrated into the official Exasol documentation.
+###### This repository is dedicated solely to protocol documentation and does not provide any WebSocket drivers or driver support. However, it includes some implementation examples and a list of officially supported drivers at the bottom of the page.
 
 ## Why a WebSockets API?
 

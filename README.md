@@ -16,17 +16,7 @@ additional complexity due to the necessary driver managers.
 
 ## Client support
 
-Currently a native Python driver using this WebSocket API has been
-implemented. By that you don't need any pyodbc bridge anymore, but 
-can connect your Python directly with Exasol. PyODBC is not ideal due
-to the need for an ODBC driver manager and certain restrictions in 
-data type conversions.
-
-Further languages will be added in the future, and we encourage you
-to provide us feedback what languages you are interested in, and 
-maybe you are even keen to support our community with own developments. 
-It would then be nice if you could share your work with us, and 
-we will of course help you by any means. 
+At present, an example implementation of a native Python driver utilizing this WebSocket API is available. This serves merely as a starting point, illustrating how you can directly connect Python with Exasol without the necessity for a pyodbc bridge. The use of PyODBC is less than optimal, given its dependency on an ODBC driver manager and limitations regarding data type conversions. It's important to note that these implementations are provided as examples to inspire the development of your own drivers. For a list of officially supported WebSocket drivers, please refer to the bottom of this page.
 
 ## Changes
 * Autocommit was enabled by default for sessions in Exasol 7.1+.
@@ -36,6 +26,7 @@ we will of course help you by any means.
 ## Supported versions
 | | WebSocket API v1 | WebSocket API v2 | WebSocket API v3 |
 | --- | --- | --- | --- |
+| **Exasol V8** | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 | **Exasol 7.1** | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 | **Exasol 7.0** | :heavy_check_mark: | :heavy_check_mark: | :x: |
 | **Exasol 6.2** | :heavy_check_mark: | :x: | :x: |
@@ -45,7 +36,11 @@ we will of course help you by any means.
 * [WebSocket protocol v2 API specification](docs/WebsocketAPIV2.md)
 * [WebSocket protocol v1 API specification](docs/WebsocketAPIV1.md)
 
-## Provided Implementations
+## Existing Official Supported WebSocket Drivers
+* [Python native driver implementation](https://github.com/exasol/pyexasol)
+* [Go native driver implementation](https://github.com/exasol/exasol-driver-go)
+
+* ## Example Driver Implementations
 * [Python native driver implementation](python/)
 * [JavaScript native driver implementation](javascript/)
-* [Go native driver implementation](https://github.com/exasol/exasol-driver-go)
+

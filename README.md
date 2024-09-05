@@ -15,19 +15,19 @@ ODBC or ADO.NET, which are mostly old and static standards and create
 additional complexity due to the necessary driver managers.
 
 ## Changes
+* [WebSocket API v4](docs/WebsocketAPIV4.md) support has been added in Exasol 8.31.0.
 * Autocommit was enabled by default for sessions in Exasol 7.1+.
 * [WebSocket API v3](docs/WebsocketAPIV3.md) support has been added in Exasol 7.1.
-* [WebSocket API v2](docs/WebsocketAPIV2.md) support has been added in Exasol 7.0.
 
 ## Supported versions
-| | WebSocket API v1 | WebSocket API v2 | WebSocket API v3 |
-| --- | --- | --- | --- |
-| **Exasol 8** | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
-| **Exasol 7.1** | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
-| **Exasol 7.0** | :heavy_check_mark: | :heavy_check_mark: | :x: |
-| **Exasol 6.2** | :heavy_check_mark: | :x: | :x: |
+| | WebSocket API v1 | WebSocket API v2 | WebSocket API v3 | WebSocket API v4 |
+| --- | --- | --- | --- | --- |
+| **Exasol 8.31** | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+| **Exasol 8.0** | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :x: |
+| **Exasol 7.1** | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :x: |
 
 ## Protocol Specifications
+* [WebSocket protocol v4 API specification](docs/WebsocketAPIV4.md)
 * [WebSocket protocol v3 API specification](docs/WebsocketAPIV3.md)
 * [WebSocket protocol v2 API specification](docs/WebsocketAPIV2.md)
 * [WebSocket protocol v1 API specification](docs/WebsocketAPIV1.md)

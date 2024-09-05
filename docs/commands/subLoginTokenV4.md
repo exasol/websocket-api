@@ -52,7 +52,7 @@ The login process is composed of four steps:
    Request fields:
      * accessToken (string, optional) => OpenID access token to use for the login process
      * refreshToken (string, optional) => OpenID refresh token to use for the login process
-     * token (number) => token required for subconnection logins (see, EnterParallel)
+     * token (number) => token required for subconnection logins (see [requestParallelConnections](requestParallelConnectionsV4.md))
      * sessionId (number) => main connection's session ID (see [login](loginV3.md), [loginToken](loginTokenV3.md))
    
    Request JSON format

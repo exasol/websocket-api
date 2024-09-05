@@ -25,6 +25,7 @@ incoming messages and forwards the requests to the database.
 | Date | Exasol Version | Change | Issue |
 | --- | --- | --- | --- |
 | 2024.09.05 | 8.31.0 | The latest update to Exasol enables the use of the database port for subconnections instead of requiring ports in the range 20000 to 21000. Additionally, this update eliminates the need for special IP address configurations on the database. | |
+| 2024.09.05 | 8.31.0 | The `enterParallel` command has been deprecated. | |
 
 ## Command summary
 

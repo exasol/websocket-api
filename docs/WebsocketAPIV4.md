@@ -37,7 +37,7 @@ and query the hosts of an Exasol cluster.
 | Command | Description |
 | --- | --- |
 | [disconnect](commands/disconnectV1.md) | Closes a connection to Exasol |
-| [enterParallel](commands/enterParallelV1.md) | Opens subconnections for parallel execution (DEPRECATED, please use `requestParallelConnections` instead) |
+| [enterParallel](commands/enterParallelV1.md) | Opens subconnections for parallel execution<br>:warning: Deprecated, please use `requestParallelConnections` instead. |
 | [getHosts](commands/getHostsV1.md) | Gets the hosts in a cluster |
 | [login](commands/loginV3.md) | Establishes a connection to Exasol |
 | [loginToken](commands/loginTokenV3.md) | Establishes a connection to Exasol using an OpenID token |

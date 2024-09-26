@@ -42,8 +42,8 @@ and query the hosts of an Exasol cluster.
 | [login](commands/loginV3.md) | Establishes a connection to Exasol |
 | [loginToken](commands/loginTokenV3.md) | Establishes a connection to Exasol using an OpenID token |
 | [requestParallelConnections](commands/requestParallelConnectionsV4.md) | Request subconnections for parallel execution |
-| [subLogin](commands/subLoginV3.md) | Establishes a subconnection to Exasol |
-| [subLoginToken](commands/subLoginTokenV3.md) | Establishes a subconnection to Exasol using an OpenID token |
+| [subLogin](commands/subLoginV4.md) | Establishes a subconnection to Exasol |
+| [subLoginToken](commands/subLoginTokenV4.md) | Establishes a subconnection to Exasol using an OpenID token |
 
 ### Session-related commands
 

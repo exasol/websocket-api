@@ -22,7 +22,7 @@ additional complexity due to the necessary driver managers.
 ## Supported versions
 | | WebSocket API v1 | WebSocket API v2 | WebSocket API v3 | WebSocket API v4 |
 | --- | --- | --- | --- | --- |
-| **Exasol 8.31** | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+| **Exasol 8.32** | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 | **Exasol 8.0** | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :x: |
 | **Exasol 7.1** | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :x: |
 

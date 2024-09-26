@@ -4,7 +4,7 @@ This command invokes the login process, which establishes a
 subconnection between the client and Exasol. Using subconnections,
 the user can interact with Exasol in parallel using various commands.
 
-ℹ️ A compatibility mode has been added to enable logins using OpenID refresh tokens if using [subLoginToken](subLoginTokenV3.md) is not possible. For details, see step 3.
+ℹ️ A compatibility mode has been added to enable logins using OpenID refresh tokens if using [subLoginToken](subLoginTokenV4.md) is not possible. For details, see step 3.
 
 The login process is composed of four steps:
 

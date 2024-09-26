@@ -15,7 +15,7 @@ ODBC or ADO.NET, which are mostly old and static standards and create
 additional complexity due to the necessary driver managers.
 
 ## Changes
-* [WebSocket API v4](docs/WebsocketAPIV4.md) support has been added in Exasol 8.31.0.
+* [WebSocket API v4](docs/WebsocketAPIV4.md) support has been added in Exasol 8.32.0.
 * Autocommit was enabled by default for sessions in Exasol 7.1+.
 * [WebSocket API v3](docs/WebsocketAPIV3.md) support has been added in Exasol 7.1.
 

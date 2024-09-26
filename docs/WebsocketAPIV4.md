@@ -1,6 +1,6 @@
 ## WebSocket protocol v4 details
 
-WebSocket Protocol v4 requires an Exasol version of at least 8.31.0. It follows the RFC 6455 document of the IETF.
+WebSocket Protocol v4 requires an Exasol version of at least 8.32.0. It follows the RFC 6455 document of the IETF.
 
 The Exasol connection server identifies the initial GET request by the client.
 This request contains information about the used protocol version.

@@ -1,6 +1,6 @@
-## WebSocket protocol v3 details
+## WebSocket protocol v4 details
 
-WebSocket Protocol v3 requires an Exasol version of at least 7.1.0. It follows the RFC 6455 document of the IETF.
+WebSocket Protocol v4 requires an Exasol version of at least 8.32.0. It follows the RFC 6455 document of the IETF.
 
 The Exasol connection server identifies the initial GET request by the client.
 This request contains information about the used protocol version.
@@ -24,8 +24,8 @@ incoming messages and forwards the requests to the database.
 
 | Date | Exasol Version | Change | Issue |
 | --- | --- | --- | --- |
-| 2021.06.22 | 7.1.0 | Autocommit was enabled by default for sessions in Exasol 7.1+. See [Attributes](#attributes-session-and-database-properties) for details.<br />Autocommit can be disabled in order to restore the previous behavior. Please see the driver's documentation on how to do this. | [EXASOL-2908](https://www.exasol.com/support/browse/EXASOL-2908) |
-| 2021.05.18 | 7.1.0 | OpenID Connect support was added as a login option. See [loginToken](commands/loginTokenV3.md) and [subLoginToken](commands/subLoginTokenV3.md) for details.<br />To login using an OpenID refresh token in compatibility mode, see [login](commands/loginV3.md) and [subLogin](commands/subLoginV3.md). | [EXASOL-2867](https://www.exasol.com/support/browse/EXASOL-2867) |
+| 2024.09.05 | 8.32.0 | The latest update to Exasol enables the use of the database port for subconnections instead of requiring ports in the range 20000 to 21000. Additionally, this update eliminates the need for special IP address configurations on the database. | |
+| 2024.09.05 | 8.32.0 | The `enterParallel` command has been deprecated. | |
 
 ## Command summary
 
@@ -41,8 +41,9 @@ and query the hosts of an Exasol cluster.
 | [getHosts](commands/getHostsV1.md) | Gets the hosts in a cluster |
 | [login](commands/loginV3.md) | Establishes a connection to Exasol |
 | [loginToken](commands/loginTokenV3.md) | Establishes a connection to Exasol using an OpenID token |
-| [subLogin](commands/subLoginV3.md) | Establishes a subconnection to Exasol |
-| [subLoginToken](commands/subLoginTokenV3.md) | Establishes a subconnection to Exasol using an OpenID token |
+| [requestParallelConnections](commands/requestParallelConnectionsV4.md) | Request subconnections for parallel execution |
+| [subLogin](commands/subLoginV4.md) | Establishes a subconnection to Exasol |
+| [subLoginToken](commands/subLoginTokenV4.md) | Establishes a subconnection to Exasol using an OpenID token |
 
 ### Session-related commands
 
@@ -201,7 +202,7 @@ Please note that subconnections are only useful for multi-node Exasol clusters. 
 
 ### How to create and use subconnections
 
-Subconnections are created using the [enterParallel](commands/enterParallelV1.md) command. The number of requested subconnections can be specified by the user, and the number of subconnections actually opened is given in the [enterParallel](commands/enterParallelV1.md) response. Please note that the maximum number of subconnections is equal to the number of nodes in the Exasol cluster. For example, if the user has an eight-node cluster and requests 1,000 subconnections, only eight subconnections will be opened. As a general rule, the number of subconnections should usually be equal to the number of nodes in the Exasol cluster, which ensures one subconnection per node. After the subconnections have been created, the [subLogin](commands/subLoginV3.md) or [subLoginToken](commands/subLoginTokenV3.md) command should be used to login to each subconnection. Note: Failing to login to all subconnections will cause the login to hang. After this, they are ready for use.
+Subconnections are created using the [requestParallelConnections](commands/requestParallelConnectionsV4.md) command. The number of requested subconnections can be specified by the user, and the number of subconnections actually opened is given in the [requestParallelConnections](commands/requestParallelConnectionsV4.md) response. Please note that the maximum number of subconnections is equal to the number of nodes in the Exasol cluster. For example, if the user has an eight-node cluster and requests 1,000 subconnections, only eight subconnections will be opened. As a general rule, the number of subconnections should usually be equal to the number of nodes in the Exasol cluster, which ensures one subconnection per node. After the subconnections have been created, the [subLogin](commands/subLoginV4.md) or [subLoginToken](commands/subLoginTokenV4.md) command should be used to login to each subconnection. Note: Failing to login to all subconnections will cause the login to hang. After this, they are ready for use.
 
 ⚠️ Please note: autocommit should be disabled before opening any subconnections. After closing the subconnections, it can be re-enabled.
 
@@ -209,17 +210,17 @@ Any command can be executed on subconnections; however, there is a significant d
 
 ⚠️ Please note: different statements cannot be run in parallel using subconnections.
 
-After a subconnection is no longer needed, the [disconnect](commands/disconnectV1.md) command should be called and the WebSocket for it closed as normal. Please note that subconnections can be reused for multiple statements.
+After a subconnection is no longer needed, the [disconnect](commands/disconnectV1.md) command should be called, and then the WebSocket should be closed. Please note that subconnections can be reused for multiple statements.
 
 ### Example
 
-The following is an example of how to create, use, and close subconnections to fetch a result set from an executed prepared statement. If subconnections have already been created or are needed afterwards, the [enterParallel](commands/enterParallelV1.md), [subLogin](commands/subLoginV3.md), and [disconnect](commands/disconnectV1.md) commands may be ignored.
+The following is an example of how to create, use, and close subconnections to fetch a result set from an executed prepared statement. If subconnections have already been created or are needed afterwards, the [requestParallelConnections](commands/requestParallelConnectionsV4.md), [subLogin](commands/subLoginV4.md), and [disconnect](commands/disconnectV1.md) commands may be ignored.
 
 1. On main connection:
-   * Create subconnections ([enterParallel](commands/enterParallelV1.md))
+   * Create subconnections ([requestParallelConnections](commands/requestParallelConnectionsV4.md))
 
 2. On subconnections:
-   * Login to subconnection ([subLogin](commands/subLoginV3.md))
+   * Login to subconnection ([subLogin](commands/subLoginV4.md))
 
 3. On main connection:
    * Execute prepared statement ([executePreparedStatement](commands/executePreparedStatementV1.md))

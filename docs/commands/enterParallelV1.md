@@ -5,6 +5,8 @@ other nodes in the cluster, for the purpose of parallel execution. If
 the requested number of subconnections is 0, all open subconnections
 are closed.
 
+:warning: This command has been deprecated. (see [WebsocketAPIV4](../WebsocketAPIV4.md), [requestParallelConnections](requestParallelConnectionsV4.md)).
+
 Request fields:
   * command (string) => command name: "enterParallel"
   * attributes (object, optional) => attributes to set for the connection (see see [Attributes](../WebsocketAPIV1.md#attributes-session-and-database-properties))

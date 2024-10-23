@@ -191,7 +191,7 @@ Subconnections are additional connections to Exasol cluster nodes which can be c
 1. Read a result set in parallel: [fetch](commands/fetchV1.md) can be called in parallel by each of the subconnections to read a result set.
 2. `INSERT` data in parallel: [executePreparedStatement](commands/executePreparedStatementV1.md) can be called in parallel on each of the subconnections to `INSERT` various data. Please note that the same prepared statement (see [createPreparedStatement](commands/createPreparedStatementV1.md)) must be executed on all subconnections.
 
-ℹ️ Here, parallel refers to the node-wise reading/inserting of data. For example, if there is a subconnection for each node (i.e., the number of subconnections equals the number of cluster nodes), then each subconnection will read/insert data locally from/into its node.
+Here, parallel refers to the node-wise reading/inserting of data. For example, if there is a subconnection for each node (i.e., the number of subconnections equals the number of cluster nodes), then each subconnection will read/insert data locally from/into its node.
 
 Fetching a result set from Exasol can be done easily using the main connection. In this scenario, the Exasol cluster nodes will automatically send their data to the node which is connected to the client. This node then sends the combined data as a single result set. Thus, the client does not need to be aware of any data sharing/communication among the Exasol cluster nodes.
 

@@ -1,6 +1,6 @@
-## WebSocket protocol v2 details
+## WebSocket protocol v5 details
 
-WebSocket Protocol v2 requires an Exasol version of at least 7.0.0. It follows the RFC 6455 document of the IETF.
+WebSocket Protocol v5 requires an Exasol version of at least 8.32.0. It follows the RFC 6455 document of the IETF.
 
 The Exasol connection server identifies the initial GET request by the client.
 This request contains information about the used protocol version.
@@ -24,10 +24,8 @@ incoming messages and forwards the requests to the database.
 
 | Date | Exasol Version | Change | Issue |
 | --- | --- | --- | --- |
-| 2021.06.22 | 7.1.0 | Autocommit was enabled by default for sessions in Exasol 7.1+. See [Attributes](#attributes-session-and-database-properties) for details.<br />Autocommit can be disabled in order to restore the previous behavior. Please see the driver's documentation on how to do this. | [EXASOL-2908](https://www.exasol.com/support/browse/EXASOL-2908) |
-| 2020.08.13 | 7.0.0 | The `resultSetMaxRows` attribute was added. See [Attributes](#attributes-session-and-database-properties) for details. | [EXASOL-2734](https://www.exasol.com/support/browse/EXASOL-2734) |
-| 2020.05.05 | 7.0.0 | Metadata commands were added. See [Metadata-related commands](#metadata-related-commands) for details. | [EXASOL-2640](https://www.exasol.com/support/browse/EXASOL-2640) |
-| 2020.10.03 | 7.0.0 | Columns of type `HASHTYPE` can be specified using the `HASHTYPE` type. See [Data Types](#data-types-type-names-and-properties) for details. | [EXASOL-2643](https://www.exasol.com/support/browse/EXASOL-2643) |
+| 2024.10.29 | 8.32.0 | The latest update to Exasol enables the use of TIMESTAMP data types with various precisions. | |
+| 2024.10.29 | 8.32.0 | Some of the data types' properties have changed. See [Data Types: Type names and properties](#data-types-type-names-and-properties) for details.| |
 
 ## Command summary
 
@@ -41,8 +39,11 @@ and query the hosts of an Exasol cluster.
 | [disconnect](commands/disconnectV1.md) | Closes a connection to Exasol |
 | [enterParallel](commands/enterParallelV1.md) | Opens subconnections for parallel execution<br>:warning: Deprecated, please use [requestParallelConnections](commands/requestParallelConnectionsV4.md) instead. |
 | [getHosts](commands/getHostsV1.md) | Gets the hosts in a cluster |
-| [login](commands/loginV1.md) | Establishes a connection to Exasol |
-| [subLogin](commands/subLoginV1.md) | Establishes a subconnection to Exasol |
+| [login](commands/loginV3.md) | Establishes a connection to Exasol |
+| [loginToken](commands/loginTokenV3.md) | Establishes a connection to Exasol using an OpenID token |
+| [requestParallelConnections](commands/requestParallelConnectionsV4.md) | Request subconnections for parallel execution |
+| [subLogin](commands/subLoginV4.md) | Establishes a subconnection to Exasol |
+| [subLoginToken](commands/subLoginTokenV4.md) | Establishes a subconnection to Exasol using an OpenID token |
 
 ### Session-related commands
 
@@ -138,8 +139,8 @@ types in the executePreparedStatement request.
 | HASHTYPE | | |
 | INTERVAL DAY TO SECOND | precision, fraction | |
 | INTERVAL YEAR TO MONTH | precision | |
-| TIMESTAMP | | withLocalTimeZone |
-| TIMESTAMP WITH LOCAL TIME ZONE | | withLocalTimeZone |
+| TIMESTAMP | | precision, withLocalTimeZone |
+| TIMESTAMP WITH LOCAL TIME ZONE | | precision, withLocalTimeZone |
 | VARCHAR | size | |
 
 
@@ -150,15 +151,15 @@ types in responses from Exasol.
 | --- | --- |
 | BOOLEAN | |
 | CHAR | size, characterSet |
-| DATE | size |
+| DATE | |
 | DECIMAL | precision, scale |
 | DOUBLE | |
 | GEOMETRY | size, srid |
 | HASHTYPE | size |
-| INTERVAL DAY TO SECOND | size, precision, fraction |
-| INTERVAL YEAR TO MONTH | size, precision |
-| TIMESTAMP | size, withLocalTimeZone |
-| TIMESTAMP WITH LOCAL TIME ZONE | size, withLocalTimeZone |
+| INTERVAL DAY TO SECOND | precision, fraction |
+| INTERVAL YEAR TO MONTH | precision |
+| TIMESTAMP | precision, withLocalTimeZone |
+| TIMESTAMP WITH LOCAL TIME ZONE | precision, withLocalTimeZone |
 | VARCHAR | size, characterSet |
 
 ## Compression
@@ -201,7 +202,7 @@ Please note that subconnections are only useful for multi-node Exasol clusters. 
 
 ### How to create and use subconnections
 
-Subconnections are created using the [enterParallel](commands/enterParallelV1.md) command. The number of requested subconnections can be specified by the user, and the number of subconnections actually opened is given in the [enterParallel](commands/enterParallelV1.md) response. Please note that the maximum number of subconnections is equal to the number of nodes in the Exasol cluster. For example, if the user has an eight-node cluster and requests 1,000 subconnections, only eight subconnections will be opened. As a general rule, the number of subconnections should usually be equal to the number of nodes in the Exasol cluster, which ensures one subconnection per node. After the subconnections have been created, the [subLogin](commands/subLoginV1.md) command should be used to login to each subconnection. Note: Failing to login to all subconnections will cause the login to hang. After this, they are ready for use.
+Subconnections are created using the [requestParallelConnections](commands/requestParallelConnectionsV4.md) command. The number of requested subconnections can be specified by the user, and the number of subconnections actually opened is given in the [requestParallelConnections](commands/requestParallelConnectionsV4.md) response. Please note that the maximum number of subconnections is equal to the number of nodes in the Exasol cluster. For example, if the user has an eight-node cluster and requests 1,000 subconnections, only eight subconnections will be opened. As a general rule, the number of subconnections should usually be equal to the number of nodes in the Exasol cluster, which ensures one subconnection per node. After the subconnections have been created, the [subLogin](commands/subLoginV4.md) or [subLoginToken](commands/subLoginTokenV4.md) command should be used to login to each subconnection. Note: Failing to login to all subconnections will cause the login to hang. After this, they are ready for use.
 
 ⚠️ Please note: autocommit should be disabled before opening any subconnections. After closing the subconnections, it can be re-enabled.
 
@@ -209,17 +210,17 @@ Any command can be executed on subconnections; however, there is a significant d
 
 ⚠️ Please note: different statements cannot be run in parallel using subconnections.
 
-After a subconnection is no longer needed, the [disconnect](commands/disconnectV1.md) command should be called and the WebSocket for it closed as normal. Please note that subconnections can be reused for multiple statements.
+After a subconnection is no longer needed, the [disconnect](commands/disconnectV1.md) command should be called, and then the WebSocket should be closed. Please note that subconnections can be reused for multiple statements.
 
 ### Example
 
-The following is an example of how to create, use, and close subconnections to fetch a result set from an executed prepared statement. If subconnections have already been created or are needed afterwards, the [enterParallel](commands/enterParallelV1.md), [subLogin](commands/subLoginV1.md), and [disconnect](commands/disconnectV1.md) commands may be ignored.
+The following is an example of how to create, use, and close subconnections to fetch a result set from an executed prepared statement. If subconnections have already been created or are needed afterwards, the [requestParallelConnections](commands/requestParallelConnectionsV4.md), [subLogin](commands/subLoginV4.md), and [disconnect](commands/disconnectV1.md) commands may be ignored.
 
 1. On main connection:
-   * Create subconnections ([enterParallel](commands/enterParallelV1.md))
+   * Create subconnections ([requestParallelConnections](commands/requestParallelConnectionsV4.md))
 
 2. On subconnections:
-   * Login to subconnection ([subLogin](commands/subLoginV1.md))
+   * Login to subconnection ([subLogin](commands/subLoginV4.md))
 
 3. On main connection:
    * Execute prepared statement ([executePreparedStatement](commands/executePreparedStatementV1.md))

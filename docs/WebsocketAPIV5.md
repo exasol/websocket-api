@@ -24,8 +24,8 @@ incoming messages and forwards the requests to the database.
 
 | Date | Exasol Version | Change | Issue |
 | --- | --- | --- | --- |
-| 2024.09.05 | 8.32.0 | The latest update to Exasol enables the use of TIMESTAMP data types with various precisions. | |
-| 2024.09.05 | 8.32.0 | Some of the data types' properties have changed. See [Data Types: Type names and properties](#data-types-type-names-and-properties) for details.| |
+| 2024.10.29 | 8.32.0 | The latest update to Exasol enables the use of TIMESTAMP data types with various precisions. | |
+| 2024.10.29 | 8.32.0 | Some of the data types' properties have changed. See [Data Types: Type names and properties](#data-types-type-names-and-properties) for details.| |
 
 ## Command summary
 

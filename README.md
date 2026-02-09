@@ -34,9 +34,10 @@ additional complexity due to the necessary driver managers.
 * [WebSocket protocol v2 API specification](docs/WebsocketAPIV2.md)
 * [WebSocket protocol v1 API specification](docs/WebsocketAPIV1.md)
 
-### Example Driver Implementations
+### Example Implementations
 * [Python native driver implementation](python/)
 * [JavaScript native driver implementation](javascript/)
+* [EXAplusLua (Lua console client)](https://github.com/exasol/exaplus-lua)
 
 ### Officially Supported WebSocket Drivers
 * [Python native driver implementation](https://github.com/exasol/pyexasol)

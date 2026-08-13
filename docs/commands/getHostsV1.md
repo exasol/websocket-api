@@ -3,7 +3,9 @@
 This command gets the number hosts and the IP address of each host in
 an Exasol cluster.
 
-:warning: This command was designed to be used for creating subconnections using [enterParallel](enterParallelV1.md) which has been deprecated. The IP addresses returned by this command may not be correct if the prerequisites for subconnections using [enterParallel](enterParallelV1.md) are not fulfilled. Namely, the private and public IP addresses of the database must have a uniform distance between all active nodes. For example, a database with the IP addresses 192.168.56.101, 192.168.56.102, 192.168.56.103 fulfills this requirement because the distance between nodes is 1. A database with the IP addresses 192.168.56.101, 192.168.56.105, 192.168.56.106 does not fulfill this requirement, because the distance between nodes is not uniform (in this case, it is 4 and 1, respectively).
+:warning: This command was designed to be used for creating subconnections using [enterParallel](enterParallelV1.md) which has been deprecated. The IP addresses returned by this command may not be correct if the prerequisites for subconnections using [enterParallel](enterParallelV1.md) are not fulfilled. Namely, all active database nodes must have a uniform distance between the private and public IP addresses.
+
+For example, a database with private IP addresses [`10.168.1.1`, `10.168.1.2`, `10.168.1.3`] and public IP addresses [`192.168.10.101`, `192.168.10.102`, `192.168.10.103`] fulfills this requirement because the distance between the private and public IP addresses is the same for each node. However, a database with private IP addresses [`10.168.1.1`, `10.168.1.2`, `10.168.1.3`] and public IP addresses [`192.168.10.101`, `192.168.10.102`, `192.168.10.104`] does not fulfill this requirement because the distance between the private and public IP addresses is not the same for each node.
 
 Request fields:
   * command (string) => command name: "getHosts"

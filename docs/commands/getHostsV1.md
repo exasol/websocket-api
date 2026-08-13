@@ -3,6 +3,8 @@
 This command gets the number hosts and the IP address of each host in
 an Exasol cluster.
 
+:warning: This command was designed to be used for creating subconnections using [enterParallel](enterParallelV1.md) which has been deprecated. The IP addresses returned by this command may not be correct if the prerequisites for subconnections using [enterParallel](enterParallelV1.md) are not fulfilled. Namely, the private and public IP addresses of the database must have a uniform distance between all active nodes. For example, a database with the IP addresses 192.168.56.101, 192.168.56.102, 192.168.56.103 fulfills this requirement because the distance between nodes is 1. A database with the IP addresses 192.168.56.101, 192.168.56.105, 192.168.56.106 does not fulfill this requirement, because the distance between nodes is not uniform (in this case, it is 4 and 1, respectively).
+
 Request fields:
   * command (string) => command name: "getHosts"
   * attributes (object, optional) => attributes to set for the connection (see [Attributes](../WebsocketAPIV1.md#attributes-session-and-database-properties))
